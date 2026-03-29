@@ -1,0 +1,233 @@
+@keyframes earGrowUp {
+  from { height: 0; }
+  to   { height: 2.1em; }
+}
+
+@keyframes earGrowDown {
+  from { height: 0; }
+  to   { height: 2.1em; }
+}
+
+@keyframes earGrowDownLeg {
+  from { height: 0; }
+  to   { height: 2.15em; }
+}
+
+.letterU {
+  position: relative;
+  display: inline-block;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 72%;
+    width: 0.19em;
+    height: 0;
+    background: currentColor;
+    transform-origin: bottom center;
+    animation: earGrowUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
+  }
+
+  &::before { left: 0.05em; }
+  &::after  { right: 0.0311em; }
+}
+
+.letterR {
+  position: relative;
+  display: inline-block;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 72%;
+    left: 0.05em;
+    width: 0.19em;
+    height: 0;
+    background: currentColor;
+    transform-origin: top center;
+    animation: earGrowDown 1s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 69%;
+    left: 0.44em;
+    width: 0.21em;
+    height: 0;
+    background: currentColor;
+    transform-origin: top center;
+    clip-path: polygon(0% 0%, 50% 0%, 100% 10%, 100% 100%, 0% 100%);
+    animation: earGrowDownLeg 1s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
+  }
+}
+
+.hero {
+  padding-top: var(--header-h);
+  min-height: 100vh;
+  overflow-x: clip;
+}
+
+.inner {
+  position: relative;
+  min-height: calc(100vh - var(--header-h));
+  padding-top: 40px;
+  padding-bottom: 60px;
+}
+
+.heading {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: max-content max-content max-content 1fr;
+  overflow: visible;
+  font-weight: 900;
+  font-size: clamp(40px, 6.5vw, 90px);
+  line-height: 0.9;
+  color: var(--c-primary);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  user-select: none;
+  width: 68%;
+  margin: 5% auto 0;
+}
+
+.row { display: contents; }
+
+.pre {
+  display: inline-block;
+  white-space: nowrap;
+
+  &--indent { padding-left: 1ch; }
+}
+
+.post {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.slot {
+  display: inline-block;
+  visibility: hidden;
+
+  &::before {
+    content: attr(data-ch);
+    visibility: hidden;
+  }
+}
+
+.img2Wrap {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 56%;
+  height: 68%;
+  overflow: hidden;
+  border-radius: 12px;
+  z-index: 1;
+}
+
+.img2 {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+.img1Wrap {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 30%;
+  height: 84%;
+  overflow: hidden;
+  border-radius: 12px;
+  z-index: 1;
+}
+
+.img1 {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+.description {
+  position: absolute;
+  left: 58%;
+  bottom: 60px;
+  width: 24%;
+  z-index: 2;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #444;
+}
+
+@media (max-width: 1200px) {
+  .heading     { width: 72%; }
+  .img1Wrap    { width: 30%; height: 80%; }
+  .img2Wrap    { width: 54%; height: 65%; }
+  .description { left: 56%; width: 26%; }
+}
+
+@media (max-width: 1024px) {
+  .heading     { width: 80%; font-size: clamp(40px, 7vw, 80px); }
+  .img1Wrap    { width: 32%; height: 72%; }
+  .img2Wrap    { width: 52%; height: 58%; }
+  .description { left: 54%; width: 28%; font-size: 15px; }
+}
+
+@media (max-width: 900px) {
+  .letterU::before, .letterU::after,
+  .letterR::before, .letterR::after {
+    animation: none;
+    height: 0;
+  }
+
+  .hero  { padding-top: var(--header-h); }
+
+  .inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 60px 0 48px;
+    min-height: calc(100vh - var(--header-h));
+  }
+
+  .heading {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    font-size: clamp(36px, 11vw, 72px);
+    width: 100%;
+    margin: 0;
+  }
+
+  .row { display: block; }
+
+  .slot {
+    visibility: visible;
+
+    &::before { visibility: visible; }
+  }
+
+  .img2Wrap,
+  .img1Wrap    { display: none; }
+
+  .description {
+    position: static;
+    width: 100%;
+    font-size: 14px;
+    margin-top: 16px;
+    left: unset;
+    bottom: unset;
+  }
+}
+
+@media (max-width: 480px) {
+  .inner       { padding-top: 48px; }
+  .heading     { font-size: clamp(32px, 11vw, 56px); }
+  .description { font-size: 13px; }
+}

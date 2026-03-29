@@ -2,7 +2,17 @@
   "permissions": {
     "allow": [
       "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-turbopack)",
-      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-turbopack --yes)"
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-turbopack --yes)",
+      "Bash(rm -rf src/app/page.tsx src/app/layout.tsx public/next.svg public/vercel.svg)",
+      "Bash(mkdir -p src/app/\\\\\\(site\\\\\\)/services src/app/\\\\\\(site\\\\\\)/work/[slug] src/app/\\\\\\(site\\\\\\)/contact src/components/layout src/components/ui src/components/sections src/constants src/types src/lib)",
+      "Read(//Users/egor/Pets Projects/newtestproject/src/**)",
+      "Read(//Users/egor/Pets Projects/newtestproject/**)",
+      "Bash(cp \"/Users/egor/Pets Projects/newtestproject/public/topimage.jpg\" \"/Users/egor/worki worki/314site/public/\")",
+      "Bash(cp \"/Users/egor/Pets Projects/newtestproject/public/bottomimage.jpg\" \"/Users/egor/worki worki/314site/public/\")",
+      "Bash(cp \"/Users/egor/Pets Projects/newtestproject/public/backgrounImage.png\" \"/Users/egor/worki worki/314site/public/\")",
+      "Bash(rm -rf src/components src/lib src/types src/constants)",
+      "Bash(mkdir -p src/widgets/hero src/widgets/method src/widgets/services src/widgets/quote src/widgets/process src/widgets/works src/widgets/header src/widgets/footer)",
+      "Bash(mkdir -p src/shared/ui/button src/shared/ui/input src/shared/ui/badge src/shared/lib src/shared/constants src/shared/types src/shared/styles)"
     ]
   }
 }
