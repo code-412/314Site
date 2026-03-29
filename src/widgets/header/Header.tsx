@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useContactDrawer } from "@/shared/lib/contact-drawer-context";
 import s from "./Header.module.scss";
 
 const NAV = [
@@ -34,6 +35,7 @@ export function Header() {
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
+  const { openDrawer } = useContactDrawer();
   const close = () => setOpen(false);
   const dark = darkPage && !scrolled;
 
@@ -63,7 +65,7 @@ export function Header() {
               </li>
             ))}
             <li>
-              <Link href="/contact" className={s.ctaLink}>Contact Us</Link>
+              <button className={s.ctaLink} onClick={openDrawer}>Contact Us</button>
             </li>
           </ul>
         </div>
@@ -80,9 +82,9 @@ export function Header() {
               </li>
             ))}
           </ul>
-          <Link href="/contact" className={s.mobileCtaLink} onClick={close}>
+          <button className={s.mobileCtaLink} onClick={() => { close(); openDrawer(); }}>
             Contact Us
-          </Link>
+          </button>
         </div>
       </div>
     </header>

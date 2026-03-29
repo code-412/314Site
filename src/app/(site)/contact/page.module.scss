@@ -1,152 +1,250 @@
 .page {
-  padding: 120px 0 80px;
+  padding-top: var(--header-h);
 }
 
-.grid {
+// ── HERO (белая секция) ───────────────────────
+
+.hero {
+  padding: 80px 0 100px;
+  background: var(--c-bg);
+}
+
+.heroInner {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  gap: 60px;
+  align-items: center;
 }
 
-.info { padding-top: 8px; }
-
-.label {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+.heroTitle {
+  font-size: clamp(52px, 7vw, 104px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
-  color: #aaa;
-  margin-bottom: 16px;
-}
-
-.heading {
-  font-size: clamp(32px, 4vw, 52px);
-  font-weight: 800;
   color: var(--c-primary);
-  line-height: 1.05;
-  margin-bottom: 20px;
 }
 
-.lead {
-  font-size: 18px;
-  line-height: 1.6;
-  color: var(--c-muted);
-  margin-bottom: 36px;
-}
-
-.details {
+.heroContacts {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  font-size: 15px;
-  color: var(--c-muted);
+  gap: 0;
+  align-self: center;
+}
 
-  strong {
-    color: var(--c-primary);
-    font-weight: 600;
+.contactGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+  &:first-child { border-top: 1px solid rgba(0, 0, 0, 0.12); }
+}
+
+.contactLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #aaa;
+}
+
+.contactValue {
+  font-size: clamp(20px, 2.2vw, 32px);
+  font-weight: 700;
+  color: var(--c-primary);
+  transition: opacity 0.2s ease;
+
+  &:hover { opacity: 0.6; }
+}
+
+.socials {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.socialBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  color: var(--c-primary);
+  transition: background 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    background: var(--c-primary);
+    color: #fff;
   }
+}
+
+// ── FORM (чёрная секция) ──────────────────────
+
+.formSection {
+  background: var(--c-primary);
+  padding: 100px 0;
+}
+
+.formInner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.formTitle {
+  font-size: clamp(52px, 7vw, 104px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.formWrap {
+  padding-top: 8px;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-}
-
-.fieldLabel {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--c-primary);
+  gap: 6px;
 }
 
 .input,
 .textarea {
   width: 100%;
-  padding: 12px 16px;
+  padding: 16px 20px;
   font-size: 15px;
   font-family: var(--font-main);
-  color: var(--c-primary);
-  background: var(--c-bg);
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.25s ease;
 
-  &::placeholder { color: #aaa; }
-  &:focus { border-color: var(--c-primary); }
+  &::placeholder { color: rgba(255, 255, 255, 0.35); }
+  &:focus { border-color: rgba(255, 255, 255, 0.7); }
+}
+
+.inputError {
+  border-color: rgba(196, 30, 58, 0.8) !important;
+
+  &:focus { border-color: rgba(196, 30, 58, 1) !important; }
+}
+
+.errorMsg {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(196, 30, 58, 0.9);
 }
 
 .textarea {
   resize: none;
-  min-height: 140px;
+  min-height: 120px;
 }
 
-.budgets {
+.checkLabel {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  line-height: 1.5;
+  transition: color 0.2s ease;
 }
 
-.budgetBtn {
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 600;
-  font-family: var(--font-main);
-  color: var(--c-primary);
-  background: transparent;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+.checkLabelError {
+  color: rgba(196, 30, 58, 0.9);
+}
+
+.checkbox {
+  margin-top: 2px;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  accent-color: #fff;
   cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover { border-color: var(--c-primary); }
-
-  &--active {
-    background: var(--c-primary);
-    color: #fff;
-    border-color: var(--c-primary);
-  }
 }
 
 .submit {
   width: 100%;
-  padding: 16px;
+  padding: 18px;
   font-size: 15px;
   font-weight: 700;
   font-family: var(--font-main);
-  color: #fff;
-  background: var(--c-primary);
+  letter-spacing: 0.04em;
+  color: var(--c-primary);
+  background: #fff;
   border: none;
+  border-radius: 999px;
   cursor: pointer;
-  transition: background 0.25s ease;
-  margin-top: 4px;
+  transition: background 0.25s ease, color 0.25s ease;
 
-  &:hover { background: #333; }
+  &:hover {
+    background: rgba(255, 255, 255, 0.85);
+  }
 }
 
-.thanks { padding: 48px 0; }
+.thanks {
+  padding: 48px 0;
+}
 
 .thanksTitle {
-  font-size: 24px;
+  font-size: 32px;
   font-weight: 800;
-  color: var(--c-primary);
+  color: #fff;
   margin-bottom: 12px;
 }
 
 .thanksText {
   font-size: 16px;
   line-height: 1.6;
-  color: var(--c-muted);
+  color: rgba(255, 255, 255, 0.6);
 }
 
-@media (max-width: 1024px) {
-  .grid { grid-template-columns: 1fr; gap: 48px; }
-}
+// ── RESPONSIVE ───────────────────────────────
 
 @media (max-width: 900px) {
-  .page { padding: 100px 0 60px; }
+  .heroInner,
+  .formInner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .heroTitle,
+  .formTitle {
+    font-size: clamp(40px, 11vw, 72px);
+  }
+
+  .contactGroup {
+    align-items: flex-start;
+  }
+
+  .hero { padding: 60px 0 72px; }
+  .formSection { padding: 72px 0; }
+}
+
+@media (max-width: 480px) {
+  .heroTitle,
+  .formTitle {
+    font-size: clamp(36px, 13vw, 56px);
+  }
+
+  .hero { padding: 48px 0 56px; }
+  .formSection { padding: 56px 0; }
 }
