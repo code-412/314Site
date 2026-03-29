@@ -19,6 +19,14 @@ export type Work = {
   tags: string[];
   image: string;
   featured: boolean;
+  client?: string;
+  date?: string;
+  services?: string[];
+  projectUrl?: string;
+  about?: string;
+  gallery?: string[];
+  approach?: string;
+  approachImage?: string;
 };
 
 export type ContactFormData = {

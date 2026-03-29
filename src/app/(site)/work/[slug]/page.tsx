@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getWorkBySlug, works } from "@/shared/constants/works";
 import styles from "./page.module.scss";
@@ -22,29 +22,147 @@ export default async function WorkDetailPage({ params }: Props) {
   const work = getWorkBySlug(slug);
   if (!work) notFound();
 
+  const aboutParagraphs = work.about?.split("\n\n") ?? [];
+  const approachParagraphs = work.approach?.split("\n\n") ?? [];
+
   return (
     <div className={styles.page}>
-      <div className="container">
-        <Link href="/work" className={styles.back}>← Back to work</Link>
-
-        <div className={styles.intro}>
-          <p className={styles.label}>{work.category} · {work.year}</p>
-          <h1 className={styles.heading}>{work.title}</h1>
-          <p className={styles.lead}>{work.description}</p>
-          <div className={styles.tags}>
-            {work.tags.map((tag) => (
-              <span key={tag} className={styles.tag}>{tag}</span>
-            ))}
-          </div>
+      <section className={styles.hero}>
+        <div className={styles.heroBg}>
+          <Image
+            src={work.image}
+            alt=""
+            fill
+            aria-hidden="true"
+            className={styles.heroBgImg}
+            priority
+          />
         </div>
+        <div className={styles.heroScrim} />
 
-        <div className={styles.cover} />
+        <div className={`${styles.heroInner} container`}>
+          <h1 className={styles.heroTitle}>{work.title}</h1>
 
-        <p className={styles.note}>
-          Full project documentation, process work, and deliverables are
-          available on request. Get in touch if you'd like to know more.
-        </p>
-      </div>
+          <div className={styles.heroRight}>
+            <Image
+              src={work.image}
+              alt={work.title}
+              fill
+              sizes="(max-width: 900px) 100vw, 62vw"
+              className={styles.heroImage}
+              priority
+            />
+            <div className={styles.heroOverlay} />
+          </div>
+
+          <div className={styles.meta}>
+            <div className={styles.metaCol}>
+              <div className={styles.metaGroup}>
+                <span className={styles.metaLabel}>Client</span>
+                <span className={styles.metaValue}>{work.client ?? "—"}</span>
+              </div>
+              <div className={styles.metaGroup}>
+                <span className={styles.metaLabel}>Date</span>
+                <span className={styles.metaValue}>{work.date ?? work.year}</span>
+              </div>
+            </div>
+
+            <div className={styles.metaCol}>
+              <span className={styles.metaLabel}>Type of works</span>
+              <ul className={styles.servicesList}>
+                {(work.services ?? work.tags).map((item) => (
+                  <li key={item} className={styles.servicesItem}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {work.projectUrl ? (
+            <a
+              href={work.projectUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.cta}
+            >
+              See project →
+            </a>
+          ) : (
+            <span className={styles.cta}>See project →</span>
+          )}
+        </div>
+      </section>
+
+      {work.about && (
+        <section className={styles.section}>
+          <div className="container">
+            <h2 className={styles.sectionTitle}>About project</h2>
+            <div className={styles.textBlock}>
+              {aboutParagraphs.map((p, i) => (
+                <p key={i} className={styles.paragraph}>{p}</p>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {work.gallery && work.gallery.length > 0 && (
+        <section className={styles.gallery}>
+          <div className="container">
+            <div className={styles.galleryGrid}>
+              {work.gallery.slice(0, 4).map((src, i) => (
+                <div key={i} className={styles.galleryItem}>
+                  <Image
+                    src={src}
+                    alt={`${work.title} — ${i + 1}`}
+                    fill
+                    sizes="(max-width: 900px) 50vw, 50vw"
+                    className={styles.galleryImg}
+                  />
+                </div>
+              ))}
+            </div>
+            {work.gallery.length > 4 && (
+              <div className={styles.galleryGridThree}>
+                {work.gallery.slice(4).map((src, i) => (
+                  <div key={i} className={styles.galleryItemThree}>
+                    <Image
+                      src={src}
+                      alt={`${work.title} — ${i + 5}`}
+                      fill
+                      sizes="(max-width: 900px) 50vw, 33vw"
+                      className={styles.galleryImg}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {work.approach && (
+        <section className={styles.section}>
+          <div className="container">
+            <h2 className={styles.sectionTitle}>About project</h2>
+            <div className={styles.textBlock}>
+              {approachParagraphs.map((p, i) => (
+                <p key={i} className={styles.paragraph}>{p}</p>
+              ))}
+            </div>
+            {work.approachImage && (
+              <div className={styles.wideImage}>
+                <Image
+                  src={work.approachImage}
+                  alt={`${work.title} — full view`}
+                  fill
+                  sizes="(max-width: 900px) 100vw, 1320px"
+                  className={styles.wideImg}
+                />
+              </div>
+            )}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

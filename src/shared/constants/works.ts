@@ -1,5 +1,12 @@
 import type { Work } from "@/shared/types";
 
+const LOREM =
+  "Lorem ipsum dolor sit amet consectetur. Aenean ut magna justo libero risus neque at felis donec. Sit pulvinar cursus tempus ullamcorper facilisis elementum id velit convallis. Ac nulla suspendisse velit sit mattis vulputate aenean. Nunc in pretium in velit enim ut pulvinar dis. Est viverra mattis id sed neque erat vulputate duis.";
+
+const twoParas = `${LOREM}\n\n${LOREM}`;
+
+const gallery7 = (a: string, b: string, c: string): string[] => [a, b, c, a, b, c, a];
+
 export const works: Work[] = [
   {
     slug: "mh-padel-club",
@@ -10,6 +17,20 @@ export const works: Work[] = [
     tags: ["Web Design", "Full Stack", "Brand Design"],
     image: "/backgrounImage.png",
     featured: true,
+    client: "John Doe",
+    date: "05 Mar 2026",
+    services: [
+      "Logo Design",
+      "Web Design",
+      "UI / UX Design",
+      "Marketing",
+      "Full Stack Development",
+      "Illustrations",
+    ],
+    about: twoParas,
+    gallery: gallery7("/backgrounImage.png", "/topimage.jpg", "/bottomimage.jpg"),
+    approach: twoParas,
+    approachImage: "/backgrounImage.png",
   },
   {
     slug: "mobi-scambank",
@@ -20,6 +41,13 @@ export const works: Work[] = [
     tags: ["Marketing", "Branding"],
     image: "/topimage.jpg",
     featured: true,
+    client: "Alex Carter",
+    date: "12 Jan 2026",
+    services: ["Branding", "Marketing", "Social Media", "Web Design"],
+    about: twoParas,
+    gallery: gallery7("/topimage.jpg", "/bottomimage.jpg", "/backgrounImage.png"),
+    approach: twoParas,
+    approachImage: "/topimage.jpg",
   },
   {
     slug: "gpu-service",
@@ -30,6 +58,13 @@ export const works: Work[] = [
     tags: ["Website", "E-commerce"],
     image: "/bottomimage.jpg",
     featured: true,
+    client: "Mike Stevens",
+    date: "20 Feb 2026",
+    services: ["Web Design", "E-commerce", "Full Stack Development"],
+    about: twoParas,
+    gallery: gallery7("/bottomimage.jpg", "/backgrounImage.png", "/topimage.jpg"),
+    approach: twoParas,
+    approachImage: "/bottomimage.jpg",
   },
   {
     slug: "brand-identity-co",
@@ -40,6 +75,13 @@ export const works: Work[] = [
     tags: ["Branding", "Logo & Identity"],
     image: "/bottomimage.jpg",
     featured: false,
+    client: "Sophie Lane",
+    date: "08 Nov 2025",
+    services: ["Logo Design", "Branding", "Visual Identity", "Typography"],
+    about: twoParas,
+    gallery: gallery7("/bottomimage.jpg", "/topimage.jpg", "/backgrounImage.png"),
+    approach: twoParas,
+    approachImage: "/bottomimage.jpg",
   },
   {
     slug: "interface-lab",
@@ -50,6 +92,13 @@ export const works: Work[] = [
     tags: ["Interface", "UI/UX"],
     image: "/topimage.jpg",
     featured: false,
+    client: "David Kim",
+    date: "15 Oct 2025",
+    services: ["UI / UX Design", "Interface Design", "Prototyping"],
+    about: twoParas,
+    gallery: gallery7("/topimage.jpg", "/backgrounImage.png", "/bottomimage.jpg"),
+    approach: twoParas,
+    approachImage: "/topimage.jpg",
   },
   {
     slug: "sport-app",
@@ -60,6 +109,13 @@ export const works: Work[] = [
     tags: ["Application", "Mobile"],
     image: "/backgrounImage.png",
     featured: false,
+    client: "James Walker",
+    date: "03 Sep 2025",
+    services: ["Mobile Design", "UI / UX Design", "App Development"],
+    about: twoParas,
+    gallery: gallery7("/backgrounImage.png", "/bottomimage.jpg", "/topimage.jpg"),
+    approach: twoParas,
+    approachImage: "/backgrounImage.png",
   },
   {
     slug: "logo-studio",
@@ -70,6 +126,13 @@ export const works: Work[] = [
     tags: ["Logo & Identity", "Branding"],
     image: "/topimage.jpg",
     featured: false,
+    client: "Emma Ross",
+    date: "22 Jul 2025",
+    services: ["Logo Design", "Brand Identity", "Illustrations"],
+    about: twoParas,
+    gallery: gallery7("/topimage.jpg", "/backgrounImage.png", "/bottomimage.jpg"),
+    approach: twoParas,
+    approachImage: "/topimage.jpg",
   },
   {
     slug: "graphic-press",
@@ -80,6 +143,13 @@ export const works: Work[] = [
     tags: ["Graphic Design", "Print"],
     image: "/bottomimage.jpg",
     featured: false,
+    client: "Nina Black",
+    date: "30 Jun 2025",
+    services: ["Graphic Design", "Editorial Design", "Print"],
+    about: twoParas,
+    gallery: gallery7("/bottomimage.jpg", "/backgrounImage.png", "/topimage.jpg"),
+    approach: twoParas,
+    approachImage: "/bottomimage.jpg",
   },
   {
     slug: "turnkey-shop",
@@ -90,6 +160,13 @@ export const works: Work[] = [
     tags: ["Turnkey Website", "E-commerce"],
     image: "/backgrounImage.png",
     featured: false,
+    client: "Chris Ford",
+    date: "18 May 2025",
+    services: ["Web Design", "E-commerce", "Full Stack Development"],
+    about: twoParas,
+    gallery: gallery7("/backgrounImage.png", "/topimage.jpg", "/bottomimage.jpg"),
+    approach: twoParas,
+    approachImage: "/backgrounImage.png",
   },
   {
     slug: "padel-arena",
@@ -100,6 +177,13 @@ export const works: Work[] = [
     tags: ["Website", "UI/UX"],
     image: "/backgrounImage.png",
     featured: false,
+    client: "Lucas Mora",
+    date: "10 Apr 2025",
+    services: ["Web Design", "Booking System", "UI / UX Design"],
+    about: twoParas,
+    gallery: gallery7("/backgrounImage.png", "/bottomimage.jpg", "/topimage.jpg"),
+    approach: twoParas,
+    approachImage: "/backgrounImage.png",
   },
   {
     slug: "market-wave",
@@ -110,6 +194,13 @@ export const works: Work[] = [
     tags: ["Marketing", "Graphic Design"],
     image: "/topimage.jpg",
     featured: false,
+    client: "Olivia Chen",
+    date: "28 Feb 2025",
+    services: ["Marketing", "Social Media", "Graphic Design"],
+    about: twoParas,
+    gallery: gallery7("/topimage.jpg", "/backgrounImage.png", "/bottomimage.jpg"),
+    approach: twoParas,
+    approachImage: "/topimage.jpg",
   },
   {
     slug: "core-interface",
@@ -120,6 +211,13 @@ export const works: Work[] = [
     tags: ["Interface", "UI/UX"],
     image: "/bottomimage.jpg",
     featured: false,
+    client: "Ryan Park",
+    date: "14 Jan 2025",
+    services: ["Interface Design", "UI / UX Design", "Data Visualization"],
+    about: twoParas,
+    gallery: gallery7("/bottomimage.jpg", "/topimage.jpg", "/backgrounImage.png"),
+    approach: twoParas,
+    approachImage: "/bottomimage.jpg",
   },
 ];
 
