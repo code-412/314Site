@@ -4,24 +4,327 @@
   padding: 0;
 }
 
+// ─────────────────────────────────────────────
+// ГЛОБАЛЬНЫЕ ТОКЕНЫ
+// ─────────────────────────────────────────────
+
 :root {
-  --c-primary:  #111;
-  --c-bg:       #fff;
-  --c-accent:   #c41e3a;
-  --c-muted:    #555;
+
+  // ── ЦВЕТА ────────────────────────────────────
+
+  --c-primary:  #111;    // основной цвет текста и UI-элементов
+  --c-bg:       #fff;    // фон сайта
+  --c-accent:   #c41e3a; // акцентный цвет (курсор в quote, hover на email)
+  --c-muted:    #555;    // приглушённый текст (описания, параграфы)
+
+  // ── ШРИФТЫ ───────────────────────────────────
 
   --font-main:  'Barlow', system-ui, sans-serif;
-  --font-mono:  'Courier New', Courier, monospace;
+  --font-mono:  'Courier New', Courier, monospace; // логотип, номера шагов
+
+  // ── КОНТЕЙНЕР ────────────────────────────────
 
   --container-max: 1440px;
-  --container-pad: 60px;
+  --container-pad: 60px; // горизонтальный padding контейнера
 
-  --header-h: 70px;
+  // ── HEADER ───────────────────────────────────
+
+  --header-h: 70px; // высота шапки (desktop)
+
+
+  // ─────────────────────────────────────────────
+  // ГЛАВНАЯ → Hero
+  // ─────────────────────────────────────────────
+
+  // ГЛАВНАЯ -> Hero -> Заголовок -> размер шрифта (clamp: min, vw, max)
+  --home-hero-title-size-min:  40px;
+  --home-hero-title-size-vw:   6.5vw;
+  --home-hero-title-size-max:  90px;
+
+  // ГЛАВНАЯ -> Hero -> Описание -> размер шрифта
+  --home-hero-desc-size: 16px;
+
+  // ГЛАВНАЯ -> Hero -> Изображения -> border-radius
+  --home-hero-img-radius: 12px;
+
+
+  // ─────────────────────────────────────────────
+  // ГЛАВНАЯ → Works (превью работ на главной)
+  // ─────────────────────────────────────────────
+
+  // ГЛАВНАЯ -> Works -> Секция -> отступы
+  --home-works-section-py: 80px;
+
+  // ГЛАВНАЯ -> Works -> Заголовок -> размер (clamp)
+  --home-works-heading-size-min: 56px;
+  --home-works-heading-size-vw:  7vw;
+  --home-works-heading-size-max: 100px;
+
+  // ГЛАВНАЯ -> Works -> Карточка -> высота
+  --home-works-card-h: 540px;
+
+  // ГЛАВНАЯ -> Works -> Карточка -> border-radius
+  --home-works-card-radius: 12px;
+
+  // ГЛАВНАЯ -> Works -> Кнопка "Explore" -> отступы
+  --home-works-btn-py: 14px;
+  --home-works-btn-px: 40px;
+
+
+  // ─────────────────────────────────────────────
+  // ГЛАВНАЯ → Services (превью услуг)
+  // ─────────────────────────────────────────────
+
+  // ГЛАВНАЯ -> Services -> Секция -> отступы
+  --home-services-section-py: 80px;
+
+  // ГЛАВНАЯ -> Services -> Заголовок колонки -> размер (clamp)
+  --home-services-title-size-min: 22px;
+  --home-services-title-size-vw:  2.5vw;
+  --home-services-title-size-max: 32px;
+
+  // ГЛАВНАЯ -> Services -> Колонки -> внутренний отступ
+  --home-services-col-pad: 40px;
+
+
+  // ─────────────────────────────────────────────
+  // ГЛАВНАЯ → Method (текстовый блок-цитата)
+  // ─────────────────────────────────────────────
+
+  // ГЛАВНАЯ -> Method -> Секция -> отступы
+  --home-method-section-py: 100px;
+
+  // ГЛАВНАЯ -> Method -> Строка текста -> размер (clamp)
+  --home-method-line-size-min: 16px;
+  --home-method-line-size-vw:  1.5vw;
+  --home-method-line-size-max: 20px;
+
+
+  // ─────────────────────────────────────────────
+  // ГЛАВНАЯ → Process (шаги работы)
+  // ─────────────────────────────────────────────
+
+  // ГЛАВНАЯ -> Process -> Секция -> отступы
+  --home-process-section-py: 100px;
+
+  // ГЛАВНАЯ -> Process -> Заголовок -> размер (clamp)
+  --home-process-title-size-min: 32px;
+  --home-process-title-size-vw:  4vw;
+  --home-process-title-size-max: 56px;
+
+  // ГЛАВНАЯ -> Process -> Шаг -> ширина блока (desktop)
+  --home-process-step-w: 280px;
+
+
+  // ─────────────────────────────────────────────
+  // ГЛАВНАЯ → Quote (печатающаяся цитата)
+  // ─────────────────────────────────────────────
+
+  // ГЛАВНАЯ -> Quote -> Текст -> размер (clamp)
+  --home-quote-text-size-min: 18px;
+  --home-quote-text-size-vw:  2vw;
+  --home-quote-text-size-max: 26px;
+
+  // ГЛАВНАЯ -> Quote -> Курсор -> скорость мигания
+  --home-quote-cursor-speed: 0.8s;
+
+
+  // ─────────────────────────────────────────────
+  // СТРАНИЦА WORK (список) → общее
+  // ─────────────────────────────────────────────
+
+  // WORK -> Страница -> верхний отступ
+  --work-page-pt: 60px;
+
+  // WORK -> Заголовок страницы -> размер (clamp)
+  --work-heading-size-min: 64px;
+  --work-heading-size-vw:  10vw;
+  --work-heading-size-max: 130px;
+
+  // WORK -> Сетка -> зазор между колонками
+  --work-grid-gap: 20px;
+
+  // WORK -> Карточка -> смещение 2-й колонки вниз
+  --work-col2-offset: 60px;
+
+  // WORK -> Карточка -> смещение 3-й колонки вниз
+  --work-col3-offset: 120px;
+
+
+  // ─────────────────────────────────────────────
+  // СТРАНИЦА WORK/[slug] → Hero
+  // ─────────────────────────────────────────────
+
+  // WORK/slug -> Hero -> Фон -> интенсивность blur
+  --work-slug-hero-blur: 72px;
+
+  // WORK/slug -> Hero -> Фон -> затемнение (scrim)
+  --work-slug-hero-scrim: rgba(0, 0, 0, 0.72);
+
+  // WORK/slug -> Hero -> Изображение проекта -> затемнение
+  --work-slug-hero-img-overlay: rgba(0, 0, 0, 0.25);
+
+  // WORK/slug -> Hero -> Заголовок -> размер (clamp)
+  --work-slug-hero-title-size-min: 22px;
+  --work-slug-hero-title-size-vw:  2.8vw;
+  --work-slug-hero-title-size-max: 40px;
+
+  // WORK/slug -> Hero -> Метаданные -> лейбл (CLIENT / DATE / TYPE) -> размер
+  --work-slug-meta-label-size: 9px;
+
+  // WORK/slug -> Hero -> Метаданные -> значение -> размер
+  --work-slug-meta-value-size: 12px;
+
+  // WORK/slug -> Hero -> Метаданные -> зазор между колонками
+  --work-slug-meta-col-gap: 40px;
+
+  // WORK/slug -> Hero -> Метаданные -> расстояние между CLIENT и DATE
+  --work-slug-meta-row-gap: 28px;
+
+  // WORK/slug -> Hero -> Кнопка "See project" -> отступы
+  --work-slug-cta-py: 13px;
+  --work-slug-cta-px: 32px;
+
+  // WORK/slug -> Hero -> Кнопка "See project" -> размер шрифта
+  --work-slug-cta-size: 12px;
+
+  // WORK/slug -> Hero -> Кнопка "See project" -> цвет рамки
+  --work-slug-cta-border: rgba(255, 255, 255, 0.45);
+
+
+  // ─────────────────────────────────────────────
+  // СТРАНИЦА WORK/[slug] → Контентные блоки
+  // ─────────────────────────────────────────────
+
+  // WORK/slug -> About/Approach -> Секция -> отступы
+  --work-slug-section-py: 96px;
+
+  // WORK/slug -> About/Approach -> Заголовок -> размер (clamp)
+  --work-slug-section-title-size-min: 32px;
+  --work-slug-section-title-size-vw:  4.5vw;
+  --work-slug-section-title-size-max: 60px;
+
+  // WORK/slug -> About/Approach -> Параграф -> размер шрифта
+  --work-slug-paragraph-size: 15px;
+
+  // WORK/slug -> About/Approach -> Параграф -> межстрочный интервал
+  --work-slug-paragraph-lh: 1.72;
+
+  // WORK/slug -> Галерея -> зазор между фото
+  --work-slug-gallery-gap: 12px;
+
+
+  // ─────────────────────────────────────────────
+  // СТРАНИЦА SERVICES
+  // ─────────────────────────────────────────────
+
+  // SERVICES -> Страница -> верхний отступ
+  --services-page-pt: 120px;
+
+  // SERVICES -> Заголовок -> размер (clamp)
+  --services-heading-size-min: 32px;
+  --services-heading-size-vw:  4vw;
+  --services-heading-size-max: 52px;
+
+  // SERVICES -> Элемент списка -> внутренний отступ
+  --services-item-py: 48px;
+
+
+  // ─────────────────────────────────────────────
+  // СТРАНИЦА CONTACT
+  // ─────────────────────────────────────────────
+
+  // CONTACT -> Страница -> верхний отступ
+  --contact-page-pt: 120px;
+
+  // CONTACT -> Заголовок -> размер (clamp)
+  --contact-heading-size-min: 32px;
+  --contact-heading-size-vw:  4vw;
+  --contact-heading-size-max: 52px;
+
+  // CONTACT -> Форма -> поля -> padding
+  --contact-input-py: 12px;
+  --contact-input-px: 16px;
+
+  // CONTACT -> Форма -> textarea -> минимальная высота
+  --contact-textarea-min-h: 140px;
+
+
+  // ─────────────────────────────────────────────
+  // HEADER
+  // ─────────────────────────────────────────────
+
+  // HEADER -> Навигация -> зазор между пунктами
+  --header-nav-gap: 40px;
+
+  // HEADER -> Кнопка "Contact Us" -> отступы
+  --header-cta-py: 10px;
+  --header-cta-px: 28px;
+
+  // HEADER -> Мобильное меню -> размер ссылки
+  --header-mobile-link-size: 28px;
+
+
+  // ─────────────────────────────────────────────
+  // FOOTER
+  // ─────────────────────────────────────────────
+
+  // FOOTER -> Секция -> верхний отступ
+  --footer-pt: 80px;
+
+  // FOOTER -> Левая колонка -> максимальная ширина
+  --footer-left-max-w: 380px;
+
+  // FOOTER -> Логотип -> размер шрифта
+  --footer-logo-size: 20px;
+
+  // FOOTER -> Иконки соцсетей -> размер кнопки
+  --footer-social-size: 36px;
 }
 
-@media (max-width: 1024px) { :root { --container-pad: 32px; } }
-@media (max-width: 900px)  { :root { --container-pad: 20px; --header-h: 60px; } }
-@media (max-width: 480px)  { :root { --container-pad: 16px; } }
+
+// ─────────────────────────────────────────────
+// БРЕЙКПОИНТЫ — адаптация токенов
+// ─────────────────────────────────────────────
+
+@media (max-width: 1024px) {
+  :root {
+    --container-pad: 32px;
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --container-pad: 20px;
+    --header-h: 60px;
+
+    --home-works-card-h:      280px;
+    --home-works-card-radius: 8px;
+    --home-works-section-py:  60px;
+    --home-services-section-py: 60px;
+    --home-method-section-py:   60px;
+    --home-process-section-py:  60px;
+
+    --work-slug-section-py: 56px;
+    --work-slug-gallery-gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --container-pad: 16px;
+
+    --home-works-card-h: 220px;
+    --home-works-section-py: 48px;
+
+    --work-slug-section-py: 40px;
+  }
+}
+
+
+// ─────────────────────────────────────────────
+// БАЗОВЫЕ СТИЛИ
+// ─────────────────────────────────────────────
 
 html {
   -webkit-font-smoothing: antialiased;

@@ -9,6 +9,14 @@
   transition: background 0.3s ease, border-color 0.3s ease;
 }
 
+.header:has(.burger--active) {
+  background: var(--c-bg) !important;
+  border-bottom-color: rgba(0, 0, 0, 0.1) !important;
+
+  .logo { color: var(--c-primary) !important; }
+  .burgerBar { background: var(--c-primary) !important; }
+}
+
 .headerDark {
   background: transparent;
   border-bottom-color: rgba(255, 255, 255, 0.08);
@@ -36,6 +44,8 @@
   align-items: center;
   justify-content: space-between;
   height: var(--header-h);
+  position: relative;
+  z-index: 1002;
 }
 
 .logo {
@@ -56,6 +66,7 @@
   cursor: pointer;
   position: relative;
   z-index: 1002;
+  flex-shrink: 0;
 
   &--active {
     .burgerBar--top { transform: translateY(11px) rotate(45deg); }
@@ -129,36 +140,78 @@
 
 .mobileOverlay {
   position: fixed;
-  inset: 0;
+  top: var(--header-h);
+  left: 0;
+  width: 100%;
+  height: calc(100dvh - var(--header-h));
   background: var(--c-bg);
-  z-index: 999;
+  z-index: 1001;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+
+  &--open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+}
+
+.mobileInner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-top: 8px;
+  padding-bottom: 40px;
+  width: clamp(300px, 1vw, 200px);
 }
 
 .mobileList {
   list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  text-align: center;
+}
+
+.mobileItem {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+  &:first-child { border-top: 1px solid rgba(0, 0, 0, 0.1); }
 }
 
 .mobileLink {
-  font-size: 28px;
+  display: block;
+  padding: 22px 0;
+  font-size: 15px;
   font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: var(--c-primary);
+  text-align: center;
+  transition: opacity 0.2s ease;
+
+  &:hover { opacity: 0.5; }
 }
 
 .mobileCtaLink {
-  display: inline-block;
-  background: var(--c-primary);
-  color: #fff;
-  padding: 14px 36px;
+  display: block;
+  margin-top: 24px;
+  padding: 18px;
+  border: 1.5px solid var(--c-primary);
   border-radius: 999px;
-  font-weight: 600;
-  font-size: 16px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-primary);
+  background: transparent;
+  transition: background 0.25s ease, color 0.25s ease;
+
+  &:hover {
+    background: var(--c-primary);
+    color: #fff;
+  }
 }
 
 @media (max-width: 900px) {

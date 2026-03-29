@@ -23,7 +23,7 @@ export function Works() {
         </div>
 
         <div className={s.exploreWrap}>
-          <Link href="/work" className={s.exploreBtn}>
+          <Link href="/works" className={s.exploreBtn}>
             <span>Explore More Projects &gt;&gt;</span>
           </Link>
         </div>

@@ -45,7 +45,7 @@ export default function WorkPage() {
           {cols.map((col, ci) => (
             <div key={ci} className={`${styles.col} ${colClasses[ci]}`}>
               {col.map((work) => (
-                <Link key={work.slug} href={`/work/${work.slug}`} className={styles.card}>
+                <Link key={work.slug} href={`/works/${work.slug}`} className={styles.card}>
                   <div className={styles.cardImg}>
                     <Image
                       src={work.image}

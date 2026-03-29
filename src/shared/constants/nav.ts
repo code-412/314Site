@@ -2,6 +2,6 @@ import type { NavItem } from "@/shared/types";
 
 export const navItems: NavItem[] = [
   { label: "Services", href: "/services" },
-  { label: "Work", href: "/work" },
+  { label: "Works", href: "/works" },
   { label: "Contact", href: "/contact" },
 ];

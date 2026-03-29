@@ -6,7 +6,7 @@ const legal = ["Privacy Policy", "Cookie Policy", "Terms of Service", "Copyright
 const nav = [
   { label: "Home",     href: "/"         },
   { label: "Services", href: "/services" },
-  { label: "Work",     href: "/work"     },
+  { label: "Works",    href: "/works"    },
   { label: "Contact",  href: "/contact"  },
 ];
 

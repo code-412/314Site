@@ -18,14 +18,14 @@
 
 .heroBgImg {
   object-fit: cover;
-  filter: blur(72px);
+  filter: blur(var(--work-slug-hero-blur));
   transform: scale(1.18);
 }
 
 .heroScrim {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.72);
+  background: var(--work-slug-hero-scrim);
   z-index: 1;
 }
 
@@ -44,7 +44,11 @@
 .heroTitle {
   grid-column: 1;
   grid-row: 1;
-  font-size: clamp(22px, 2.8vw, 40px);
+  font-size: clamp(
+    var(--work-slug-hero-title-size-min),
+    var(--work-slug-hero-title-size-vw),
+    var(--work-slug-hero-title-size-max)
+  );
   font-weight: 800;
   letter-spacing: 0.03em;
   text-transform: uppercase;
@@ -69,7 +73,7 @@
 .heroOverlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--work-slug-hero-img-overlay);
 }
 
 .meta {
@@ -77,7 +81,7 @@
   grid-row: 2;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0 40px;
+  gap: 0 var(--work-slug-meta-col-gap);
   padding-right: 56px;
   align-content: start;
 }
@@ -85,7 +89,7 @@
 .metaCol {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: var(--work-slug-meta-row-gap);
 }
 
 .metaGroup {
@@ -95,7 +99,7 @@
 }
 
 .metaLabel {
-  font-size: 9px;
+  font-size: var(--work-slug-meta-label-size);
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -103,7 +107,7 @@
 }
 
 .metaValue {
-  font-size: 12px;
+  font-size: var(--work-slug-meta-value-size);
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -116,7 +120,7 @@
 }
 
 .servicesItem {
-  font-size: 12px;
+  font-size: var(--work-slug-meta-value-size);
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -132,11 +136,11 @@
   text-align: center;
   align-self: end;
   margin: 40px 0 56px;
-  padding: 13px 32px;
-  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  padding: var(--work-slug-cta-py) var(--work-slug-cta-px);
+  border: 1.5px solid var(--work-slug-cta-border);
   border-radius: 999px;
   color: #fff;
-  font-size: 12px;
+  font-size: var(--work-slug-cta-size);
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -151,11 +155,15 @@
 }
 
 .section {
-  padding: 96px 0;
+  padding: var(--work-slug-section-py) 0;
 }
 
 .sectionTitle {
-  font-size: clamp(32px, 4.5vw, 60px);
+  font-size: clamp(
+    var(--work-slug-section-title-size-min),
+    var(--work-slug-section-title-size-vw),
+    var(--work-slug-section-title-size-max)
+  );
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: -0.01em;
@@ -171,20 +179,20 @@
 }
 
 .paragraph {
-  font-size: 15px;
-  line-height: 1.72;
+  font-size: var(--work-slug-paragraph-size);
+  line-height: var(--work-slug-paragraph-lh);
   color: var(--c-muted);
 }
 
 .gallery {
-  padding-bottom: 96px;
+  padding-bottom: var(--work-slug-section-py);
 }
 
 .galleryGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: var(--work-slug-gallery-gap);
+  margin-bottom: var(--work-slug-gallery-gap);
 }
 
 .galleryItem {
@@ -197,7 +205,7 @@
 .galleryGridThree {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 12px;
+  gap: var(--work-slug-gallery-gap);
 }
 
 .galleryItemThree {
@@ -269,24 +277,6 @@
     font-size: 14px;
   }
 
-  .section {
-    padding: 56px 0;
-  }
-
-  .gallery {
-    padding-bottom: 56px;
-  }
-
-  .galleryGrid {
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-
-  .galleryGridThree {
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-
   .wideImage {
     aspect-ratio: 4 / 3;
     margin-top: 32px;
@@ -302,14 +292,6 @@
   .meta {
     grid-template-columns: 1fr 1fr;
     gap: 0 24px;
-  }
-
-  .section {
-    padding: 40px 0;
-  }
-
-  .gallery {
-    padding-bottom: 40px;
   }
 
   .galleryGrid,
