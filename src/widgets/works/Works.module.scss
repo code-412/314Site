@@ -14,15 +14,40 @@
   letter-spacing: -0.02em;
 }
 
-.card {
+// ── wrapper ───────────────────────────────────
+
+.cardWrap {
   position: relative;
-  width: 100%;
-  height: 540px;
+  user-select: none;
+}
+
+// ── scene (clipped card area) ─────────────────
+
+.scene {
+  margin-left: 16%;
+  height: 620px;
   border-radius: 12px;
   overflow: hidden;
-  cursor: pointer;
+  position: relative;
+  will-change: transform;
+}
 
-  &:hover .cardBg { transform: scale(1.03); }
+.scenePulse {
+  animation: scenePulse 0.68s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes scenePulse {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.018); }
+  100% { transform: scale(1); }
+}
+
+// ── faces (slide in/out) ──────────────────────
+
+.face {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
 }
 
 .cardBg {
@@ -31,59 +56,104 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s ease;
   max-width: none;
 }
 
 .cardOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,.55) 0%, rgba(0,0,0,.25) 40%, rgba(0,0,0,.6) 100%);
-  z-index: 1;
+  background: linear-gradient(
+    160deg,
+    rgba(0, 0, 0, 0.62) 0%,
+    rgba(0, 0, 0, 0.28) 45%,
+    rgba(0, 0, 0, 0.58) 100%
+  );
 }
 
-.cardHeader {
+@keyframes exitDown {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-100%); }
+}
+@keyframes exitUp {
+  from { transform: translateY(0); }
+  to   { transform: translateY(100%); }
+}
+@keyframes enterDown {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+@keyframes enterUp {
+  from { transform: translateY(-100%); }
+  to   { transform: translateY(0); }
+}
+
+.faceExitDown  { animation: exitDown  0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
+.faceExitUp    { animation: exitUp    0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
+.faceEnterDown { animation: enterDown 0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
+.faceEnterUp   { animation: enterUp   0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
+
+// ── title block ───────────────────────────────
+
+.titleBlock {
   position: absolute;
-  top: 0;
   left: 0;
-  right: 0;
-  padding: 28px 36px;
+  top: 52px;
+  pointer-events: none;
+}
+
+.cardTitle {
+  font-size: clamp(32px, 4.2vw, 60px);
+  font-weight: 900;
+  line-height: 1.02;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin-bottom: 14px;
+  color: #fff;
+  mix-blend-mode: difference;
+}
+
+.tagsWrap {
   display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  z-index: 2;
+  flex-direction: column;
+  gap: 2px;
+  margin-left: 2px;
+  isolation: isolate;
 }
 
 .tag {
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  color: #fff;
-  background: rgba(255,255,255,.15);
-  border: 1px solid rgba(255,255,255,.3);
-  padding: 6px 14px;
-  border-radius: 999px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  backdrop-filter: blur(4px);
+  color: var(--c-muted);
+  mix-blend-mode: normal;
 }
 
-.cardBody {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 36px;
-  z-index: 2;
+// ── title animations ──────────────────────────
+
+@keyframes textExitDown {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-16px); }
+}
+@keyframes textExitUp {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(16px); }
+}
+@keyframes textEnterDown {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes textEnterUp {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.cardTitle {
-  font-size: clamp(24px, 3.5vw, 48px);
-  font-weight: 900;
-  color: #fff;
-  line-height: 1;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
-}
+.textExitDown { animation: textExitDown 0.28s ease forwards; }
+.textExitUp   { animation: textExitUp   0.28s ease forwards; }
+.textEnterDown { animation: textEnterDown 0.32s ease 0.36s both; }
+.textEnterUp   { animation: textEnterUp   0.32s ease 0.36s both; }
+
+// ── explore button ────────────────────────────
 
 .exploreWrap {
   display: flex;
@@ -117,33 +187,30 @@
     border-radius: 999px;
   }
 
-  span {
-    position: relative;
-    z-index: 1;
-  }
+  span { position: relative; z-index: 1; }
 
   &:hover {
     color: #fff;
-
     &::before { transform: scaleX(1); }
   }
 }
 
+// ── responsive ────────────────────────────────
+
 @media (max-width: 900px) {
   .works   { padding: 60px 0; }
   .heading { font-size: clamp(40px, 10vw, 72px); margin-bottom: 28px; }
-  .card    { height: 280px; border-radius: 8px; }
 
-  .cardOverlay,
-  .cardHeader,
-  .cardBody  { display: none; }
+  .scene { margin-left: 0; height: 420px; border-radius: 8px; }
+  .titleBlock { top: 28px; }
+  .cardTitle  { font-size: clamp(24px, 6vw, 40px); }
 
   .exploreWrap { margin-top: 28px; }
   .exploreBtn  { font-size: 14px; padding: 12px 28px; }
 }
 
 @media (max-width: 480px) {
-  .works   { padding: 48px 0; }
+  .works  { padding: 48px 0; }
   .heading { font-size: clamp(36px, 12vw, 56px); margin-bottom: 20px; }
-  .card    { height: 220px; }
+  .scene  { height: 300px; }
 }
