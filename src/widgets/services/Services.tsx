@@ -30,7 +30,7 @@ const columns: ServiceCol[] = [
   },
 ];
 
-const delays = [0, 200, 400];
+const COL_STAGGER = 420;
 
 export function Services() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -41,7 +41,7 @@ export function Services() {
       (entries) => {
         if (entries[0].isIntersecting) {
           colRefs.current.forEach((col, i) => {
-            if (col) setTimeout(() => col.classList.add(s["col--visible"]), delays[i]);
+            if (col) setTimeout(() => col.classList.add(s["col--visible"]), i * COL_STAGGER);
           });
           observer.disconnect();
         }
@@ -63,6 +63,10 @@ export function Services() {
               className={s.col}
               ref={(el) => { colRefs.current[i] = el; }}
             >
+              <div className={s.divider}>
+                <span className={s.dot} />
+                <span className={s.line} />
+              </div>
               <h3 className={s.title}>{col.title}</h3>
               <p className={s.desc}>{col.description}</p>
               <ul className={s.list}>

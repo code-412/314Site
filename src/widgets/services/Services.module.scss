@@ -1,5 +1,5 @@
 .services {
-  border-top: 1px solid var(--c-primary);
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
   padding: 80px 0;
   background: var(--c-bg);
 }
@@ -9,50 +9,50 @@
   grid-template-columns: repeat(3, 1fr);
 }
 
-.col {
-  padding: 40px 40px 40px 0;
-  opacity: 0;
-  filter: blur(10px);
-  transform: translateY(20px);
-  transition: opacity 0.7s ease, filter 0.7s ease, transform 0.7s ease;
+// ── column ────────────────────────────────────
 
-  &:not(:last-child) {
-    border-right: 1px solid rgba(0, 0, 0, 0.15);
-  }
+.col {
+  padding: 40px 40px 40px 24px;
+  position: relative;
 
   &:not(:first-child) {
     padding-left: 40px;
   }
-
-  &--visible {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
-
-    .title {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .desc {
-      opacity: 1;
-      transform: translateY(0);
-      transition-delay: 0.15s;
-    }
-
-    .item {
-      opacity: 1;
-      transform: translateY(0);
-
-      &:nth-child(1) { transition-delay: 0.30s; }
-      &:nth-child(2) { transition-delay: 0.37s; }
-      &:nth-child(3) { transition-delay: 0.44s; }
-      &:nth-child(4) { transition-delay: 0.51s; }
-      &:nth-child(5) { transition-delay: 0.58s; }
-      &:nth-child(6) { transition-delay: 0.65s; }
-    }
-  }
 }
+
+// ── divider: dot + line ───────────────────────
+
+.divider {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c-primary);
+  flex-shrink: 0;
+  transform: scale(0);
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.line {
+  width: 1px;
+  flex: 1;
+  background: rgba(0, 0, 0, 0.15);
+  transform-origin: top center;
+  transform: scaleY(0);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0.14s;
+}
+
+// ── content elements (hidden by default) ─────
 
 .title {
   font-size: clamp(22px, 2.5vw, 32px);
@@ -60,8 +60,9 @@
   color: var(--c-primary);
   margin-bottom: 20px;
   opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateY(10px);
+  transition: opacity 0.28s ease, transform 0.28s ease;
+  transition-delay: 0.38s;
 }
 
 .desc {
@@ -70,8 +71,9 @@
   color: var(--c-muted);
   margin-bottom: 32px;
   opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.5s ease 0.15s, transform 0.5s ease 0.15s;
+  transform: translateY(8px);
+  transition: opacity 0.28s ease, transform 0.28s ease;
+  transition-delay: 0.56s;
 }
 
 .list {
@@ -89,21 +91,44 @@
   padding: 8px 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: translateY(6px);
+  transition: opacity 0.22s ease, transform 0.22s ease;
 
   &:last-child { border-bottom: none; }
+
+  &:nth-child(1) { transition-delay: 0.70s; }
+  &:nth-child(2) { transition-delay: 0.78s; }
+  &:nth-child(3) { transition-delay: 0.86s; }
+  &:nth-child(4) { transition-delay: 0.94s; }
+  &:nth-child(5) { transition-delay: 1.02s; }
+  &:nth-child(6) { transition-delay: 1.10s; }
 }
+
+// ── visible state ─────────────────────────────
+
+.col--visible {
+  .dot  { transform: scale(1); }
+  .line { transform: scaleY(1); }
+
+  .title { opacity: 1; transform: translateY(0); }
+  .desc  { opacity: 1; transform: translateY(0); }
+  .item  { opacity: 1; transform: translateY(0); }
+}
+
+// ── responsive ────────────────────────────────
 
 @media (max-width: 1024px) {
   .grid { grid-template-columns: 1fr; }
 
   .col {
-    padding: 32px 0 !important;
-    border-right: none !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    padding: 32px 0 32px 24px !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 
     &:last-child { border-bottom: none; }
+  }
+
+  .divider {
+    top: 32px;
   }
 }
 
