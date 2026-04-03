@@ -31,14 +31,13 @@ export default async function WorkDetailPage({ params }: Props) {
       <ProjectAnimations />
 
       <section className={styles.hero}>
-        <div className={styles.heroBg}>
+        <div className={styles.heroBg} data-hero-bg>
           <Image
             src={work.image}
             alt=""
             fill
             aria-hidden="true"
             className={styles.heroBgImg}
-            data-hero-bg
             priority
           />
         </div>

@@ -125,7 +125,7 @@ export function ContactDrawer() {
               <p className={s.thanksText}>We'll get back to you within a day or two.</p>
             </div>
           ) : (
-            <form onSubmit={onSubmit} className={s.form} noValidate>
+            <form onSubmit={onSubmit} className={s.form} noValidate suppressHydrationWarning>
               <div className={s.field}>
                 <input
                   name="name"
@@ -154,7 +154,7 @@ export function ContactDrawer() {
                 {fieldError("phone") && <span className={s.errorMsg}>{fieldError("phone")}</span>}
               </div>
 
-              <div className={s.field}>
+              <div className={s.field} suppressHydrationWarning>
                 <input
                   name="email"
                   type="email"
@@ -165,6 +165,7 @@ export function ContactDrawer() {
                   onChange={onChange}
                   onBlur={() => onBlur("email")}
                   autoComplete="email"
+                  suppressHydrationWarning
                 />
                 {fieldError("email") && <span className={s.errorMsg}>{fieldError("email")}</span>}
               </div>

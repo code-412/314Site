@@ -7,7 +7,7 @@ export function ProjectAnimations() {
   const progressRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const heroBg    = document.querySelector<HTMLElement>("[data-hero-bg]");
+    const heroBg    = document.querySelector<HTMLElement>("[data-hero-bg] img");
     const heroText  = document.querySelector<HTMLElement>("[data-hero-text]");
     const parallaxEls = document.querySelectorAll<HTMLElement>("[data-parallax]");
     const reveals   = document.querySelectorAll<HTMLElement>("[data-reveal]");
