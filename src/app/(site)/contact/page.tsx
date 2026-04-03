@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "./page.module.scss";
 
 type FormData = {
@@ -33,20 +33,15 @@ function isValidEmail(value: string): boolean {
 }
 
 function isValidPhone(value: string): boolean {
-  const digits = value.replace(/\D/g, "");
-  return digits.length >= 7;
+  return value.replace(/\D/g, "").length >= 7;
 }
 
 function getError(field: keyof Omit<FormData, "consent">, form: FormData): string | null {
   switch (field) {
-    case "name":
-      return form.name.trim().length < 2 ? "Enter your name" : null;
-    case "phone":
-      return form.phone && !isValidPhone(form.phone) ? "Invalid phone number" : null;
-    case "email":
-      return !isValidEmail(form.email) ? "Invalid email address" : null;
-    case "message":
-      return null;
+    case "name":    return form.name.trim().length < 2 ? "Enter your name" : null;
+    case "phone":   return form.phone && !isValidPhone(form.phone) ? "Invalid phone number" : null;
+    case "email":   return !isValidEmail(form.email) ? "Invalid email address" : null;
+    case "message": return null;
   }
 }
 
@@ -55,34 +50,42 @@ export default function ContactPage() {
   const [touched, setTouched] = useState<Touched>(emptyTouched);
   const [submitted, setSubmitted] = useState(false);
   const [sent, setSent] = useState(false);
-  const formRef = useRef<HTMLFormElement>(null);
+  const [dark, setDark] = useState(false);
+  const formSectionRef = useRef<HTMLDivElement>(null);
 
-  const onBlur = (field: keyof Touched) => {
+  useEffect(() => {
+    const onScroll = () => {
+      if (!formSectionRef.current) return;
+      const rect = formSectionRef.current.getBoundingClientRect();
+      setDark(rect.top < window.innerHeight * 0.92);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const onBlur = (field: keyof Touched) =>
     setTouched((prev) => ({ ...prev, [field]: true }));
-  };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    if (name === "phone") {
-      setForm((prev) => ({ ...prev, phone: applyPhoneMask(value) }));
-    } else {
-      setForm((prev) => ({ ...prev, [name]: value }));
-    }
+    setForm((prev) => ({
+      ...prev,
+      [name]: name === "phone" ? applyPhoneMask(value) : value,
+    }));
   };
 
-  const onCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onCheck = (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((prev) => ({ ...prev, consent: e.target.checked }));
-  };
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
     setTouched({ name: true, phone: true, email: true, message: true });
-
-    const fields: (keyof Touched)[] = ["name", "phone", "email", "message"];
-    const hasError = fields.some((f) => getError(f, form));
+    const hasError = (["name", "phone", "email", "message"] as (keyof Touched)[]).some(
+      (f) => getError(f, form)
+    );
     if (hasError || !form.consent) return;
-
     console.log("Contact form:", form);
     setSent(true);
   };
@@ -90,18 +93,28 @@ export default function ContactPage() {
   const fieldError = (field: keyof Touched) =>
     (touched[field] || submitted) ? getError(field, form) : null;
 
-  const inputClass = (field: keyof Touched) =>
-    [styles.input, fieldError(field) ? styles.inputError : ""].join(" ").trim();
+  const ic = (field: keyof Touched) =>
+    [styles.input, fieldError(field) ? styles.inputError : ""].filter(Boolean).join(" ");
 
   return (
-    <div className={styles.page}>
-      <section className={styles.hero}>
-        <div className={`${styles.heroInner} container`}>
-          <h1 className={styles.heroTitle}>
-            We are<br />ready to<br />discuss your<br />future<br />project
-          </h1>
+    <div className={`${styles.page}${dark ? ` ${styles.pageDark}` : ""}`}>
+      <div className={styles.left}>
+        <h1 className={styles.title}>
+          <span className={styles.titleLine}>We are</span>
+          <span className={styles.titleLine}>ready to</span>
+          <span className={styles.wordWrap}>
+            <span className={styles.wordDiscuss}>discuss</span>
+            <span className={styles.wordHear}>hear</span>
+          </span>
+          <span className={styles.titleLine}>your</span>
+          <span className={styles.titleLine}>future</span>
+          <span className={styles.titleLine}>project</span>
+        </h1>
+      </div>
 
-          <div className={styles.heroContacts}>
+      <div className={styles.right}>
+        <section className={styles.contactsSection}>
+          <div className={styles.contactsInner}>
             <div className={styles.contactGroup}>
               <span className={styles.contactLabel}>Email</span>
               <a href="mailto:info@code412.com" className={styles.contactValue}>
@@ -139,38 +152,28 @@ export default function ContactPage() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className={styles.formSection}>
-        <div className={`${styles.formInner} container`}>
-          <h2 className={styles.formTitle}>
-            We are<br />ready to<br />hear your<br />future<br />project
-          </h2>
-
-          <div className={styles.formWrap}>
+        <section className={styles.formSection} ref={formSectionRef}>
+          <div className={styles.formInner}>
             {sent ? (
               <div className={styles.thanks}>
                 <p className={styles.thanksTitle}>Got it.</p>
-                <p className={styles.thanksText}>
-                  We'll get back to you within a day or two.
-                </p>
+                <p className={styles.thanksText}>We'll get back to you within a day or two.</p>
               </div>
             ) : (
-              <form ref={formRef} onSubmit={onSubmit} className={styles.form} noValidate>
+              <form onSubmit={onSubmit} className={styles.form} noValidate suppressHydrationWarning>
                 <div className={styles.field}>
                   <input
                     name="name"
-                    className={inputClass("name")}
+                    className={ic("name")}
                     placeholder="Full Name"
                     value={form.name}
                     onChange={onChange}
                     onBlur={() => onBlur("name")}
                     autoComplete="name"
                   />
-                  {fieldError("name") && (
-                    <span className={styles.errorMsg}>{fieldError("name")}</span>
-                  )}
+                  {fieldError("name") && <span className={styles.errorMsg}>{fieldError("name")}</span>}
                 </div>
 
                 <div className={styles.field}>
@@ -178,16 +181,14 @@ export default function ContactPage() {
                     name="phone"
                     type="tel"
                     inputMode="tel"
-                    className={inputClass("phone")}
+                    className={ic("phone")}
                     placeholder="+___ ___ __ __"
                     value={form.phone}
                     onChange={onChange}
                     onBlur={() => onBlur("phone")}
                     autoComplete="tel"
                   />
-                  {fieldError("phone") && (
-                    <span className={styles.errorMsg}>{fieldError("phone")}</span>
-                  )}
+                  {fieldError("phone") && <span className={styles.errorMsg}>{fieldError("phone")}</span>}
                 </div>
 
                 <div className={styles.field}>
@@ -195,16 +196,15 @@ export default function ContactPage() {
                     name="email"
                     type="email"
                     inputMode="email"
-                    className={inputClass("email")}
+                    className={ic("email")}
                     placeholder="E-mail Address"
                     value={form.email}
                     onChange={onChange}
                     onBlur={() => onBlur("email")}
                     autoComplete="email"
+                    suppressHydrationWarning
                   />
-                  {fieldError("email") && (
-                    <span className={styles.errorMsg}>{fieldError("email")}</span>
-                  )}
+                  {fieldError("email") && <span className={styles.errorMsg}>{fieldError("email")}</span>}
                 </div>
 
                 <div className={styles.field}>
@@ -228,14 +228,12 @@ export default function ContactPage() {
                   <span>I give my consent to the processing of personal data</span>
                 </label>
 
-                <button type="submit" className={styles.submit}>
-                  Send Request
-                </button>
+                <button type="submit" className={styles.submit}>Send Request</button>
               </form>
             )}
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   );
 }

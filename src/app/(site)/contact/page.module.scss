@@ -1,46 +1,126 @@
 .page {
   padding-top: var(--header-h);
-}
-
-// ── HERO (белая секция) ───────────────────────
-
-.hero {
-  padding: 80px 0 100px;
+  display: flex;
+  align-items: flex-start;
+  min-height: 100vh;
   background: var(--c-bg);
+  transition: background 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.heroInner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
+.pageDark {
+  background: var(--c-primary);
+}
+
+// ── LEFT (sticky panel) ───────────────────────
+
+.left {
+  position: sticky;
+  top: var(--header-h);
+  width: 50%;
+  height: calc(100vh - var(--header-h));
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
   align-items: center;
 }
 
-.heroTitle {
-  font-size: clamp(52px, 7vw, 104px);
+.title {
+  display: flex;
+  flex-direction: column;
+  padding: 0 clamp(32px, 5vw, 72px);
+  font-size: clamp(36px, 4.4vw, 80px);
   font-weight: 900;
-  line-height: 1;
+  line-height: 1.05;
   letter-spacing: -0.02em;
   text-transform: uppercase;
   color: var(--c-primary);
+  transition: color 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.heroContacts {
+.pageDark .title {
+  color: #fff;
+}
+
+.titleLine {
+  display: block;
+}
+
+.wordWrap {
+  display: block;
+  position: relative;
+  height: 1.05em;
+  overflow: hidden;
+}
+
+.wordDiscuss,
+.wordHear {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+.wordDiscuss {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.pageDark .wordDiscuss {
+  transform: translateY(-110%);
+  opacity: 0;
+}
+
+.wordHear {
+  transform: translateY(110%);
+  opacity: 0;
+}
+
+.pageDark .wordHear {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+// ── RIGHT (scrollable) ────────────────────────
+
+.right {
+  width: 50%;
+  flex-shrink: 0;
+}
+
+// contacts section
+
+.contactsSection {
+  min-height: calc(100vh - var(--header-h));
   display: flex;
-  flex-direction: column;
-  gap: 0;
-  align-self: center;
+  align-items: center;
+}
+
+.contactsInner {
+  width: 100%;
+  padding: 0 clamp(32px, 5vw, 72px);
 }
 
 .contactGroup {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 6px;
   padding: 28px 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  transition: border-color 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 
-  &:first-child { border-top: 1px solid rgba(0, 0, 0, 0.12); }
+  &:first-child {
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    transition: border-color 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+.pageDark .contactGroup {
+  border-color: rgba(255, 255, 255, 0.12);
+
+  &:first-child { border-color: rgba(255, 255, 255, 0.12); }
 }
 
 .contactLabel {
@@ -49,15 +129,24 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #aaa;
+  transition: color 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pageDark .contactLabel {
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .contactValue {
   font-size: clamp(20px, 2.2vw, 32px);
   font-weight: 700;
   color: var(--c-primary);
-  transition: opacity 0.2s ease;
+  transition: color 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
 
   &:hover { opacity: 0.6; }
+}
+
+.pageDark .contactValue {
+  color: #fff;
 }
 
 .socials {
@@ -75,7 +164,7 @@
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 50%;
   color: var(--c-primary);
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
     background: var(--c-primary);
@@ -83,31 +172,27 @@
   }
 }
 
-// ── FORM (чёрная секция) ──────────────────────
+.pageDark .socialBtn {
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #fff;
+
+  &:hover {
+    background: #fff;
+    color: var(--c-primary);
+  }
+}
+
+// form section
 
 .formSection {
-  background: var(--c-primary);
-  padding: 100px 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
 }
 
 .formInner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: start;
-}
-
-.formTitle {
-  font-size: clamp(52px, 7vw, 104px);
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-  color: #fff;
-}
-
-.formWrap {
-  padding-top: 8px;
+  width: 100%;
+  padding: 100px clamp(32px, 5vw, 72px);
 }
 
 .form {
@@ -165,7 +250,6 @@
   color: rgba(255, 255, 255, 0.6);
   cursor: pointer;
   line-height: 1.5;
-  transition: color 0.2s ease;
 }
 
 .checkLabelError {
@@ -193,11 +277,9 @@
   border: none;
   border-radius: 999px;
   cursor: pointer;
-  transition: background 0.25s ease, color 0.25s ease;
+  transition: background 0.25s ease;
 
-  &:hover {
-    background: rgba(255, 255, 255, 0.85);
-  }
+  &:hover { background: rgba(255, 255, 255, 0.85); }
 }
 
 .thanks {
@@ -217,34 +299,39 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
-// ── RESPONSIVE ───────────────────────────────
+// ── MOBILE ────────────────────────────────────
 
 @media (max-width: 900px) {
-  .heroInner,
+  .page {
+    flex-direction: column;
+  }
+
+  .left {
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: auto;
+    padding: 60px 0;
+  }
+
+  .title {
+    font-size: clamp(36px, 10vw, 64px);
+  }
+
+  .right {
+    width: 100%;
+  }
+
+  .contactsSection {
+    min-height: auto;
+  }
+
+  .formSection {
+    min-height: auto;
+  }
+
+  .contactsInner,
   .formInner {
-    grid-template-columns: 1fr;
-    gap: 48px;
+    padding: 60px clamp(20px, 5vw, 40px);
   }
-
-  .heroTitle,
-  .formTitle {
-    font-size: clamp(40px, 11vw, 72px);
-  }
-
-  .contactGroup {
-    align-items: flex-start;
-  }
-
-  .hero { padding: 60px 0 72px; }
-  .formSection { padding: 72px 0; }
-}
-
-@media (max-width: 480px) {
-  .heroTitle,
-  .formTitle {
-    font-size: clamp(36px, 13vw, 56px);
-  }
-
-  .hero { padding: 48px 0 56px; }
-  .formSection { padding: 56px 0; }
 }
