@@ -1,47 +1,105 @@
 import type { Metadata } from "next";
-import { services } from "@/shared/constants/services";
-import styles from "./page.module.scss";
+import Image from "next/image";
+import { AdvantagesSection } from "./AdvantagesSection";
+import s from "./page.module.scss";
 
 export const metadata: Metadata = {
-  title: "Services",
-  description: "Brand identity, web design, print and motion.",
+  title: "Services — 314 Studio",
+  description: "Brand identity, web design, development and marketing.",
 };
+
+const EXPERT_ROLES = [
+  "Designers",
+  "Developers",
+  "SMM",
+  "QA Specialists",
+  "Designers",
+  "Developers",
+  "SMM",
+  "QA Specialists",
+];
 
 export default function ServicesPage() {
   return (
-    <div className={styles.page}>
-      <div className="container">
-        <div className={styles.intro}>
-          <p className={styles.label}>Services</p>
-          <h1 className={styles.heading}>What we offer</h1>
-          <p className={styles.lead}>
-            Four areas of work, done properly. Scope varies by project — most
-            clients mix and match depending on where they are in the process.
+    <>
+      {/* ── HERO ─────────────────────────────────────────────────────── */}
+      <section className={s.hero}>
+        <div className={`${s.heroTop} container`}>
+          <h1 className={s.heroTitle}>
+            Our Services —<br />Our Solutions for Business
+          </h1>
+          <p className={s.heroSub}>
+            Lorem ipsum dolor sit amet consectetur. Nequa ut connectet laoreet
+            duis in dignissim in lacus semper. Aliquet velit vel enim consequat
+            amet. Tincidunt velit enim tincidunt nulla lobortis sed neque erat
+            vulputate duis.
           </p>
         </div>
-
-        <div className={styles.list}>
-          {services.map((service, i) => (
-            <div key={service.id} className={styles.item}>
-              <div className={styles.itemLeft}>
-                <span className={styles.num}>0{i + 1}</span>
-                <h2 className={styles.title}>{service.title}</h2>
-              </div>
-              <div className={styles.itemRight}>
-                <p className={styles.desc}>{service.description}</p>
-                <ul className={styles.features}>
-                  {service.features.map((f) => (
-                    <li key={f} className={styles.feature}>
-                      <span className={styles.dot} />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          ))}
+        <div className={s.heroImgWrap}>
+          <Image
+            src="/ServiceBackGround.jpg"
+            alt="Services background"
+            fill
+            priority
+            className={s.heroImg}
+            sizes="100vw"
+          />
         </div>
-      </div>
-    </div>
+      </section>
+
+      {/* ── PASSION ──────────────────────────────────────────────────── */}
+      <section className={s.passion}>
+        <div className={`${s.passionInner} container`}>
+          <div className={s.passionLeft}>
+            <h2 className={s.passionTitle}>Digital is<br />our passion</h2>
+          </div>
+          <div className={s.passionRight}>
+            <p className={s.passionLead}>
+              We are excellent at making projects of any type, but we are
+              especially good at product design.
+            </p>
+
+            <div className={s.listBlock}>
+              <p className={s.listLabel}>Our Experience</p>
+              <ul className={s.list}>
+                <li>E-Commerce</li>
+                <li>Finance</li>
+                <li>Foodtech</li>
+                <li>Startups</li>
+              </ul>
+            </div>
+
+            <div className={s.listBlock}>
+              <p className={s.listLabel}>What Can We Do?</p>
+              <ul className={s.list}>
+                <li>UI / UX design</li>
+                <li>Web design</li>
+                <li>Identity</li>
+                <li>Research</li>
+                <li>Full development</li>
+                <li>Mobile application</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── EXPERTS ──────────────────────────────────────────────────── */}
+      <section className={s.experts}>
+        <div className={`container`}>
+          <h2 className={s.expertsHeading}>
+            Experts from different fields<br />are responsible for the result:
+          </h2>
+          <div className={s.expertsGrid}>
+            {EXPERT_ROLES.map((role, i) => (
+              <div key={i} className={s.expertCell}>{role}</div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ADVANTAGES ───────────────────────────────────────────────── */}
+      <AdvantagesSection />
+    </>
   );
 }
