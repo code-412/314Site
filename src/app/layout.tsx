@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Barlow } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.scss";
 
-const barlow = Barlow({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+const roobert = localFont({
+  src: "../../public/fonts/roobert-font-family/RoobertTRIALVF-BF67243fd545701.ttf",
   display: "swap",
+  variable: "--font-roobert",
 });
 
 export const metadata: Metadata = {
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={barlow.className}>
+    <html lang="en" className={roobert.className}>
       <body>{children}</body>
     </html>
   );
