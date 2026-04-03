@@ -56,10 +56,12 @@
   align-items: start;
 }
 
-.col { display: flex; flex-direction: column; gap: 20px; }
-.col--1 { padding-top: 0; }
-.col--2 { padding-top: 60px; }
-.col--3 { padding-top: 120px; }
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  will-change: transform;
+}
 
 .card {
   display: block;
@@ -112,8 +114,7 @@
   .heading { font-size: clamp(48px, 12vw, 80px); text-align: left; margin-bottom: 20px; }
   .filters { justify-content: flex-start; max-width: 100%; }
   .grid    { grid-template-columns: repeat(3, 1fr); column-gap: 14px; }
-  .col--2  { padding-top: 40px; }
-  .col--3  { padding-top: 80px; }
+  .col     { will-change: auto; transform: none !important; }
 }
 
 @media (max-width: 480px) {

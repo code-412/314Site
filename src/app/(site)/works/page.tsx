@@ -1,15 +1,62 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { works, CATEGORIES, type Category } from "@/shared/constants/works";
 import styles from "./page.module.scss";
 
-const colClasses = [styles["col--1"], styles["col--2"], styles["col--3"]];
+const INITIAL_Y  = [0, 60, 120];
+const RESTAGGER  = [40, -50, 20];
+const EASE_PX    = 500;
 
 export default function WorkPage() {
   const [active, setActive] = useState<Category>("All works");
+
+  const gridRef = useRef<HTMLDivElement>(null);
+  const col1Ref = useRef<HTMLDivElement>(null);
+  const col2Ref = useRef<HTMLDivElement>(null);
+  const col3Ref = useRef<HTMLDivElement>(null);
+  const rafRef  = useRef<number>(0);
+
+  useEffect(() => {
+    const colRefs = [col1Ref, col2Ref, col3Ref];
+
+    const onScroll = () => {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => {
+        const grid = gridRef.current;
+        if (!grid) return;
+
+        const gridTop = grid.getBoundingClientRect().top;
+        const vh      = window.innerHeight;
+        const pivot   = vh * 0.15;
+
+        colRefs.forEach((ref, i) => {
+          if (!ref.current) return;
+          let y: number;
+
+          if (gridTop > pivot) {
+            const t = Math.max(0, 1 - (gridTop - pivot) / EASE_PX);
+            y = INITIAL_Y[i] * (1 - t);
+          } else {
+            const past = pivot - gridTop;
+            const t    = Math.min(1, past / EASE_PX);
+            y = RESTAGGER[i] * t;
+          }
+
+          ref.current.style.transform = `translateY(${y}px)`;
+        });
+      });
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
 
   const filtered =
     active === "All works"
@@ -21,6 +68,8 @@ export default function WorkPage() {
     filtered.filter((_, i) => i % 3 === 1),
     filtered.filter((_, i) => i % 3 === 2),
   ];
+
+  const colRefs = [col1Ref, col2Ref, col3Ref];
 
   return (
     <div className={styles.page}>
@@ -41,9 +90,9 @@ export default function WorkPage() {
           </div>
         </div>
 
-        <div className={styles.grid}>
+        <div ref={gridRef} className={styles.grid}>
           {cols.map((col, ci) => (
-            <div key={ci} className={`${styles.col} ${colClasses[ci]}`}>
+            <div key={ci} ref={colRefs[ci]} className={styles.col}>
               {col.map((work) => (
                 <Link key={work.slug} href={`/works/${work.slug}`} className={styles.card}>
                   <div className={styles.cardImg}>
