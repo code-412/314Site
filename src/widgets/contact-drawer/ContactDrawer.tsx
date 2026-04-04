@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useContactDrawer } from "@/shared/lib/contact-drawer-context";
 import s from "./ContactDrawer.module.scss";
 
@@ -17,24 +17,10 @@ type Touched = Record<keyof Omit<FormData, "consent">, boolean>;
 const empty: FormData = { name: "", phone: "", email: "", message: "", consent: false };
 const emptyTouched: Touched = { name: false, phone: false, email: false, message: false };
 
-function applyPhoneMask(raw: string): string {
-  const digits = raw.replace(/\D/g, "").slice(0, 12);
-  if (!digits) return "";
-  let result = "+";
-  if (digits.length > 0)  result += digits.slice(0, 3);
-  if (digits.length > 3)  result += " " + digits.slice(3, 6);
-  if (digits.length > 6)  result += " " + digits.slice(6, 8);
-  if (digits.length > 8)  result += " " + digits.slice(8, 10);
-  if (digits.length > 10) result += " " + digits.slice(10, 12);
-  return result;
-}
-
 function isValidEmail(v: string) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()); }
-function isValidPhone(v: string) { return v.replace(/\D/g, "").length >= 7; }
 
 function getError(field: keyof Touched, form: FormData): string | null {
   if (field === "name")  return form.name.trim().length < 2 ? "Enter your name" : null;
-  if (field === "phone") return form.phone && !isValidPhone(form.phone) ? "Invalid phone number" : null;
   if (field === "email") return !isValidEmail(form.email) ? "Invalid email address" : null;
   return null;
 }
@@ -65,16 +51,11 @@ export function ContactDrawer() {
   const onBlur = (field: keyof Touched) =>
     setTouched((prev) => ({ ...prev, [field]: true }));
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: name === "phone" ? applyPhoneMask(value) : value,
-    }));
-  };
+  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
-  const onCheck = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setForm((prev) => ({ ...prev, consent: e.target.checked }));
+  const onCheck = () =>
+    setForm((prev) => ({ ...prev, consent: !prev.consent }));
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -127,74 +108,53 @@ export function ContactDrawer() {
           ) : (
             <form onSubmit={onSubmit} className={s.form} noValidate suppressHydrationWarning>
               <div className={s.field}>
-                <input
-                  name="name"
-                  className={ic("name")}
-                  placeholder="Full Name"
-                  value={form.name}
-                  onChange={onChange}
-                  onBlur={() => onBlur("name")}
-                  autoComplete="name"
-                />
+                <input name="name" className={ic("name")} placeholder="Full Name"
+                  value={form.name} onChange={onChange} onBlur={() => onBlur("name")} autoComplete="name" />
                 {fieldError("name") && <span className={s.errorMsg}>{fieldError("name")}</span>}
               </div>
 
               <div className={s.field}>
-                <input
-                  name="phone"
-                  type="tel"
-                  inputMode="tel"
-                  className={ic("phone")}
-                  placeholder="+___ ___ __ __"
-                  value={form.phone}
-                  onChange={onChange}
-                  onBlur={() => onBlur("phone")}
-                  autoComplete="tel"
+                <input name="phone" type="tel" inputMode="tel" className={ic("phone")}
+                  placeholder="Phone Number" value={form.phone} onChange={onChange}
+                  onBlur={() => onBlur("phone")} autoComplete="tel"
+                  maxLength={16}
+                  onKeyDown={(e) => {
+                    if (e.ctrlKey || e.metaKey || e.altKey) return;
+                    if (["Backspace","Delete","ArrowLeft","ArrowRight","Tab","Home","End"].includes(e.key)) return;
+                    if (e.key === "+" && form.phone === "") return;
+                    if (!/^\d$/.test(e.key)) e.preventDefault();
+                  }}
                 />
-                {fieldError("phone") && <span className={s.errorMsg}>{fieldError("phone")}</span>}
               </div>
 
-              <div className={s.field} suppressHydrationWarning>
-                <input
-                  name="email"
-                  type="email"
-                  inputMode="email"
-                  className={ic("email")}
-                  placeholder="E-mail Address"
-                  value={form.email}
-                  onChange={onChange}
-                  onBlur={() => onBlur("email")}
-                  autoComplete="email"
-                  suppressHydrationWarning
-                />
+              <div className={s.field}>
+                <input name="email" type="email" inputMode="email" className={ic("email")}
+                  placeholder="E-mail Address" value={form.email} onChange={onChange}
+                  onBlur={() => onBlur("email")} autoComplete="email" suppressHydrationWarning />
                 {fieldError("email") && <span className={s.errorMsg}>{fieldError("email")}</span>}
               </div>
 
               <div className={s.field}>
-                <textarea
-                  name="message"
-                  className={s.textarea}
-                  placeholder="Commentary"
-                  value={form.message}
-                  onChange={(e) => {
-                    onChange(e);
-                    e.target.style.height = "auto";
-                    e.target.style.height = e.target.scrollHeight + "px";
-                  }}
-                  onBlur={() => onBlur("message")}
-                  rows={1}
-                />
+                <textarea name="message" className={s.textarea} placeholder="Commentary"
+                  value={form.message} onChange={(e) => { onChange(e); e.target.style.height = "auto"; e.target.style.height = e.target.scrollHeight + "px"; }}
+                  onBlur={() => onBlur("message")} rows={1} />
               </div>
 
-              <label className={`${s.checkLabel}${submitted && !form.consent ? ` ${s.checkLabelError}` : ""}`}>
-                <input
-                  type="checkbox"
-                  className={s.checkbox}
-                  checked={form.consent}
-                  onChange={onCheck}
-                />
+              <div
+                className={`${s.checkLabel}${submitted && !form.consent ? ` ${s.checkLabelError}` : ""}`}
+                onClick={onCheck}
+                role="checkbox"
+                aria-checked={form.consent}
+                tabIndex={0}
+                onKeyDown={(e) => e.key === " " && (e.preventDefault(), onCheck())}
+              >
+                <span className={s.checkBox} data-checked={form.consent}>
+                  <svg width="10" height="8" viewBox="0 0 10 8" fill="none" aria-hidden="true">
+                    <path className={s.checkMark} d="M1 4l3 3 5-6" stroke="#111" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
                 <span>I give my consent to the processing of personal data</span>
-              </label>
+              </div>
 
               <button type="submit" className={s.submit}>Send Request</button>
             </form>

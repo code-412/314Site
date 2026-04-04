@@ -177,7 +177,15 @@ export default function ContactPage() {
                 <div className={styles.field}>
                   <input name="phone" type="tel" inputMode="tel" className={ic("phone")}
                     placeholder="Phone Number" value={form.phone} onChange={onChange}
-                    onBlur={() => onBlur("phone")} autoComplete="tel" />
+                    onBlur={() => onBlur("phone")} autoComplete="tel"
+                    maxLength={16}
+                    onKeyDown={(e) => {
+                      if (e.ctrlKey || e.metaKey || e.altKey) return;
+                      if (["Backspace","Delete","ArrowLeft","ArrowRight","Tab","Home","End"].includes(e.key)) return;
+                      if (e.key === "+" && form.phone === "") return;
+                      if (!/^\d$/.test(e.key)) e.preventDefault();
+                    }}
+                  />
                 </div>
 
                 <div className={styles.field}>
