@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import styles from "./page.module.scss";
+import { TelegramIcon, InstagramIcon, LinkedInIcon } from "@/shared/icons/SocialIcons";
 
 type FormData = {
   name: string;
@@ -113,23 +114,13 @@ export default function ContactPage() {
               <span className={styles.contactLabel}>Social network</span>
               <div className={styles.socials}>
                 <a href="#" className={styles.socialBtn} aria-label="Telegram">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path d="M1.5 7.833 13 2.5l-3 11-3-4.5-2 1.5 1-4.5L13 2.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
+                  <TelegramIcon size={44} />
                 </a>
                 <a href="#" className={styles.socialBtn} aria-label="Instagram">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <rect x="2" y="2" width="12" height="12" rx="3.5" stroke="currentColor" strokeWidth="1.4"/>
-                    <circle cx="8" cy="8" r="2.5" stroke="currentColor" strokeWidth="1.4"/>
-                    <circle cx="11.5" cy="4.5" r="0.75" fill="currentColor"/>
-                  </svg>
+                  <InstagramIcon size={44} />
                 </a>
-                <a href="#" className={styles.socialBtn} aria-label="Behance">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path d="M2 4h4c1.1 0 2 .9 2 2s-.9 2-2 2H2V4Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/>
-                    <path d="M2 8h4.5C7.88 8 9 9.12 9 10.5S7.88 13 6.5 13H2V8Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/>
-                    <path d="M11 9h4c0-1.1-.9-2-2-2s-2 .9-2 2v1.5C11 11.9 11.9 13 13 13c.83 0 1.54-.5 1.85-1.22M10 5h3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
-                  </svg>
+                <a href="#" className={styles.socialBtn} aria-label="LinkedIn">
+                  <LinkedInIcon size={44} />
                 </a>
               </div>
             </div>

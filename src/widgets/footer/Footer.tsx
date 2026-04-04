@@ -1,5 +1,6 @@
 import Link from "next/link";
 import s from "./Footer.module.scss";
+import { TelegramIcon, InstagramIcon, LinkedInIcon } from "@/shared/icons/SocialIcons";
 
 const legal = [
   "Privacy Policy",
@@ -33,23 +34,13 @@ export function Footer() {
             </a>
             <div className={s.socials}>
               <a href="#" className={s.socialLink} aria-label="Telegram">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M21 5L2 12.5l7 1M21 5l-5 15-7-6.5M21 5 9 13.5m0 0V19l3.5-3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <TelegramIcon size={18} />
               </a>
               <a href="#" className={s.socialLink} aria-label="Instagram">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" strokeWidth="1.6"/>
-                  <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.6"/>
-                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
-                </svg>
+                <InstagramIcon size={18} />
               </a>
               <a href="#" className={s.socialLink} aria-label="LinkedIn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <rect x="2" y="2" width="20" height="20" rx="3" stroke="currentColor" strokeWidth="1.6"/>
-                  <path d="M7 10v7M7 7v.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-                  <path d="M11 17v-3.5A2.5 2.5 0 0 1 16 13.5V17M11 10v7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <LinkedInIcon size={18} />
               </a>
             </div>
           </div>
