@@ -69,8 +69,6 @@ export function Process() {
   return (
     <section className={s.process} ref={sectionRef}>
       <div className="container">
-        <h2 className={s.title}>Process</h2>
-
         <div className={s.wrap} style={{ height: SVG_H + 80 }}>
           <div className={s.svgCol}>
             <svg width={SVG_W} height={SVG_H} viewBox="0 0 733 2597" fill="none" overflow="visible">
@@ -96,6 +94,13 @@ export function Process() {
                 );
               })}
             </svg>
+          </div>
+
+          <div
+            className={s.heading}
+            style={{ top: `${(DOTS[0].cy / 2597) * 100}%` }}
+          >
+            Process
           </div>
 
           {STEPS.map((step) => (

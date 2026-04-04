@@ -1,15 +1,19 @@
 .process {
-  padding: 100px 0;
+  padding: 60px 0 100px;
   background: var(--c-bg);
   border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-.title {
-  font-size: clamp(32px, 4vw, 56px);
-  font-weight: 800;
+.heading {
+  position: absolute;
+  left: calc(50% + 18px);
+  transform: translateY(-50%);
+  font-size: clamp(18px, 1.6vw, 24px);
+  font-weight: 700;
   color: var(--c-primary);
-  text-align: center;
-  margin-bottom: 80px;
+  line-height: 1;
+  pointer-events: none;
+  white-space: nowrap;
 }
 
 .wrap {
@@ -86,7 +90,7 @@
 
 @media (max-width: 900px) {
   .process { padding: 60px 0; }
-  .title   { margin-bottom: 48px; }
+  .heading { position: static; transform: none; margin-bottom: 32px; font-size: clamp(22px, 6vw, 32px); white-space: normal; }
   .svgCol  { display: none; }
 
   .wrap {
