@@ -82,6 +82,112 @@
   &--visible { opacity: 1; }
 }
 
+// ── MOBILE LAYOUT ─────────────────────────────
+
+.mobileWrap {
+  display: none;
+  position: relative;
+  padding-left: 52px;
+}
+
+.mobileRail {
+  position: absolute;
+  left: 20px;
+  top: 13px;
+  bottom: 0;
+  width: 2px;
+}
+
+.mobileRailBg {
+  display: none;
+}
+
+.mobileRailFill {
+  position: absolute;
+  inset: 0;
+  background: var(--c-primary);
+  transform-origin: top center;
+  transform: scaleY(0);
+  will-change: transform;
+}
+
+.mobileRow {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 0 0 48px;
+
+  &:last-child { padding-bottom: 0; }
+}
+
+
+
+.mobileDot {
+  position: absolute;
+  left: -31px;
+  top: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: transparent;
+  flex-shrink: 0;
+  transform: translateX(-50%);
+  transition: border-color 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
+
+  &--cap {
+    width: 22px;
+    height: 22px;
+    background: transparent;
+    border: none;
+  }
+
+  &--on {
+    border-color: var(--c-primary);
+    background: var(--c-primary);
+  }
+
+  &--cap#{&}--on {
+    background: var(--c-primary);
+  }
+
+  &--glow {
+    box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.mobileHeadingLabel {
+  font-size: clamp(22px, 6vw, 32px);
+  font-weight: 800;
+  color: var(--c-primary);
+  line-height: 1;
+}
+
+.mobileStepInner {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+
+  &--visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobileFinishLabel {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-primary);
+  opacity: 0;
+  transition: opacity 0.55s ease;
+  line-height: 1.6;
+
+  &--visible { opacity: 1; }
+}
+
 @media (max-width: 1200px) {
   .step        { width: 240px; }
   .step--right { left: calc(50% + 200px); }
@@ -90,30 +196,7 @@
 
 @media (max-width: 900px) {
   .process { padding: 60px 0; }
-  .heading { position: static; transform: none; margin-bottom: 32px; font-size: clamp(22px, 6vw, 32px); white-space: normal; }
-  .svgCol  { display: none; }
-
-  .wrap {
-    height: auto !important;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-  }
-
-  .step {
-    position: static;
-    width: 100%;
-    transform: none;
-    text-align: left !important;
-  }
-
-  .stepInner { opacity: 1; transform: none; }
-
-  .finish {
-    position: static;
-    transform: none;
-    opacity: 1;
-    text-align: center;
-    margin-top: 8px;
-  }
+  .wrap    { display: none; }
+  .heading { display: none; }
+  .mobileWrap { display: block; }
 }

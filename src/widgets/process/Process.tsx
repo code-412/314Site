@@ -19,6 +19,8 @@ const DOTS = [
 
 const CHECKPOINTS = DOTS.map((d) => d.cy / 2597);
 
+const MOBILE_CHECKPOINTS = [0, 0.12, 0.26, 0.40, 0.54, 0.68, 0.82, 0.96];
+
 const STEPS = [
   { title: "Research",            description: "Lorem ipsum dolor sit amet consectetur. Accumsan cras fringilla aliquet dolor convallis. Sed pulvinar facilisis scelerisque auismod est etiam moda.", side: "right" as const, dotIndex: 1 },
   { title: "UX / Prototype",      description: "Lorem ipsum dolor sit amet consectetur. Accumsan cras fringilla aliquet dolor convallis. Sed pulvinar facilisis scelerisque auismod est etiam moda.", side: "left"  as const, dotIndex: 2 },
@@ -32,19 +34,24 @@ const SVG_W = 420;
 const SVG_H = Math.round(SVG_W * (2597 / 733));
 
 export function Process() {
-  const sectionRef  = useRef<HTMLElement>(null);
-  const pathRef     = useRef<SVGPathElement>(null);
-  const rafRef      = useRef<number>(0);
-  const [active, setActive] = useState<boolean[]>(new Array(DOTS.length).fill(false));
+  const sectionRef     = useRef<HTMLElement>(null);
+  const pathRef        = useRef<SVGPathElement>(null);
+  const mobileFillRef  = useRef<HTMLDivElement>(null);
+  const rafRef         = useRef<number>(0);
+  const [active,       setActive]       = useState<boolean[]>(new Array(DOTS.length).fill(false));
+  const [mobileActive, setMobileActive] = useState<boolean[]>(new Array(DOTS.length).fill(false));
 
   useEffect(() => {
     const path    = pathRef.current;
     const section = sectionRef.current;
-    if (!path || !section) return;
+    if (!section) return;
 
-    const len = path.getTotalLength();
-    path.style.strokeDasharray  = String(len);
-    path.style.strokeDashoffset = String(len);
+    let len = 0;
+    if (path) {
+      len = path.getTotalLength();
+      path.style.strokeDasharray  = String(len);
+      path.style.strokeDashoffset = String(len);
+    }
 
     const onScroll = () => {
       cancelAnimationFrame(rafRef.current);
@@ -53,8 +60,14 @@ export function Process() {
         const scrolled = window.innerHeight * 0.5 - rect.top;
         const progress = Math.max(0, Math.min(1, scrolled / rect.height));
 
-        path.style.strokeDashoffset = String(len * (1 - progress));
+        if (path) path.style.strokeDashoffset = String(len * (1 - progress));
+
+        if (mobileFillRef.current) {
+          mobileFillRef.current.style.transform = `scaleY(${progress})`;
+        }
+
         setActive(CHECKPOINTS.map((cp) => progress >= cp));
+        setMobileActive(MOBILE_CHECKPOINTS.map((cp) => progress >= cp));
       });
     };
 
@@ -69,26 +82,24 @@ export function Process() {
   return (
     <section className={s.process} ref={sectionRef}>
       <div className="container">
+
+        {/* ── DESKTOP ── */}
         <div className={s.wrap} style={{ height: SVG_H + 80 }}>
           <div className={s.svgCol}>
             <svg width={SVG_W} height={SVG_H} viewBox="0 0 733 2597" fill="none" overflow="visible">
               <path d={PATH} stroke="#000" strokeOpacity="0.12" strokeWidth="4" strokeLinecap="round" fill="none" />
               <path ref={pathRef} d={PATH} stroke="#111" strokeWidth="4" strokeLinecap="round" fill="none" />
-
               {DOTS.map((dot, i) => {
                 const on = active[i];
-
                 if (dot.type === "glow") return (
                   <g key={i}>
                     <circle cx={dot.cx} cy={dot.cy} r={17} fill={on ? "#111" : "#ccc"} fillOpacity={0.3} style={{ transition: "fill 0.35s ease" }} />
                     <circle cx={dot.cx} cy={dot.cy} r={dot.r} fill={on ? "#111" : "#ccc"} style={{ transition: "fill 0.35s ease" }} />
                   </g>
                 );
-
                 if (dot.type === "regular") return (
                   <circle key={i} cx={dot.cx} cy={dot.cy} r={dot.r} fill={on ? "#111" : "none"} stroke={on ? "#111" : "#ccc"} strokeWidth={2} style={{ transition: "fill 0.35s ease, stroke 0.35s ease" }} />
                 );
-
                 return (
                   <circle key={i} cx={dot.cx} cy={dot.cy} r={dot.r} fill={on ? "#111" : "#ccc"} style={{ transition: "fill 0.35s ease" }} />
                 );
@@ -96,10 +107,7 @@ export function Process() {
             </svg>
           </div>
 
-          <div
-            className={s.heading}
-            style={{ top: `${(DOTS[0].cy / 2597) * 100}%` }}
-          >
+          <div className={s.heading} style={{ top: `${(DOTS[0].cy / 2597) * 100}%` }}>
             Process
           </div>
 
@@ -123,6 +131,42 @@ export function Process() {
             Finish
           </div>
         </div>
+
+        {/* ── MOBILE ── */}
+        <div className={s.mobileWrap}>
+          <div className={s.mobileRail}>
+            <div className={s.mobileRailBg} />
+            <div className={s.mobileRailFill} ref={mobileFillRef} />
+          </div>
+
+          <div className={s.mobileRow}>
+            <div className={`${s.mobileDot} ${s["mobileDot--cap"]}${mobileActive[0] ? ` ${s["mobileDot--on"]}` : ""}`} />
+            <span className={s.mobileHeadingLabel}>Process</span>
+          </div>
+
+          {STEPS.map((step, i) => {
+            const isLastActive = mobileActive[i + 1] && !mobileActive[i + 2];
+            return (
+            <div key={step.title} className={s.mobileRow}>
+              <div className={[
+                s.mobileDot,
+                mobileActive[i + 1] ? s["mobileDot--on"] : "",
+                isLastActive ? s["mobileDot--glow"] : "",
+              ].filter(Boolean).join(" ")} />
+              <div className={`${s.mobileStepInner}${mobileActive[i + 1] ? ` ${s["mobileStepInner--visible"]}` : ""}`}>
+                <h3 className={s.stepTitle}>{step.title}</h3>
+                <p className={s.stepDesc}>{step.description}</p>
+              </div>
+            </div>
+            );
+          })}
+
+          <div className={s.mobileRow}>
+            <div className={`${s.mobileDot} ${s["mobileDot--cap"]}${mobileActive[7] ? ` ${s["mobileDot--on"]}` : ""}`} />
+            <span className={`${s.mobileFinishLabel}${mobileActive[7] ? ` ${s["mobileFinishLabel--visible"]}` : ""}`}>Finish</span>
+          </div>
+        </div>
+
       </div>
     </section>
   );
