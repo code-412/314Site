@@ -87,6 +87,9 @@
 .right {
   width: 50%;
   flex-shrink: 0;
+  height: calc(100vh - var(--header-h));
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
 }
 
 // contacts section
@@ -95,6 +98,7 @@
   min-height: calc(100vh - var(--header-h));
   display: flex;
   align-items: center;
+  scroll-snap-align: start;
 }
 
 .contactsInner {
@@ -105,7 +109,7 @@
 .contactGroup {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
   gap: 6px;
   padding: 28px 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
@@ -185,9 +189,10 @@
 // form section
 
 .formSection {
-  min-height: 100vh;
+  min-height: calc(100vh - var(--header-h));
   display: flex;
   align-items: center;
+  scroll-snap-align: start;
 }
 
 .formInner {
@@ -250,19 +255,40 @@
   color: rgba(255, 255, 255, 0.6);
   cursor: pointer;
   line-height: 1.5;
+  user-select: none;
 }
 
 .checkLabelError {
   color: rgba(196, 30, 58, 0.9);
 }
 
-.checkbox {
-  margin-top: 2px;
-  width: 16px;
-  height: 16px;
+.checkBox {
   flex-shrink: 0;
-  accent-color: #fff;
-  cursor: pointer;
+  margin-top: 2px;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.22s ease, background 0.22s ease;
+  background: transparent;
+
+  &[data-checked="true"] {
+    border-color: #fff;
+    background: #fff;
+
+    .checkMark {
+      stroke-dashoffset: 0;
+    }
+  }
+}
+
+.checkMark {
+  stroke-dasharray: 13;
+  stroke-dashoffset: 13;
+  transition: stroke-dashoffset 0.3s cubic-bezier(0.65, 0, 0.35, 1) 0.04s;
 }
 
 .submit {
@@ -320,14 +346,24 @@
 
   .right {
     width: 100%;
+    height: auto;
+    overflow-y: visible;
+    scroll-snap-type: none;
   }
 
   .contactsSection {
     min-height: auto;
+    scroll-snap-align: unset;
+  }
+
+  .contactGroup {
+    align-items: flex-start;
   }
 
   .formSection {
     min-height: auto;
+    scroll-snap-align: unset;
+    background: var(--c-primary);
   }
 
   .contactsInner,
