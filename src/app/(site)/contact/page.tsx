@@ -37,6 +37,7 @@ export default function ContactPage() {
   const [sent, setSent]           = useState(false);
   const [dark, setDark]           = useState(false);
   const rightRef = useRef<HTMLDivElement>(null);
+  const leftRef  = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = rightRef.current;
@@ -50,6 +51,37 @@ export default function ContactPage() {
 
     el.addEventListener("scroll", onScroll, { passive: true });
     return () => el.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const left  = leftRef.current;
+    const right = rightRef.current;
+    if (!left || !right) return;
+
+    let locked = false;
+
+    const onWheel = (e: WheelEvent) => {
+      const sectionH = right.clientHeight;
+      const current  = Math.round(right.scrollTop / sectionH);
+
+      // на последней секции + скролл вниз → пускаем к футеру
+      if (current >= 1 && e.deltaY > 0) return;
+
+      e.preventDefault();
+      if (locked) return;
+      locked = true;
+
+      const next = e.deltaY > 0
+        ? Math.min(current + 1, 1)
+        : Math.max(current - 1, 0);
+
+      right.scrollTo({ top: next * sectionH, behavior: "smooth" });
+
+      setTimeout(() => { locked = false; }, 900);
+    };
+
+    left.addEventListener("wheel", onWheel, { passive: false });
+    return () => left.removeEventListener("wheel", onWheel);
   }, []);
 
   const onBlur = (field: keyof Touched) =>
@@ -81,7 +113,7 @@ export default function ContactPage() {
 
   return (
     <div className={`${styles.page}${dark ? ` ${styles.pageDark}` : ""}`}>
-      <div className={styles.left}>
+      <div className={styles.left} ref={leftRef}>
         <h1 className={styles.title}>
           <span className={styles.titleLine}>We are</span>
           <span className={styles.titleLine}>ready to</span>
