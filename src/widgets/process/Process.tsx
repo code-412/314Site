@@ -118,7 +118,7 @@ export function Process() {
 
           <div
             className={`${s.finish}${active[7] ? ` ${s["finish--visible"]}` : ""}`}
-            style={{ top: `${(2585 / 2597) * 100}%` }}
+            style={{ top: `${(DOTS[7].cy / 2597) * SVG_H / (SVG_H + 80) * 100}%` }}
           >
             Finish
           </div>

@@ -3,57 +3,84 @@
 import { useEffect, useRef, useState } from "react";
 import s from "./Quote.module.scss";
 
-const FULL_TEXT =
-  "Lorem ipsum dolor sit amet consectetur. Facilisi fusce gravida metus orci ac cursus varius. Eleifend aliquam commodo blandit egestas rhoncus. Pulvinar volutpat tincidunt morbi malesuada nisl. Integer tristique lorem quisque massa. Ac suspendisse elementum laoreet risus a id magna sagittis cras.";
+const LINES = [
+  "Lorem ipsum dolor sit amet consectetur. Facilisi fusce gravida",
+  "metus orci ac cursus varius. Eleifend aliquam commodo blandit",
+  "egestas rhoncus. Pulvinar volutpat tincidunt morbi malesuada",
+  "nisl. Integer tristique lorem quisque massa. Ac suspendisse",
+  "elementum laoreet risus a id magna sagittis cras.",
+];
 
-const SPEED = 15;
+const CHAR_DELAY  = 55;
+const WORDS_AHEAD = 4;
 
 export function Quote() {
-  const [displayed, setDisplayed] = useState("");
-  const [started,   setStarted]   = useState(false);
-  const sectionRef  = useRef<HTMLElement>(null);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [typed, setTyped] = useState(LINES.map(() => ""));
+  const sectionRef = useRef<HTMLElement>(null);
+  const rafRef     = useRef<number>(0);
+  const started    = useRef(false);
 
   useEffect(() => {
+    const startTimes: number[] = [];
+    let t = 0;
+    LINES.forEach((text) => {
+      startTimes.push(t);
+      const triggerChars = text.split(" ").slice(0, WORDS_AHEAD).join(" ").length + 1;
+      t += triggerChars * CHAR_DELAY;
+    });
+
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && !started) {
-          setStarted(true);
-          observer.disconnect();
-        }
+        if (!entries[0].isIntersecting || started.current) return;
+        started.current = true;
+
+        const origin = performance.now();
+
+        const tick = (now: number) => {
+          const elapsed = now - origin;
+          let allDone = true;
+
+          setTyped(LINES.map((text, i) => {
+            if (elapsed < startTimes[i]) { allDone = false; return ""; }
+            const chars = Math.min(
+              Math.floor((elapsed - startTimes[i]) / CHAR_DELAY) + 1,
+              text.length
+            );
+            if (chars < text.length) allDone = false;
+            return text.slice(0, chars);
+          }));
+
+          if (!allDone) rafRef.current = requestAnimationFrame(tick);
+        };
+
+        rafRef.current = requestAnimationFrame(tick);
+        observer.disconnect();
       },
       { threshold: 0.2 }
     );
 
     if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, [started]);
-
-  useEffect(() => {
-    if (!started) return;
-
-    let i = 0;
-    intervalRef.current = setInterval(() => {
-      i += 1;
-      setDisplayed(FULL_TEXT.slice(0, i));
-      if (i >= FULL_TEXT.length && intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    }, SPEED);
-
     return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
+      observer.disconnect();
+      cancelAnimationFrame(rafRef.current);
     };
-  }, [started]);
+  }, []);
 
   return (
     <section className={s.quote} ref={sectionRef}>
       <div className={`${s.inner} container`}>
         <p className={s.text}>
-          {displayed}
-          {displayed.length < FULL_TEXT.length && (
-            <span className={s.cursor}>|</span>
-          )}
+          {LINES.map((text, i) => (
+            <span key={i} className={s.line}>
+              <span className={s.placeholder}>{text}</span>
+              <span className={s.typed}>
+                {typed[i]}
+                {typed[i].length > 0 && typed[i].length < text.length && (
+                  <span className={s.cursor}>|</span>
+                )}
+              </span>
+            </span>
+          ))}
         </p>
       </div>
     </section>

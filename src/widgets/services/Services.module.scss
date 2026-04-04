@@ -13,6 +13,8 @@
 .col {
   padding: 40px 40px 40px 24px;
   position: relative;
+  display: flex;
+  flex-direction: column;
 
   &:not(:first-child) {
     padding-left: 40px;
@@ -38,7 +40,7 @@
   background: var(--c-primary);
   flex-shrink: 0;
   transform: scale(0);
-  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .line {
@@ -47,8 +49,8 @@
   background: rgba(0, 0, 0, 0.15);
   transform-origin: top center;
   transform: scaleY(0);
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  transition-delay: 0.14s;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0.18s;
 }
 
 // ── content elements (hidden by default) ─────
@@ -60,8 +62,8 @@
   margin-bottom: 20px;
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity 0.28s ease, transform 0.28s ease;
-  transition-delay: 0.38s;
+  transition: opacity 0.38s ease, transform 0.38s ease;
+  transition-delay: 0.52s;
 }
 
 .desc {
@@ -71,8 +73,8 @@
   margin-bottom: 32px;
   opacity: 0;
   transform: translateY(8px);
-  transition: opacity 0.28s ease, transform 0.28s ease;
-  transition-delay: 0.56s;
+  transition: opacity 0.38s ease, transform 0.38s ease;
+  transition-delay: 0.72s;
 }
 
 .list {
@@ -80,6 +82,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-top: auto;
 }
 
 .item {
@@ -91,16 +94,16 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   opacity: 0;
   transform: translateY(6px);
-  transition: opacity 0.22s ease, transform 0.22s ease;
+  transition: opacity 0.28s ease, transform 0.28s ease;
 
   &:last-child { border-bottom: none; }
 
-  &:nth-child(1) { transition-delay: 0.70s; }
-  &:nth-child(2) { transition-delay: 0.78s; }
-  &:nth-child(3) { transition-delay: 0.86s; }
-  &:nth-child(4) { transition-delay: 0.94s; }
-  &:nth-child(5) { transition-delay: 1.02s; }
-  &:nth-child(6) { transition-delay: 1.10s; }
+  &:nth-child(1) { transition-delay: 0.90s; }
+  &:nth-child(2) { transition-delay: 1.00s; }
+  &:nth-child(3) { transition-delay: 1.10s; }
+  &:nth-child(4) { transition-delay: 1.20s; }
+  &:nth-child(5) { transition-delay: 1.30s; }
+  &:nth-child(6) { transition-delay: 1.40s; }
 }
 
 // ── visible state ─────────────────────────────
@@ -126,9 +129,9 @@
     &:last-child { border-bottom: none; }
   }
 
-  .divider {
-    top: 32px;
-  }
+  .divider { top: 32px; }
+
+  .list { margin-top: 20px; }
 }
 
 @media (max-width: 900px) {

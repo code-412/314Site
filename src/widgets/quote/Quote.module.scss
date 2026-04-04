@@ -18,7 +18,23 @@
   font-weight: 700;
   line-height: 1.55;
   color: var(--c-primary);
-  min-height: 8em;
+}
+
+.line {
+  display: block;
+  position: relative;
+}
+
+.placeholder {
+  visibility: hidden;
+  user-select: none;
+  pointer-events: none;
+}
+
+.typed {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .cursor {
@@ -31,7 +47,7 @@
 
 @media (max-width: 900px) {
   .quote { padding: 60px 0; }
-  .text  { font-size: 16px; min-height: unset; }
+  .text  { font-size: 16px; }
 }
 
 @media (max-width: 480px) {

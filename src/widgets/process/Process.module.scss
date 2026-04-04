@@ -68,8 +68,8 @@
 
 .finish {
   position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: calc(50% + 50px);
+  transform: translateY(-50%);
   opacity: 0;
   font-size: 12px;
   font-weight: 700;
@@ -77,6 +77,7 @@
   color: var(--c-primary);
   text-transform: uppercase;
   transition: opacity 0.55s ease;
+  white-space: nowrap;
 
   &--visible { opacity: 1; }
 }
