@@ -1,6 +1,10 @@
 .method {
   padding: 100px 0;
   background: var(--c-bg);
+  border-top: 1px solid #00000030;
+  border-bottom: 1px solid #00000030;
+  width: 90%;
+  margin: 70px auto;
 }
 
 .inner {
@@ -27,8 +31,7 @@
   }
 
   &--accent {
-    color: var(--c-accent);
-    font-style: italic;
+    color: #00000050;
     font-weight: 600;
   }
 }

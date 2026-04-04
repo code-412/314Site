@@ -37,7 +37,7 @@ export function Method() {
     <section className={s.method}>
       <div className={`${s.inner} container`}>
         <p className={s.line} ref={line1Ref}>
-          &lt;/&gt; 314 — The 3-1-4 Method of Building Brands:
+          &lt; / &gt; 314 — The 3-1-4 Method of Building Brands:
         </p>
         <p className={s.line} ref={line2Ref}>
           Three Directions, One Vision, Four Disciplines — Design and Technology.
