@@ -6,18 +6,34 @@ import Image from "next/image";
 import { works, CATEGORIES, type Category } from "@/shared/constants/works";
 import styles from "./page.module.scss";
 
+// Start: col1 highest, col2 middle, col3 lowest
+// End:   col1 lowest,  col2 middle, col3 highest  (perfect mirror)
 const INITIAL_Y  = [0, 60, 120];
-const RESTAGGER  = [40, -50, 20];
+const RESTAGGER  = [80, 0, -80];
 const EASE_PX    = 500;
 
+function getNumCols() {
+  if (typeof window === "undefined") return 3;
+  return window.innerWidth <= 1024 && window.innerWidth > 540 ? 2 : 3;
+}
+
 export default function WorkPage() {
-  const [active, setActive] = useState<Category>("All works");
+  const [active,  setActive]  = useState<Category>("All works");
+  const [numCols, setNumCols] = useState(3);
 
   const gridRef = useRef<HTMLDivElement>(null);
   const col1Ref = useRef<HTMLDivElement>(null);
   const col2Ref = useRef<HTMLDivElement>(null);
   const col3Ref = useRef<HTMLDivElement>(null);
   const rafRef  = useRef<number>(0);
+
+  // detect tablet breakpoint
+  useEffect(() => {
+    const update = () => setNumCols(getNumCols());
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   useEffect(() => {
     const colRefs = [col1Ref, col2Ref, col3Ref];
@@ -63,11 +79,16 @@ export default function WorkPage() {
       ? works
       : works.filter((w) => w.category === active);
 
-  const cols = [
-    filtered.filter((_, i) => i % 3 === 0),
-    filtered.filter((_, i) => i % 3 === 1),
-    filtered.filter((_, i) => i % 3 === 2),
-  ];
+  const cols = numCols === 2
+    ? [
+        filtered.filter((_, i) => i % 2 === 0),
+        filtered.filter((_, i) => i % 2 === 1),
+      ]
+    : [
+        filtered.filter((_, i) => i % 3 === 0),
+        filtered.filter((_, i) => i % 3 === 1),
+        filtered.filter((_, i) => i % 3 === 2),
+      ];
 
   const colRefs = [col1Ref, col2Ref, col3Ref];
 
@@ -90,7 +111,7 @@ export default function WorkPage() {
           </div>
         </div>
 
-        <div ref={gridRef} className={styles.grid}>
+        <div ref={gridRef} className={styles.grid} data-cols={numCols}>
           {cols.map((col, ci) => (
             <div key={ci} ref={colRefs[ci]} className={styles.col}>
               {col.map((work) => (
@@ -100,7 +121,7 @@ export default function WorkPage() {
                       src={work.image}
                       alt={work.title}
                       fill
-                      sizes="(max-width: 900px) 100vw, 33vw"
+                      sizes="(max-width: 540px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       style={{ objectFit: "cover" }}
                     />
                   </div>
