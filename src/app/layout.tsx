@@ -10,12 +10,12 @@ const roobert = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "314 Studio — Design",
-    template: "%s | 314 Studio",
+    default: "Code 412",
+    template: "%s | 412",
   },
   description:
     "Freelance design studio focused on brand identity, web design, and print.",
-  metadataBase: new URL("https://314.studio"),
+  metadataBase: new URL("https://412.studio"),
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
