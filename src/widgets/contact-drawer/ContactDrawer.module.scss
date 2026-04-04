@@ -166,7 +166,17 @@
   transition: stroke-dashoffset 0.3s cubic-bezier(0.65, 0, 0.35, 1) 0.04s;
 }
 
+@keyframes paintSpread {
+  0%   { border-radius: 50%; }
+  20%  { border-radius: 44% 56% 62% 38% / 55% 40% 60% 45%; }
+  40%  { border-radius: 60% 40% 38% 62% / 42% 58% 44% 56%; }
+  60%  { border-radius: 38% 62% 55% 45% / 60% 38% 62% 40%; }
+  80%  { border-radius: 52% 48% 44% 56% / 46% 54% 48% 52%; }
+  100% { border-radius: 47% 53% 58% 42% / 52% 46% 54% 48%; }
+}
+
 .submit {
+  position: relative;
   width: fit-content;
   padding: 16px 40px;
   font-size: 14px;
@@ -178,11 +188,38 @@
   border: 1px solid var(--c-primary);
   border-radius: 999px;
   cursor: pointer;
-  transition: background 0.25s ease, color 0.25s ease;
+  overflow: hidden;
+  transition: color 0.3s ease;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -20px;
+    translate: 0 -50%;
+    width: 40px;
+    height: 40px;
+    background: var(--c-primary);
+    border-radius: 50%;
+    scale: 0;
+    filter: url(#paint-drip);
+    transition: scale 0.4s ease;
+    z-index: 0;
+  }
+
+  span {
+    position: relative;
+    z-index: 1;
+  }
 
   &:hover {
-    background: var(--c-primary);
     color: #fff;
+
+    &::before {
+      scale: 14;
+      transition: scale 2.4s cubic-bezier(0.05, 0.9, 0.2, 1);
+      animation: paintSpread 2.4s cubic-bezier(0.05, 0.9, 0.2, 1) forwards;
+    }
   }
 }
 

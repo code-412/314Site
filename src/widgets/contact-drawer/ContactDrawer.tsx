@@ -156,7 +156,16 @@ export function ContactDrawer() {
                 <span>I give my consent to the processing of personal data</span>
               </div>
 
-              <button type="submit" className={s.submit}>Send Request</button>
+              <svg width="0" height="0" style={{ position: "absolute" }}>
+                <defs>
+                  <filter id="paint-drip" x="-20%" y="-20%" width="140%" height="140%" colorInterpolationFilters="sRGB">
+                    <feTurbulence type="turbulence" baseFrequency="0.04 0.08" numOctaves="4" seed="5" result="noise"/>
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="14" xChannelSelector="R" yChannelSelector="G"/>
+                  </filter>
+                </defs>
+              </svg>
+
+              <button type="submit" className={s.submit}><span>Send Request</span></button>
             </form>
           )}
         </div>
