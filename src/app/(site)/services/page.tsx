@@ -4,7 +4,7 @@ import { AdvantagesSection } from "./AdvantagesSection";
 import s from "./page.module.scss";
 
 export const metadata: Metadata = {
-  title: "Services — 314 Studio",
+  title: "Services — 412",
   description: "Brand identity, web design, development and marketing.",
 };
 

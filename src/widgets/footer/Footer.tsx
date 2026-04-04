@@ -21,8 +21,8 @@ export function Footer() {
               Lorem ipsum dolor sit amet consectetur. Aenean orci aliquam urna
               nulla. Ultrices habitasse cras lorem ipsum dolor sit amet.
             </p>
-            <a href="mailto:hello@314.studio" className={s.email}>
-              hello@314.studio
+            <a href="mailto:hello@412.studio" className={s.email}>
+              hello@412.studio
             </a>
             <div className={s.socials}>
               <a href="#" className={s.socialLink} aria-label="Twitter / X">
@@ -67,7 +67,7 @@ export function Footer() {
 
         <div className={s.bottom}>
           <p className={s.copy}>
-            &copy; {new Date().getFullYear()} 314 Studio. All rights reserved.
+            &copy; {new Date().getFullYear()} 412. All rights reserved.
           </p>
         </div>
       </div>
