@@ -263,17 +263,17 @@ export function AdvantagesSection() {
                   <p className={s.formHeadingBold}>Let&apos;s discuss it!</p>
                   <form onSubmit={onSubmit} noValidate>
                     <div className={s.field}>
-                      <input name="name" className={ic("name")} placeholder="Full Name"
+                      <input suppressHydrationWarning name="name" className={ic("name")} placeholder="Full Name"
                         value={form.name} onChange={onChange} onBlur={() => onBlur("name")} autoComplete="name" />
                       {fieldErr("name") && <span className={s.errMsg}>{fieldErr("name")}</span>}
                     </div>
                     <div className={s.field}>
-                      <input name="phone" type="tel" inputMode="tel" className={ic("phone")} placeholder="Phone Number"
+                      <input suppressHydrationWarning name="phone" type="tel" inputMode="tel" className={ic("phone")} placeholder="Phone Number"
                         value={form.phone} onChange={onChange} onBlur={() => onBlur("phone")} autoComplete="tel" />
                       {fieldErr("phone") && <span className={s.errMsg}>{fieldErr("phone")}</span>}
                     </div>
                     <div className={s.field}>
-                      <input name="email" type="email" inputMode="email" className={ic("email")} placeholder="E-mail Address"
+                      <input suppressHydrationWarning name="email" type="email" inputMode="email" className={ic("email")} placeholder="E-mail Address"
                         value={form.email} onChange={onChange} onBlur={() => onBlur("email")} autoComplete="email" />
                       {fieldErr("email") && <span className={s.errMsg}>{fieldErr("email")}</span>}
                     </div>
