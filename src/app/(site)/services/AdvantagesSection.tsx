@@ -65,8 +65,10 @@ export function AdvantagesSection() {
   const dot3ElRef     = useRef<HTMLDivElement>(null);
   const dot2FracRef   = useRef(0.33);
   const dot3FracRef   = useRef(0.67);
-  const borderRef     = useRef<SVGRectElement>(null);
-  const lenRef        = useRef(0);
+  const borderRef      = useRef<SVGPathElement>(null);
+  const borderRef2     = useRef<SVGPathElement>(null);
+  const svgRef         = useRef<SVGSVGElement>(null);
+  const lenRef         = useRef(0);
   const rafRef        = useRef<number>(0);
 
   const [dot1, setDot1]       = useState(false);
@@ -100,19 +102,30 @@ export function AdvantagesSection() {
     return () => window.removeEventListener("resize", measure);
   }, []);
 
-  // Measure border path length after mount
+  // Measure border path length after mount, build paths from top-center
   useEffect(() => {
     const measure = () => {
-      const el = borderRef.current;
-      if (!el) return;
+      const svg = svgRef.current;
+      const el  = borderRef.current;
+      const el2 = borderRef2.current;
+      if (!svg || !el || !el2) return;
+      const W = svg.clientWidth;
+      const H = svg.clientHeight;
+      const hw = W / 2;
+      // CW from top-center: right → down → left → up → back to top-center
+      el.setAttribute("d",  `M ${hw} 0 H ${W} V ${H} H 0 V 0 H ${hw}`);
+      // CCW from top-center: left → down → right → up → back to top-center
+      el2.setAttribute("d", `M ${hw} 0 H 0 V ${H} H ${W} V 0 H ${hw}`);
       const len = el.getTotalLength();
       lenRef.current = len;
-      el.style.strokeDasharray = String(len);
+      el.style.strokeDasharray  = String(len);
       el.style.strokeDashoffset = String(len);
+      el2.style.strokeDasharray  = String(len);
+      el2.style.strokeDashoffset = String(len);
     };
     measure();
     const ro = new ResizeObserver(measure);
-    if (borderRef.current) ro.observe(borderRef.current);
+    if (svgRef.current) ro.observe(svgRef.current);
     return () => ro.disconnect();
   }, []);
 
@@ -133,10 +146,12 @@ export function AdvantagesSection() {
           lineRef.current.style.transform = `scaleY(${lineProgress})`;
         }
 
-        // Draw SVG border
-        if (borderRef.current && lenRef.current > 0) {
+        // Draw SVG border — two directions from opposite ends
+        if (lenRef.current > 0) {
           const borderProgress = clamp((p - T_BORDER_START) / (T_BORDER_END - T_BORDER_START), 0, 1);
-          borderRef.current.style.strokeDashoffset = String(lenRef.current * (1 - borderProgress));
+          const offset = lenRef.current * (1 - borderProgress);
+          if (borderRef.current)  borderRef.current.style.strokeDashoffset  = String(offset);
+          if (borderRef2.current) borderRef2.current.style.strokeDashoffset = String(offset);
         }
 
         setDot1(p >= T_DOT1);
@@ -234,15 +249,19 @@ export function AdvantagesSection() {
         <div className={s.formRect}>
           {/* SVG border that draws itself on scroll */}
           <svg
+            ref={svgRef}
             className={s.formBorderSvg}
             aria-hidden="true"
           >
-            <rect
+            <path
               ref={borderRef}
-              x="0"
-              y="0"
-              width="100%"
-              height="100%"
+              fill="none"
+              stroke="rgba(0,0,0,0.15)"
+              strokeWidth="1"
+              vectorEffect="non-scaling-stroke"
+            />
+            <path
+              ref={borderRef2}
               fill="none"
               stroke="rgba(0,0,0,0.15)"
               strokeWidth="1"
