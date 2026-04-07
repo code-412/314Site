@@ -94,22 +94,18 @@ export function AnimatedPassion() {
           <div className={s.listBlock}>
             <p className={s.listLabel}>Our Experience</p>
             <ul className={s.list}>
-              <li>E-Commerce</li>
-              <li>Finance</li>
-              <li>Foodtech</li>
-              <li>Startups</li>
+              {["E-Commerce","Finance","Foodtech","Startups"].map((item, i) => (
+                <li key={item} data-anim className={s.fadeUp} style={{ transitionDelay: `${0.1 + i * 0.08}s` }}>{item}</li>
+              ))}
             </ul>
           </div>
 
           <div className={s.listBlock}>
             <p className={s.listLabel}>What Can We Do?</p>
             <ul className={s.list}>
-              <li>UI / UX design</li>
-              <li>Web design</li>
-              <li>Identity</li>
-              <li>Research</li>
-              <li>Full development</li>
-              <li>Mobile application</li>
+              {["UI / UX design","Web design","Identity","Research","Full development","Mobile application"].map((item, i) => (
+                <li key={item} data-anim className={s.fadeUp} style={{ transitionDelay: `${0.1 + i * 0.08}s` }}>{item}</li>
+              ))}
             </ul>
           </div>
         </div>
