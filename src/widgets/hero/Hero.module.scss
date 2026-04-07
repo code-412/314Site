@@ -1,66 +1,11 @@
-@keyframes earGrowUp {
-  from { height: 0; }
-  to   { height: 2.1em; }
+/* U tails — rise up (3rd row → 1st row) */
+@keyframes uRise {
+  from { clip-path: inset(69% 0 0 0); }
+  to   { clip-path: inset(0% 0 0 0); }
 }
 
-@keyframes earGrowDown {
-  from { height: 0; }
-  to   { height: 2.1em; }
-}
-
-@keyframes earGrowDownLeg {
-  from { height: 0; }
-  to   { height: 2.15em; }
-}
-
-.letterU {
-  position: relative;
-  display: inline-block;
-
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 72%;
-    width: 0.19em;
-    height: 0;
-    background: currentColor;
-    transform-origin: bottom center;
-    animation: earGrowUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
-  }
-
-  &::before { left: 0.05em; }
-  &::after  { right: 0.0311em; }
-}
-
-.letterR {
-  position: relative;
-  display: inline-block;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 72%;
-    left: 0.05em;
-    width: 0.19em;
-    height: 0;
-    background: currentColor;
-    transform-origin: top center;
-    animation: earGrowDown 1s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 69%;
-    left: 0.44em;
-    width: 0.21em;
-    height: 0;
-    background: currentColor;
-    transform-origin: top center;
-    clip-path: polygon(0% 0%, 50% 0%, 100% 10%, 100% 100%, 0% 100%);
-    animation: earGrowDownLeg 1s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
-  }
+.tailU {
+  animation: uRise 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
 }
 
 .hero {
@@ -79,42 +24,15 @@
 .heading {
   position: relative;
   z-index: 2;
-  display: grid;
-  grid-template-columns: max-content max-content max-content 1fr;
-  overflow: visible;
-  font-weight: 900;
-  font-size: clamp(40px, 6.5vw, 90px);
-  line-height: 0.9;
-  color: var(--c-primary);
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
-  user-select: none;
   width: 68%;
   margin: 5% auto 0;
 }
 
-.row { display: contents; }
-
-.pre {
-  display: inline-block;
-  white-space: nowrap;
-
-  &--indent { padding-left: 1ch; }
-}
-
-.post {
-  display: inline-block;
-  white-space: nowrap;
-}
-
-.slot {
-  display: inline-block;
-  visibility: hidden;
-
-  &::before {
-    content: attr(data-ch);
-    visibility: hidden;
-  }
+.titleSvg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
 }
 
 .img2Wrap {
