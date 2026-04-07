@@ -26,7 +26,10 @@ export default function ServicesPage() {
       <section className={s.hero}>
         <div className={`${s.heroTop} container`}>
           <h1 className={s.heroTitle}>
-            Our Services —<br />Our Solutions for Business
+            Our Services —<br />
+            <span >
+              Our Solutions for Business
+            </span>
           </h1>
           <p className={s.heroSub}>
             Lorem ipsum dolor sit amet consectetur. Nequa ut connectet laoreet

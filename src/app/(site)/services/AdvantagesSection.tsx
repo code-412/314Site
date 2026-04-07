@@ -47,22 +47,27 @@ const ADVANTAGES = [
   },
 ];
 
-const T_DOT1   = 0.02;
-const T_BLOCK1 = 0.06;
-const T_DOT2   = 0.28;
-const T_BLOCK2 = 0.33;
-const T_DOT3   = 0.54;
-const T_BLOCK3 = 0.59;
-const T_FORM   = 0.62;
+const T_DOT1         = 0.02;
+const T_BLOCK1       = 0.06;
+const T_BORDER_START = 0.62;
+const T_BORDER_END   = 0.68;
+const T_CONTENT      = 0.71;
 
 function clamp(v: number, lo: number, hi: number) {
   return v < lo ? lo : v > hi ? hi : v;
 }
 
 export function AdvantagesSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const lineRef    = useRef<HTMLDivElement>(null);
-  const rafRef     = useRef<number>(0);
+  const sectionRef    = useRef<HTMLElement>(null);
+  const lineRef       = useRef<HTMLDivElement>(null);
+  const lineTrackRef  = useRef<HTMLDivElement>(null);
+  const dot2ElRef     = useRef<HTMLDivElement>(null);
+  const dot3ElRef     = useRef<HTMLDivElement>(null);
+  const dot2FracRef   = useRef(0.33);
+  const dot3FracRef   = useRef(0.67);
+  const borderRef     = useRef<SVGRectElement>(null);
+  const lenRef        = useRef(0);
+  const rafRef        = useRef<number>(0);
 
   const [dot1, setDot1]       = useState(false);
   const [dot2, setDot2]       = useState(false);
@@ -77,6 +82,40 @@ export function AdvantagesSection() {
   const [submitted, setSubmitted] = useState(false);
   const [sent, setSent]           = useState(false);
 
+  // Measure dot positions relative to lineTrack height
+  useEffect(() => {
+    const measure = () => {
+      const track = lineTrackRef.current;
+      const d2    = dot2ElRef.current;
+      const d3    = dot3ElRef.current;
+      if (!track || !d2 || !d3) return;
+      const tR  = track.getBoundingClientRect();
+      const d2R = d2.getBoundingClientRect();
+      const d3R = d3.getBoundingClientRect();
+      dot2FracRef.current = (d2R.top + d2R.height / 2 - tR.top) / tR.height;
+      dot3FracRef.current = (d3R.top + d3R.height / 2 - tR.top) / tR.height;
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  // Measure border path length after mount
+  useEffect(() => {
+    const measure = () => {
+      const el = borderRef.current;
+      if (!el) return;
+      const len = el.getTotalLength();
+      lenRef.current = len;
+      el.style.strokeDasharray = String(len);
+      el.style.strokeDashoffset = String(len);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (borderRef.current) ro.observe(borderRef.current);
+    return () => ro.disconnect();
+  }, []);
+
   useEffect(() => {
     const onScroll = () => {
       cancelAnimationFrame(rafRef.current);
@@ -89,17 +128,24 @@ export function AdvantagesSection() {
         const scrolled = vh * 0.5 - rect.top;
         const p        = Math.max(0, Math.min(1, scrolled / rect.height));
 
+        const lineProgress = clamp(p / T_BORDER_START, 0, 1);
         if (lineRef.current) {
-          lineRef.current.style.transform = `scaleY(${clamp(p / T_FORM, 0, 1)})`;
+          lineRef.current.style.transform = `scaleY(${lineProgress})`;
+        }
+
+        // Draw SVG border
+        if (borderRef.current && lenRef.current > 0) {
+          const borderProgress = clamp((p - T_BORDER_START) / (T_BORDER_END - T_BORDER_START), 0, 1);
+          borderRef.current.style.strokeDashoffset = String(lenRef.current * (1 - borderProgress));
         }
 
         setDot1(p >= T_DOT1);
         setVis1(p >= T_BLOCK1);
-        setDot2(p >= T_DOT2);
-        setVis2(p >= T_BLOCK2);
-        setDot3(p >= T_DOT3);
-        setVis3(p >= T_BLOCK3);
-        setVisForm(p >= T_FORM);
+        setDot2(lineProgress >= dot2FracRef.current);
+        setVis2(lineProgress >= dot2FracRef.current + 0.04);
+        setDot3(lineProgress >= dot3FracRef.current);
+        setVis3(lineProgress >= dot3FracRef.current + 0.04);
+        setVisForm(p >= T_CONTENT);
       });
     };
 
@@ -122,8 +168,8 @@ export function AdvantagesSection() {
     }));
   };
 
-  const onCheck = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setForm((prev) => ({ ...prev, consent: e.target.checked }));
+  const onCheck = () =>
+    setForm((prev) => ({ ...prev, consent: !prev.consent }));
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -152,7 +198,7 @@ export function AdvantagesSection() {
           <div />
 
           <div className={s.timeline}>
-            <div className={s.lineTrack}>
+            <div ref={lineTrackRef} className={s.lineTrack}>
               <div ref={lineRef} className={s.lineFill} />
             </div>
 
@@ -166,7 +212,7 @@ export function AdvantagesSection() {
             </div>
 
             <div className={s.step}>
-              <div className={`${s.dot} ${dot2 ? s.dotFilled : ""}`} />
+              <div ref={dot2ElRef} className={`${s.dot} ${dot2 ? s.dotFilled : ""}`} />
               <div className={`${s.block} ${vis2 ? s.blockVisible : ""}`}>
                 <span className={s.num}>{ADVANTAGES[1].num}</span>
                 <h3 className={s.blockTitle}>{ADVANTAGES[1].title}</h3>
@@ -175,7 +221,7 @@ export function AdvantagesSection() {
             </div>
 
             <div className={s.step}>
-              <div className={`${s.dot} ${dot3 ? s.dotFilled : ""}`} />
+              <div ref={dot3ElRef} className={`${s.dot} ${dot3 ? s.dotFilled : ""}`} />
               <div className={`${s.block} ${vis3 ? s.blockVisible : ""}`}>
                 <span className={s.num}>{ADVANTAGES[2].num}</span>
                 <h3 className={s.blockTitle}>{ADVANTAGES[2].title}</h3>
@@ -185,64 +231,95 @@ export function AdvantagesSection() {
           </div>
         </div>
 
-        <div className={`${s.formRect} ${visForm ? s.formRectVisible : ""}`}>
-          {sent ? (
-            <div className={s.thanks}>
-              <p className={s.thanksTitle}>Got it.</p>
-              <p className={s.thanksText}>We&apos;ll get back to you within a day or two.</p>
-            </div>
-          ) : (
-            <div className={s.formLayout}>
-              <div className={s.formLeft}>
-                <p className={s.formHeadingLight}>Do you have a task?</p>
-                <p className={s.formHeadingBold}>Let&apos;s discuss it!</p>
-                <form onSubmit={onSubmit} noValidate>
-                  <div className={s.field}>
-                    <input name="name" className={ic("name")} placeholder="Full Name"
-                      value={form.name} onChange={onChange} onBlur={() => onBlur("name")} autoComplete="name" />
-                    {fieldErr("name") && <span className={s.errMsg}>{fieldErr("name")}</span>}
-                  </div>
-                  <div className={s.field}>
-                    <input name="phone" type="tel" inputMode="tel" className={ic("phone")} placeholder="Phone Number"
-                      value={form.phone} onChange={onChange} onBlur={() => onBlur("phone")} autoComplete="tel" />
-                    {fieldErr("phone") && <span className={s.errMsg}>{fieldErr("phone")}</span>}
-                  </div>
-                  <div className={s.field}>
-                    <input name="email" type="email" inputMode="email" className={ic("email")} placeholder="E-mail Address"
-                      value={form.email} onChange={onChange} onBlur={() => onBlur("email")} autoComplete="email" />
-                    {fieldErr("email") && <span className={s.errMsg}>{fieldErr("email")}</span>}
-                  </div>
-                  <div className={s.field}>
-                    <textarea name="message" className={s.textarea} placeholder="Commentary"
-                      value={form.message}
-                      onChange={(e) => { onChange(e); e.target.style.height = "auto"; e.target.style.height = e.target.scrollHeight + "px"; }}
-                      onBlur={() => onBlur("message")} rows={2} />
-                  </div>
-                  <label className={`${s.checkLabel}${submitted && !form.consent ? ` ${s.checkLabelError}` : ""}`}>
-                    <input type="checkbox" className={s.checkbox} checked={form.consent} onChange={onCheck} />
-                    <span>I give my consent to the processing of personal data</span>
-                  </label>
-                  <button type="submit" className={s.submit}>Send Request</button>
-                </form>
-              </div>
+        <div className={s.formRect}>
+          {/* SVG border that draws itself on scroll */}
+          <svg
+            className={s.formBorderSvg}
+            aria-hidden="true"
+          >
+            <rect
+              ref={borderRef}
+              x="0"
+              y="0"
+              width="100%"
+              height="100%"
+              fill="none"
+              stroke="rgba(0,0,0,0.15)"
+              strokeWidth="1"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
 
-              <div className={s.formRight}>
-                <p className={s.contactPhone}>+375 666 66 66</p>
-                <p className={s.contactEmail}>info@code412.com</p>
-                <div className={s.socials}>
-                  <a href="#" className={s.socialBtn} aria-label="Telegram">
-                    <TelegramIcon size={18} />
-                  </a>
-                  <a href="#" className={s.socialBtn} aria-label="Instagram">
-                    <InstagramIcon size={18} />
-                  </a>
-                  <a href="#" className={s.socialBtn} aria-label="LinkedIn">
-                    <LinkedInIcon size={18} />
-                  </a>
+          <div className={`${s.formContent} ${visForm ? s.formContentVisible : ""}`}>
+            {sent ? (
+              <div className={s.thanks}>
+                <p className={s.thanksTitle}>Got it.</p>
+                <p className={s.thanksText}>We&apos;ll get back to you within a day or two.</p>
+              </div>
+            ) : (
+              <div className={s.formLayout}>
+                <div className={s.formLeft}>
+                  <p className={s.formHeadingLight}>Do you have a task?</p>
+                  <p className={s.formHeadingBold}>Let&apos;s discuss it!</p>
+                  <form onSubmit={onSubmit} noValidate>
+                    <div className={s.field}>
+                      <input name="name" className={ic("name")} placeholder="Full Name"
+                        value={form.name} onChange={onChange} onBlur={() => onBlur("name")} autoComplete="name" />
+                      {fieldErr("name") && <span className={s.errMsg}>{fieldErr("name")}</span>}
+                    </div>
+                    <div className={s.field}>
+                      <input name="phone" type="tel" inputMode="tel" className={ic("phone")} placeholder="Phone Number"
+                        value={form.phone} onChange={onChange} onBlur={() => onBlur("phone")} autoComplete="tel" />
+                      {fieldErr("phone") && <span className={s.errMsg}>{fieldErr("phone")}</span>}
+                    </div>
+                    <div className={s.field}>
+                      <input name="email" type="email" inputMode="email" className={ic("email")} placeholder="E-mail Address"
+                        value={form.email} onChange={onChange} onBlur={() => onBlur("email")} autoComplete="email" />
+                      {fieldErr("email") && <span className={s.errMsg}>{fieldErr("email")}</span>}
+                    </div>
+                    <div className={s.field}>
+                      <textarea name="message" className={s.textarea} placeholder="Commentary"
+                        value={form.message}
+                        onChange={(e) => { onChange(e); e.target.style.height = "auto"; e.target.style.height = e.target.scrollHeight + "px"; }}
+                        onBlur={() => onBlur("message")} rows={2} />
+                    </div>
+                    <div
+                      className={`${s.checkLabel}${submitted && !form.consent ? ` ${s.checkLabelError}` : ""}`}
+                      onClick={onCheck}
+                      role="checkbox"
+                      aria-checked={form.consent}
+                      tabIndex={0}
+                      onKeyDown={(e) => e.key === " " && (e.preventDefault(), onCheck())}
+                    >
+                      <span className={s.checkBox} data-checked={form.consent}>
+                        <svg width="10" height="8" viewBox="0 0 10 8" fill="none" aria-hidden="true">
+                          <path className={s.checkMark} d="M1 4l3 3 5-6" stroke="#111" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </span>
+                      <span>I give my consent to the processing of personal data</span>
+                    </div>
+                    <button type="submit" className={s.submit}>Send Request</button>
+                  </form>
+                </div>
+
+                <div className={s.formRight}>
+                  <p className={s.contactPhone}>+375 666 66 66</p>
+                  <p className={s.contactEmail}>info@code412.com</p>
+                  <div className={s.socials}>
+                    <a href="#" className={s.socialBtn} aria-label="Telegram">
+                      <TelegramIcon size={28} />
+                    </a>
+                    <a href="#" className={s.socialBtn} aria-label="Instagram">
+                      <InstagramIcon size={28} />
+                    </a>
+                    <a href="#" className={s.socialBtn} aria-label="LinkedIn">
+                      <LinkedInIcon size={28} />
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
       </div>
