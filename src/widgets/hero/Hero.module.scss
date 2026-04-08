@@ -50,7 +50,7 @@
 .heading {
   position: relative;
   z-index: 2;
-  width: 68%;
+  width: 52%;
   margin: 18% auto 0;
 }
 
@@ -64,29 +64,29 @@
 .description {
   position: absolute;
   left: 58%;
-  bottom: 60px;
+  bottom: 0;
   width: 24%;
   z-index: 2;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 400;
   line-height: 1.6;
   color: #444;
 }
 
 @media (max-width: 1200px) {
-  .heading     { width: 72%; }
-  .description { left: 56%; width: 26%; }
+  .heading     { width: 54%; }
+  .description { left: 58%; width: 24%; }
 
   .inner::before { width: 54%; height: 65%; }
-  .inner::after  { width: 30%; height: 80%; }
+  .inner::after  { width: 28%; height: 80%; }
 }
 
 @media (max-width: 1024px) {
-  .heading     { width: 80%; }
-  .description { left: 54%; width: 28%; font-size: 15px; }
+  .heading     { width: 52%; margin-top: 14%; }
+  .description { left: 57%; width: 26%; font-size: 13px; }
 
-  .inner::before { width: 52%; height: 58%; }
-  .inner::after  { width: 32%; height: 72%; }
+  .inner::before { width: 50%; height: 55%; }
+  .inner::after  { width: 26%; height: 70%; }
 }
 
 @media (max-width: 900px) {
@@ -97,7 +97,7 @@
     flex-direction: column;
     justify-content: center;
     gap: 25vh;
-    padding: 0 10vw 10vh ;
+    padding: 0 10vw 10vh;
     min-height: calc(100vh - var(--header-h));
 
     &::before,
