@@ -1,28 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import s from "./Hero.module.scss";
 
 export function Hero() {
-  const img1Ref = useRef<HTMLImageElement>(null);
-  const img2Ref = useRef<HTMLImageElement>(null);
-  const rafRef  = useRef<number>(0);
-
-  useEffect(() => {
-    const onScroll = () => {
-      rafRef.current = requestAnimationFrame(() => {
-        const y = window.scrollY;
-        if (img1Ref.current) img1Ref.current.style.transform = `translateY(${y * 0.15}px)`;
-        if (img2Ref.current) img2Ref.current.style.transform = `translateY(${y * 0.10}px)`;
-      });
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
-
   return (
     <section className={s.hero}>
       <div className={`${s.inner} container`}>
@@ -47,10 +27,8 @@ export function Hero() {
             <path fill="black" d="M1023.63 132.191H1006.59L938.057 28.2731V132.191H921.018V1.49792H938.057L1006.59 105.228V1.49792H1023.63V132.191Z"/>
 
             {/* ── R TAILS ─────────────────────────────────────────────── */}
-            {/* dot1 — static */}
             <path fill="black" d="M1041.27 179.409C1038.53 179.409 1036.22 178.535 1034.34 176.787C1032.6 174.915 1031.72 172.606 1031.72 169.859C1031.72 166.115 1033.1 162.932 1035.84 160.31C1038.59 157.564 1041.77 156.191 1045.39 156.191C1048.26 156.191 1050.57 157.065 1052.32 158.812C1054.07 160.56 1054.94 162.869 1054.94 165.74C1054.94 169.485 1053.57 172.73 1050.82 175.477C1048.08 178.098 1044.89 179.409 1041.27 179.409Z"/>
             <path fill="black" d="M1047.52 190.359L1030.48 286.359H1013.44L1030.48 190.359H1047.52Z"/>
-            {/* dot2 — static */}
             <path fill="black" d="M1001.27 331.409C998.527 331.409 996.217 330.535 994.345 328.787C992.597 326.915 991.724 324.606 991.724 321.859C991.724 318.115 993.097 314.932 995.843 312.31C998.589 309.564 1001.77 308.191 1005.39 308.191C1008.26 308.191 1010.57 309.065 1012.32 310.812C1014.07 312.56 1014.94 314.869 1014.94 317.74C1014.94 321.485 1013.57 324.73 1010.82 327.477C1008.08 330.098 1004.89 331.409 1001.27 331.409Z"/>
             <path fill="black" d="M1007.52 342.359L990.481 438.359H973.442L990.481 342.359H1007.52Z"/>
 
@@ -77,19 +55,8 @@ export function Hero() {
           </svg>
         </h1>
 
-        <div className={s.img2Wrap}>
-          <img ref={img2Ref} src="/bottomimage.jpg" alt="" className={s.img2} />
-        </div>
-
-        <div className={s.img1Wrap}>
-          <img ref={img1Ref} src="/topimage.jpg" alt="" className={s.img1} />
-        </div>
-
         <p className={s.description}>
-          Lorem ipsum dolor sit amet consectetur. Magna offerunt varius aenean
-          dignissim eget ut et arcu felis. Parturient curabitur ipsum dolor a
-          augue nunc vulputate. Fermentum sed ut et pellentesque parturient
-          faucibus feugiat.
+          Lorem ipsum dolor sit amet consectetur. Neque ultrices praesent lobortis quis. In dignissim a mauris semper. Aliquet fermentum parturient faucibus feugiat. Pharetra vitae potenti justo porta vel est. Hendrerit non aliquam volutpat vestibulum vel et erat. Fames consequat proin diam enim facilisis condimentum mattis accumsan. Mi est elit sagittis congue ultrices id auctor. Integer volutpat at egestas tincidunt diam augue.
         </p>
       </div>
     </section>
