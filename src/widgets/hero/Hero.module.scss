@@ -16,8 +16,9 @@
 
 .inner {
   position: relative;
-  min-height: calc(100vh - var(--header-h));
-  padding-top: 40px;
+  min-height: calc(100vh - var(--header-h) - 80px );
+  margin-top: 40px;
+  padding-top: 50px;
   padding-bottom: 60px;
 
   // img2 — bottom-left
