@@ -83,7 +83,6 @@ export function Process() {
     <section className={s.process} ref={sectionRef}>
       <div className="container">
 
-        {/* ── DESKTOP ── */}
         <div className={s.wrap} style={{ height: SVG_H + 80 }}>
           <div className={s.svgCol}>
             <svg width={SVG_W} height={SVG_H} viewBox="0 0 733 2597" fill="none" overflow="visible">
@@ -132,7 +131,6 @@ export function Process() {
           </div>
         </div>
 
-        {/* ── MOBILE ── */}
         <div className={s.mobileWrap}>
           <div className={s.mobileRail}>
             <div className={s.mobileRailBg} />

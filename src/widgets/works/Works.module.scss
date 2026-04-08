@@ -13,14 +13,10 @@
   letter-spacing: -0.02em;
 }
 
-// ── wrapper ───────────────────────────────────
-
 .cardWrap {
   position: relative;
   user-select: none;
 }
-
-// ── scene (clipped card area) ─────────────────
 
 .scene {
   margin-left: 16%;
@@ -40,8 +36,6 @@
   30%  { transform: scale(1.018); }
   100% { transform: scale(1); }
 }
-
-// ── faces (slide in/out) ──────────────────────
 
 .face {
   position: absolute;
@@ -91,8 +85,6 @@
 .faceEnterDown { animation: enterDown 0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
 .faceEnterUp   { animation: enterUp   0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
 
-// ── title block ───────────────────────────────
-
 .titleBlock {
   position: absolute;
   left: 0;
@@ -128,8 +120,6 @@
   mix-blend-mode: normal;
 }
 
-// ── title animations ──────────────────────────
-
 @keyframes textExitDown {
   from { opacity: 1; transform: translateY(0); }
   to   { opacity: 0; transform: translateY(-16px); }
@@ -151,8 +141,6 @@
 .textExitUp   { animation: textExitUp   0.28s ease forwards; }
 .textEnterDown { animation: textEnterDown 0.32s ease 0.36s both; }
 .textEnterUp   { animation: textEnterUp   0.32s ease 0.36s both; }
-
-// ── explore button ────────────────────────────
 
 .exploreWrap {
   display: flex;
@@ -193,8 +181,6 @@
     &::before { transform: scaleX(1); }
   }
 }
-
-// ── responsive ────────────────────────────────
 
 @media (max-width: 900px) {
   .works   { padding: 60px 0; }

@@ -25,7 +25,6 @@ export default function ServicesPage() {
       <AnimatedHero />
       <AnimatedPassion />
 
-      {/* ── EXPERTS ──────────────────────────────────────────────────── */}
       <section className={s.experts}>
         <div className={`container`}>
           <h2 className={s.expertsHeading}>
@@ -39,7 +38,6 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* ── ADVANTAGES ───────────────────────────────────────────────── */}
       <AdvantagesSection />
     </>
   );

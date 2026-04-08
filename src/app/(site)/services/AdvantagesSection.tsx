@@ -84,7 +84,6 @@ export function AdvantagesSection() {
   const [submitted, setSubmitted] = useState(false);
   const [sent, setSent]           = useState(false);
 
-  // Measure dot positions relative to lineTrack height
   useEffect(() => {
     const measure = () => {
       const track = lineTrackRef.current;
@@ -102,7 +101,6 @@ export function AdvantagesSection() {
     return () => window.removeEventListener("resize", measure);
   }, []);
 
-  // Measure border path length after mount, build paths from top-center
   useEffect(() => {
     const measure = () => {
       const svg = svgRef.current;
@@ -112,9 +110,7 @@ export function AdvantagesSection() {
       const W = svg.clientWidth;
       const H = svg.clientHeight;
       const hw = W / 2;
-      // CW from top-center: right → down → left → up → back to top-center
       el.setAttribute("d",  `M ${hw} 0 H ${W} V ${H} H 0 V 0 H ${hw}`);
-      // CCW from top-center: left → down → right → up → back to top-center
       el2.setAttribute("d", `M ${hw} 0 H 0 V ${H} H ${W} V 0 H ${hw}`);
       const len = el.getTotalLength();
       lenRef.current = len;
@@ -146,7 +142,6 @@ export function AdvantagesSection() {
           lineRef.current.style.transform = `scaleY(${lineProgress})`;
         }
 
-        // Draw SVG border — two directions from opposite ends
         if (lenRef.current > 0) {
           const borderProgress = clamp((p - T_BORDER_START) / (T_BORDER_END - T_BORDER_START), 0, 1);
           const offset = lenRef.current * (1 - borderProgress);
@@ -247,7 +242,6 @@ export function AdvantagesSection() {
         </div>
 
         <div className={s.formRect}>
-          {/* SVG border that draws itself on scroll */}
           <svg
             ref={svgRef}
             className={s.formBorderSvg}

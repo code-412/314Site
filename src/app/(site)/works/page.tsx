@@ -6,8 +6,6 @@ import Image from "next/image";
 import { works, CATEGORIES, type Category } from "@/shared/constants/works";
 import styles from "./page.module.scss";
 
-// Start: col1 highest, col2 middle, col3 lowest
-// End:   col1 lowest,  col2 middle, col3 highest  (perfect mirror)
 const INITIAL_Y  = [0, 60, 120];
 const RESTAGGER  = [80, 0, -80];
 const EASE_PX    = 500;
@@ -27,7 +25,6 @@ export default function WorkPage() {
   const col3Ref = useRef<HTMLDivElement>(null);
   const rafRef  = useRef<number>(0);
 
-  // detect tablet breakpoint
   useEffect(() => {
     const update = () => setNumCols(getNumCols());
     update();

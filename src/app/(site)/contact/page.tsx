@@ -64,7 +64,6 @@ export default function ContactPage() {
       const sectionH = right.clientHeight;
       const current  = Math.round(right.scrollTop / sectionH);
 
-      // на последней секции + скролл вниз → пускаем к футеру
       if (current >= 1 && e.deltaY > 0) return;
 
       e.preventDefault();

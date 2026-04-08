@@ -11,8 +11,6 @@
   background: var(--c-primary);
 }
 
-// ── LEFT (sticky panel) ───────────────────────
-
 .left {
   position: sticky;
   top: var(--header-h);
@@ -82,8 +80,6 @@
   opacity: 1;
 }
 
-// ── RIGHT (scrollable) ────────────────────────
-
 .right {
   width: 50%;
   flex-shrink: 0;
@@ -91,8 +87,6 @@
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
 }
-
-// contacts section
 
 .contactsSection {
   min-height: calc(100vh - var(--header-h));
@@ -174,8 +168,6 @@
 
   &:hover { color: #fff; }
 }
-
-// form section
 
 .formSection {
   min-height: calc(100vh - var(--header-h));
@@ -313,8 +305,6 @@
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.6);
 }
-
-// ── MOBILE ────────────────────────────────────
 
 @media (max-width: 900px) {
   .page {
