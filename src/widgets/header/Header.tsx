@@ -45,7 +45,6 @@ export function Header() {
         <Link href="/" className={s.logo} onClick={close}>
           &lt;/&gt; 412
         </Link>
-ы
         <button
           className={`${s.burger}${open ? ` ${s["burger--active"]}` : ""}`}
           onClick={() => setOpen((v) => !v)}

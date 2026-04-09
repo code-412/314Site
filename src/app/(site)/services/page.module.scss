@@ -151,10 +151,15 @@
   margin-bottom: 48px;
 }
 
-.expertsGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+.expertRows {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.rowWrap {
+}
+
+.rowInner {
+  display: grid;
 }
 
 .expertCell {
@@ -163,10 +168,6 @@
   font-weight: 500;
   color: var(--c-primary);
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-
-  &:nth-child(n + 5) {
-    border-bottom: none;
-  }
 }
 
 @media (max-width: 900px) {
@@ -192,15 +193,4 @@
     padding: 72px 0;
   }
 
-  .expertsGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .expertCell:nth-child(n + 3) {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .expertCell:nth-child(n + 7) {
-    border-bottom: none;
-  }
 }
