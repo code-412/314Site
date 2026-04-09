@@ -21,12 +21,18 @@ export function Quote() {
   const started    = useRef(false);
 
   useEffect(() => {
+    const isMobile = window.innerWidth <= 900;
+
     const startTimes: number[] = [];
     let t = 0;
     LINES.forEach((text) => {
       startTimes.push(t);
-      const triggerChars = text.split(" ").slice(0, WORDS_AHEAD).join(" ").length + 1;
-      t += triggerChars * CHAR_DELAY;
+      if (isMobile) {
+        t += text.length * CHAR_DELAY;
+      } else {
+        const triggerChars = text.split(" ").slice(0, WORDS_AHEAD).join(" ").length + 1;
+        t += triggerChars * CHAR_DELAY;
+      }
     });
 
     const observer = new IntersectionObserver(
