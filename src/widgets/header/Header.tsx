@@ -43,9 +43,9 @@ export function Header() {
     <header className={`${s.header}${dark ? ` ${s.headerDark}` : ""}`}>
       <nav className={`${s.nav} container`}>
         <Link href="/" className={s.logo} onClick={close}>
-          &lt;/&gt; 314
+          &lt;/&gt; 412
         </Link>
-
+ы
         <button
           className={`${s.burger}${open ? ` ${s["burger--active"]}` : ""}`}
           onClick={() => setOpen((v) => !v)}
@@ -65,10 +65,21 @@ export function Header() {
               </li>
             ))}
             <li>
-              <button className={s.ctaLink} onClick={openDrawer}>Contact Us</button>
+              <button className={s.ctaLink} onClick={openDrawer}>
+                <span>Contact Us</span>
+              </button>
             </li>
           </ul>
         </div>
+
+        <svg width="0" height="0" style={{ position: "absolute" }}>
+          <defs>
+            <filter id="header-paint-drip" x="-20%" y="-20%" width="140%" height="140%" colorInterpolationFilters="sRGB">
+              <feTurbulence type="turbulence" baseFrequency="0.04 0.08" numOctaves="4" seed="5" result="noise"/>
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="14" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+          </defs>
+        </svg>
       </nav>
 
       <div className={`${s.mobileOverlay}${open ? ` ${s["mobileOverlay--open"]}` : ""}`}>
