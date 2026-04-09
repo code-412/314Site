@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Poppins } from "next/font/google";
 import "./globals.scss";
 
-const roobert = localFont({
-  src: "../../public/fonts/roobert-font-family/RoobertTRIALVF-BF67243fd545701.ttf",
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   display: "swap",
-  variable: "--font-roobert",
+  variable: "--font-poppins",
 });
 
 export const metadata: Metadata = {
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={roobert.className}>
+    <html lang="en" className={poppins.className}>
       <body>{children}</body>
     </html>
   );
