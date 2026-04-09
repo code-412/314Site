@@ -36,8 +36,9 @@ export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
   const [sent, setSent]           = useState(false);
   const [dark, setDark]           = useState(false);
-  const rightRef = useRef<HTMLDivElement>(null);
-  const leftRef  = useRef<HTMLDivElement>(null);
+  const rightRef    = useRef<HTMLDivElement>(null);
+  const leftRef     = useRef<HTMLDivElement>(null);
+  const formSectRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const el = rightRef.current;
@@ -51,6 +52,17 @@ export default function ContactPage() {
 
     el.addEventListener("scroll", onScroll, { passive: true });
     return () => el.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const el = formSectRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setDark(entry.isIntersecting),
+      { threshold: 0.25 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
   useEffect(() => {
@@ -158,7 +170,7 @@ export default function ContactPage() {
           </div>
         </section>
 
-        <section className={styles.formSection}>
+        <section className={styles.formSection} ref={formSectRef}>
           <div className={styles.formInner}>
             {sent ? (
               <div className={styles.thanks}>

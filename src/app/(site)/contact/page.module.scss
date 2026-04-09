@@ -27,7 +27,7 @@
   flex-direction: column;
   padding: 0 clamp(32px, 5vw, 72px);
   font-size: clamp(36px, 4.4vw, 80px);
-  font-weight: 900;
+  font-weight: 400;
   line-height: 1.05;
   letter-spacing: -0.02em;
   text-transform: uppercase;
@@ -123,7 +123,7 @@
 
 .contactLabel {
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #aaa;
@@ -217,7 +217,7 @@
 
 .errorMsg {
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: rgba(196, 30, 58, 0.9);
@@ -276,12 +276,12 @@
   width: 100%;
   padding: 18px;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 400;
   font-family: var(--font-main);
   letter-spacing: 0.04em;
-  color: var(--c-primary);
-  background: #fff;
-  border: none;
+  color: white;
+  background: transparent;
+  border: 1px solid white;
   border-radius: 999px;
   cursor: pointer;
   transition: background 0.25s ease;
@@ -295,7 +295,7 @@
 
 .thanksTitle {
   font-size: 32px;
-  font-weight: 800;
+  font-weight: 400;
   color: #fff;
   margin-bottom: 12px;
 }
@@ -307,8 +307,45 @@
 }
 
 @media (max-width: 900px) {
+  .pageDark {
+    background: var(--c-bg);
+  }
+
+  .pageDark .title {
+    color: var(--c-primary);
+  }
+
+  .pageDark .wordDiscuss {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .pageDark .wordHear {
+    transform: translateY(110%);
+    opacity: 0;
+  }
+
+  .pageDark .contactGroup {
+    border-color: rgba(0, 0, 0, 0.12);
+    &:first-child { border-color: rgba(0, 0, 0, 0.12); }
+  }
+
+  .pageDark .contactLabel {
+    color: #aaa;
+  }
+
+  .pageDark .contactValue {
+    color: var(--c-primary);
+  }
+
+  .pageDark .socialBtn {
+    color: #bbb;
+    &:hover { color: var(--c-primary); }
+  }
+
   .page {
     flex-direction: column;
+    min-height: auto;
   }
 
   .left {
@@ -316,11 +353,13 @@
     top: 0;
     width: 100%;
     height: auto;
-    padding: 60px 0;
+    overflow: visible;
+    padding: 48px 0 0;
   }
 
   .title {
-    font-size: clamp(36px, 10vw, 64px);
+    font-size: clamp(40px, 11vw, 72px);
+    padding: 0 clamp(20px, 5vw, 40px);
   }
 
   .right {
@@ -333,6 +372,11 @@
   .contactsSection {
     min-height: auto;
     scroll-snap-align: unset;
+    padding: 40px 0;
+  }
+
+  .contactsInner {
+    padding: 0 clamp(20px, 5vw, 40px);
   }
 
   .contactGroup {
@@ -345,8 +389,7 @@
     background: var(--c-primary);
   }
 
-  .contactsInner,
   .formInner {
-    padding: 60px clamp(20px, 5vw, 40px);
+    padding: 48px clamp(20px, 5vw, 40px) 60px;
   }
 }
