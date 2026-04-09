@@ -63,27 +63,23 @@
   );
 }
 
-@keyframes exitDown {
-  from { transform: translateY(0); }
-  to   { transform: translateY(-100%); }
-}
-@keyframes exitUp {
-  from { transform: translateY(0); }
-  to   { transform: translateY(100%); }
-}
-@keyframes enterDown {
-  from { transform: translateY(100%); }
-  to   { transform: translateY(0); }
-}
-@keyframes enterUp {
-  from { transform: translateY(-100%); }
-  to   { transform: translateY(0); }
-}
+@keyframes exitDown  { from { transform: translateY(0);     } to { transform: translateY(-100%); } }
+@keyframes exitUp    { from { transform: translateY(0);     } to { transform: translateY(100%);  } }
+@keyframes enterDown { from { transform: translateY(100%);  } to { transform: translateY(0);     } }
+@keyframes enterUp   { from { transform: translateY(-100%); } to { transform: translateY(0);     } }
+@keyframes exitLeft  { from { transform: translateX(0);     } to { transform: translateX(-100%); } }
+@keyframes exitRight { from { transform: translateX(0);     } to { transform: translateX(100%);  } }
+@keyframes enterLeft { from { transform: translateX(100%);  } to { transform: translateX(0);     } }
+@keyframes enterRight{ from { transform: translateX(-100%); } to { transform: translateX(0);     } }
 
 .faceExitDown  { animation: exitDown  0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
 .faceExitUp    { animation: exitUp    0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
 .faceEnterDown { animation: enterDown 0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
 .faceEnterUp   { animation: enterUp   0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
+.faceExitLeft  { animation: exitLeft  0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
+.faceExitRight { animation: exitRight 0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
+.faceEnterLeft { animation: enterLeft 0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
+.faceEnterRight{ animation: enterRight 0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
 
 .titleBlock {
   position: absolute;
@@ -137,10 +133,30 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.textExitDown { animation: textExitDown 0.28s ease forwards; }
-.textExitUp   { animation: textExitUp   0.28s ease forwards; }
+.textExitDown  { animation: textExitDown  0.28s ease forwards; }
+.textExitUp    { animation: textExitUp    0.28s ease forwards; }
 .textEnterDown { animation: textEnterDown 0.32s ease 0.36s both; }
 .textEnterUp   { animation: textEnterUp   0.32s ease 0.36s both; }
+.textExitLeft  { animation: textExitDown  0.28s ease forwards; }
+.textExitRight { animation: textExitUp    0.28s ease forwards; }
+.textEnterLeft { animation: textEnterDown 0.32s ease 0.36s both; }
+.textEnterRight{ animation: textEnterUp   0.32s ease 0.36s both; }
+
+.progressBar {
+  display: none;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.12);
+  margin-top: 20px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--c-primary);
+  border-radius: 999px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 .exploreWrap {
   display: flex;
@@ -190,7 +206,9 @@
   .titleBlock { top: 28px; }
   .cardTitle  { font-size: clamp(24px, 6vw, 40px); }
 
-  .exploreWrap { margin-top: 28px; }
+  .progressBar { display: block; }
+
+  .exploreWrap { margin-top: 20px; }
   .exploreBtn  { font-size: 14px; padding: 12px 28px; }
 }
 
