@@ -11,7 +11,7 @@
 
 .heading {
   font-size: clamp(64px, 10vw, 130px);
-  font-weight: 500;
+  font-weight: 400;
   color: var(--c-primary);
   text-align: right;
   letter-spacing: -0.02em;
@@ -30,7 +30,7 @@
 .filterBtn {
   padding: 7px 18px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 400;
   font-family: var(--font-main);
   color: var(--c-primary);
   background: transparent;
@@ -106,7 +106,7 @@
 
 .cardCategory {
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 650;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #aaa;
