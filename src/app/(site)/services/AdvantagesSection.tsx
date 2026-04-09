@@ -272,8 +272,7 @@ export function AdvantagesSection() {
             ) : (
               <div className={s.formLayout}>
                 <div className={s.formLeft}>
-                  <p className={s.formHeadingLight}>Do you have a task?</p>
-                  <p className={s.formHeadingBold}>Let&apos;s discuss it!</p>
+                  <p className={s.formHeading}>Do you have a task?<br />Let&apos;s discuss it!</p>
                   <form onSubmit={onSubmit} noValidate>
                     <div className={s.field}>
                       <input suppressHydrationWarning name="name" className={ic("name")} placeholder="Full Name"
