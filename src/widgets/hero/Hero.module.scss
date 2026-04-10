@@ -26,7 +26,7 @@
     left: 0;
     bottom: 0;
     width: 56%;
-    height: 68%;
+    height: 75%;
     border-radius: 12px;
     background: url("/bottomimage.jpg") center / cover no-repeat;
     z-index: 0;
@@ -38,7 +38,7 @@
     right: 0;
     top: 0;
     width: 30%;
-    height: 84%;
+    height: 70%;
     border-radius: 12px;
     background: url("/topimage.jpg") center / cover no-repeat;
     z-index: 0;
@@ -53,17 +53,21 @@
 }
 
 .titleSvg {
-  width: 100%;
-  height: auto;
+  width: 150%;
+  height: 100%;
   display: block;
   overflow: visible;
+  position: relative;
+  left: -25%;
+  top: 18%;
 }
 
 .description {
   position: absolute;
   left: 58%;
   bottom: 0;
-  width: 24%;
+  width: auto;
+  height: auto;
   z-index: 2;
   font-size: 15px;
   font-weight: 400;

@@ -52,8 +52,7 @@ export function Hero() {
         </h1>
 
         <p className={s.description}>
-          Lorem ipsum dolor sit amet consectetur. Neque ultrices praesent lobortis quis. In dignissim a mauris semper. Aliquet fermentum parturient faucibus feugiat. Pharetra vitae potenti justo porta vel est. Hendrerit non aliquam volutpat vestibulum vel et erat. Fames consequat proin diam enim facilisis condimentum mattis accumsan. Mi est elit sagittis congue ultrices id auctor. Integer volutpat at egestas tincidunt diam augue.
-        </p>
+Lorem ipsum dolor sit amet consectetur. Neque ultrices praesent lobortis quis. In dignissim a mauris semper. Aliquet fermentum parturient faucibus feugiat. Pharetra vitae potenti justo porta vel est. Hendrerit non aliquam volutpat vestibulum vel et erat. Fames consequat proin diam enim facilisis condimentum mattis accumsan. Mi est elit sagittis congue ultrices id auctor. Integer volutpat at egestas tincidunt diam augue. Sed tincidunt faucibus commodo amet adipiscing. Lectus faucibus sem rutrum tellus hac ipsum viverra ornare. Amet ultricies cras in vulputate. Felis imperdiet maecenas tellus sit est         </p>
       </div>
     </section>
   );
