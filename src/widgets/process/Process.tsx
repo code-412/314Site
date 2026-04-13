@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import s from "./Process.module.scss";
 
 const PATH =
@@ -17,9 +17,10 @@ const DOTS = [
   { cx: 418, cy: 2585, r: 12, type: "cap"     },
 ] as const;
 
-const CHECKPOINTS = DOTS.map((d) => d.cy / 2597);
+// Precomputed fractions: cy / SVG_HEIGHT
+const DOT_CP = DOTS.map((d) => d.cy / 2597);
 
-const MOBILE_CHECKPOINTS = [0, 0.12, 0.26, 0.40, 0.54, 0.68, 0.82, 0.96];
+const MOBILE_CP = [0, 0.12, 0.26, 0.40, 0.54, 0.68, 0.82, 0.96];
 
 const STEPS = [
   { title: "Research",            description: "Lorem ipsum dolor sit amet consectetur. Accumsan cras fringilla aliquet dolor convallis. Sed pulvinar facilisis scelerisque auismod est etiam moda.", side: "right" as const, dotIndex: 1 },
@@ -34,40 +35,83 @@ const SVG_W = 420;
 const SVG_H = Math.round(SVG_W * (2597 / 733));
 
 export function Process() {
-  const sectionRef     = useRef<HTMLElement>(null);
-  const pathRef        = useRef<SVGPathElement>(null);
-  const mobileFillRef  = useRef<HTMLDivElement>(null);
-  const rafRef         = useRef<number>(0);
-  const [active,       setActive]       = useState<boolean[]>(new Array(DOTS.length).fill(false));
-  const [mobileActive, setMobileActive] = useState<boolean[]>(new Array(DOTS.length).fill(false));
+  const sectionRef    = useRef<HTMLElement>(null);
+  const pathRef       = useRef<SVGPathElement>(null);
+  const mobileFillRef = useRef<HTMLDivElement>(null);
+  const dotEls        = useRef<(SVGElement | null)[]>([]);
+  const stepEls       = useRef<(HTMLDivElement | null)[]>([]);
+  const mobileDotEls  = useRef<(HTMLDivElement | null)[]>([]);
+  const mobileStepEls = useRef<(HTMLDivElement | null)[]>([]);
+  const finishEl      = useRef<HTMLDivElement>(null);
+  const mobileFinEl   = useRef<HTMLSpanElement>(null);
+  const rafRef        = useRef<number>(0);
+  const prevActive    = useRef<boolean[]>(new Array(DOTS.length).fill(false));
+  const prevMob       = useRef<boolean[]>(new Array(DOTS.length).fill(false));
 
   useEffect(() => {
     const path    = pathRef.current;
     const section = sectionRef.current;
-    if (!section) return;
+    if (!path || !section) return;
 
-    let len = 0;
-    if (path) {
-      len = path.getTotalLength();
-      path.style.strokeDasharray  = String(len);
-      path.style.strokeDashoffset = String(len);
-    }
+    const len = path.getTotalLength();
+    path.style.strokeDasharray  = String(len);
+    path.style.strokeDashoffset = String(len);
 
     const onScroll = () => {
       cancelAnimationFrame(rafRef.current);
       rafRef.current = requestAnimationFrame(() => {
         const rect     = section.getBoundingClientRect();
-        const scrolled = window.innerHeight * 0.5 - rect.top;
-        const progress = Math.max(0, Math.min(1, scrolled / rect.height));
+        const scrolled = window.innerHeight - rect.top;
+        const progress = Math.max(0, Math.min(1, (scrolled / (rect.height + window.innerHeight)) * 1.15));
 
-        if (path) path.style.strokeDashoffset = String(len * (1 - progress));
+        path.style.strokeDashoffset = String(len * (1 - progress));
 
         if (mobileFillRef.current) {
           mobileFillRef.current.style.transform = `scaleY(${progress})`;
         }
 
-        setActive(CHECKPOINTS.map((cp) => progress >= cp));
-        setMobileActive(MOBILE_CHECKPOINTS.map((cp) => progress >= cp));
+        // Dots + steps — direct DOM, no re-render
+        DOT_CP.forEach((cp, i) => {
+          const on = progress >= cp;
+          if (on === prevActive.current[i]) return;
+          prevActive.current[i] = on;
+
+          const el = dotEls.current[i];
+          if (el) {
+            if (DOTS[i].type === "glow") {
+              const circles = el.querySelectorAll("circle");
+              circles[0].setAttribute("fill", on ? "#111" : "none");
+              circles[1].setAttribute("fill", on ? "#111" : "none");
+              circles[1].setAttribute("stroke", on ? "#111" : "#ccc");
+            } else if (DOTS[i].type === "regular") {
+              el.setAttribute("fill",   on ? "#111" : "none");
+              el.setAttribute("stroke", on ? "#111" : "#ccc");
+            } else {
+              el.setAttribute("fill", on ? "#111" : "#ccc");
+            }
+          }
+
+          const step = stepEls.current[STEPS.findIndex(st => st.dotIndex === i)];
+          if (step) step.classList.toggle(s["stepInner--visible"], on);
+        });
+
+        if (finishEl.current) finishEl.current.classList.toggle(s["finish--visible"], progress >= DOT_CP[7]);
+
+        MOBILE_CP.forEach((cp, i) => {
+          const on = progress >= cp;
+          if (on === prevMob.current[i]) return;
+          prevMob.current[i] = on;
+
+          const dot = mobileDotEls.current[i];
+          if (dot) dot.classList.toggle(s["mobileDot--on"], on);
+
+          if (i >= 1 && i <= 6) {
+            const st = mobileStepEls.current[i - 1];
+            if (st) st.classList.toggle(s["mobileStepInner--visible"], on);
+          }
+
+          if (mobileFinEl.current) mobileFinEl.current.classList.toggle(s["mobileFinishLabel--visible"], progress >= MOBILE_CP[7]);
+        });
       });
     };
 
@@ -89,18 +133,17 @@ export function Process() {
               <path d={PATH} stroke="#000" strokeOpacity="0.12" strokeWidth="4" strokeLinecap="round" fill="none" />
               <path ref={pathRef} d={PATH} stroke="#111" strokeWidth="4" strokeLinecap="round" fill="none" />
               {DOTS.map((dot, i) => {
-                const on = active[i];
                 if (dot.type === "glow") return (
-                  <g key={i}>
-                    <circle cx={dot.cx} cy={dot.cy} r={17} fill={on ? "#111" : "#ccc"} fillOpacity={0.3} style={{ transition: "fill 0.35s ease" }} />
-                    <circle cx={dot.cx} cy={dot.cy} r={dot.r} fill={on ? "#111" : "#ccc"} style={{ transition: "fill 0.35s ease" }} />
+                  <g key={i} ref={(el) => { dotEls.current[i] = el; }}>
+                    <circle cx={dot.cx} cy={dot.cy} r={17} fill="none" fillOpacity={0.3} style={{ transition: "fill 0.35s ease" }} />
+                    <circle cx={dot.cx} cy={dot.cy} r={dot.r} fill="none" stroke="#ccc" strokeWidth={2} style={{ transition: "fill 0.35s ease, stroke 0.35s ease" }} />
                   </g>
                 );
                 if (dot.type === "regular") return (
-                  <circle key={i} cx={dot.cx} cy={dot.cy} r={dot.r} fill={on ? "#111" : "none"} stroke={on ? "#111" : "#ccc"} strokeWidth={2} style={{ transition: "fill 0.35s ease, stroke 0.35s ease" }} />
+                  <circle key={i} ref={(el) => { dotEls.current[i] = el; }} cx={dot.cx} cy={dot.cy} r={dot.r} fill="none" stroke="#ccc" strokeWidth={2} style={{ transition: "fill 0.35s ease, stroke 0.35s ease" }} />
                 );
                 return (
-                  <circle key={i} cx={dot.cx} cy={dot.cy} r={dot.r} fill={on ? "#111" : "#ccc"} style={{ transition: "fill 0.35s ease" }} />
+                  <circle key={i} ref={(el) => { dotEls.current[i] = el; }} cx={dot.cx} cy={dot.cy} r={dot.r} fill={i === 0 ? "#111" : "#ccc"} style={{ transition: "fill 0.35s ease" }} />
                 );
               })}
             </svg>
@@ -110,13 +153,13 @@ export function Process() {
             Process
           </div>
 
-          {STEPS.map((step) => (
+          {STEPS.map((step, idx) => (
             <div
               key={step.title}
               className={`${s.step} ${s[`step--${step.side}`]}`}
               style={{ top: `${(DOTS[step.dotIndex].cy / 2597) * 100}%` }}
             >
-              <div className={`${s.stepInner}${active[step.dotIndex] ? ` ${s["stepInner--visible"]}` : ""}`}>
+              <div ref={(el) => { stepEls.current[idx] = el; }} className={s.stepInner}>
                 <h3 className={s.stepTitle}>{step.title}</h3>
                 <p className={s.stepDesc}>{step.description}</p>
               </div>
@@ -124,7 +167,8 @@ export function Process() {
           ))}
 
           <div
-            className={`${s.finish}${active[7] ? ` ${s["finish--visible"]}` : ""}`}
+            ref={finishEl}
+            className={s.finish}
             style={{ top: `${(DOTS[7].cy / 2597) * SVG_H / (SVG_H + 80) * 100}%` }}
           >
             Finish
@@ -138,30 +182,23 @@ export function Process() {
           </div>
 
           <div className={s.mobileRow}>
-            <div className={`${s.mobileDot} ${s["mobileDot--cap"]}${mobileActive[0] ? ` ${s["mobileDot--on"]}` : ""}`} />
+            <div ref={(el) => { mobileDotEls.current[0] = el; }} className={`${s.mobileDot} ${s["mobileDot--cap"]} ${s["mobileDot--on"]}`} />
             <span className={s.mobileHeadingLabel}>Process</span>
           </div>
 
-          {STEPS.map((step, i) => {
-            const isLastActive = mobileActive[i + 1] && !mobileActive[i + 2];
-            return (
+          {STEPS.map((step, i) => (
             <div key={step.title} className={s.mobileRow}>
-              <div className={[
-                s.mobileDot,
-                mobileActive[i + 1] ? s["mobileDot--on"] : "",
-                isLastActive ? s["mobileDot--glow"] : "",
-              ].filter(Boolean).join(" ")} />
-              <div className={`${s.mobileStepInner}${mobileActive[i + 1] ? ` ${s["mobileStepInner--visible"]}` : ""}`}>
+              <div ref={(el) => { mobileDotEls.current[i + 1] = el; }} className={s.mobileDot} />
+              <div ref={(el) => { mobileStepEls.current[i] = el; }} className={s.mobileStepInner}>
                 <h3 className={s.stepTitle}>{step.title}</h3>
                 <p className={s.stepDesc}>{step.description}</p>
               </div>
             </div>
-            );
-          })}
+          ))}
 
           <div className={s.mobileRow}>
-            <div className={`${s.mobileDot} ${s["mobileDot--cap"]}${mobileActive[7] ? ` ${s["mobileDot--on"]}` : ""}`} />
-            <span className={`${s.mobileFinishLabel}${mobileActive[7] ? ` ${s["mobileFinishLabel--visible"]}` : ""}`}>Finish</span>
+            <div ref={(el) => { mobileDotEls.current[7] = el; }} className={`${s.mobileDot} ${s["mobileDot--cap"]}`} />
+            <span ref={mobileFinEl} className={s.mobileFinishLabel}>Finish</span>
           </div>
         </div>
 
