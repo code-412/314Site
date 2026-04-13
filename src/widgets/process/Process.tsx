@@ -17,9 +17,6 @@ const DOTS = [
   { cx: 418, cy: 2585, r: 12, type: "cap"     },
 ] as const;
 
-// Precomputed fractions: cy / SVG_HEIGHT
-const DOT_CP = DOTS.map((d) => d.cy / 2597);
-
 const MOBILE_CP = [0, 0.12, 0.26, 0.40, 0.54, 0.68, 0.82, 0.96];
 
 const STEPS = [
@@ -34,6 +31,22 @@ const STEPS = [
 const SVG_W = 420;
 const SVG_H = Math.round(SVG_W * (2597 / 733));
 
+// Find how many pixels along the path each dot sits — 80 samples per dot (~1ms total)
+function computeDotLengths(path: SVGPathElement): number[] {
+  const total = path.getTotalLength();
+  return DOTS.map((dot) => {
+    let minDist = Infinity;
+    let best = 0;
+    for (let i = 0; i <= 80; i++) {
+      const t = (i / 80) * total;
+      const p = path.getPointAtLength(t);
+      const d = Math.hypot(p.x - dot.cx, p.y - dot.cy);
+      if (d < minDist) { minDist = d; best = t; }
+    }
+    return best;
+  });
+}
+
 export function Process() {
   const sectionRef    = useRef<HTMLElement>(null);
   const pathRef       = useRef<SVGPathElement>(null);
@@ -45,6 +58,8 @@ export function Process() {
   const finishEl      = useRef<HTMLDivElement>(null);
   const mobileFinEl   = useRef<HTMLSpanElement>(null);
   const rafRef        = useRef<number>(0);
+  const dotLengths    = useRef<number[]>([]);       // absolute px along path per dot
+  const totalLen      = useRef<number>(0);
   const prevActive    = useRef<boolean[]>(new Array(DOTS.length).fill(false));
   const prevMob       = useRef<boolean[]>(new Array(DOTS.length).fill(false));
 
@@ -54,36 +69,51 @@ export function Process() {
     if (!path || !section) return;
 
     const len = path.getTotalLength();
+    totalLen.current = len;
     path.style.strokeDasharray  = String(len);
     path.style.strokeDashoffset = String(len);
+
+    // Compute after two paint frames — page is fully rendered, no animation jank
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        dotLengths.current = computeDotLengths(path);
+      });
+    });
 
     const onScroll = () => {
       cancelAnimationFrame(rafRef.current);
       rafRef.current = requestAnimationFrame(() => {
         const rect     = section.getBoundingClientRect();
         const scrolled = window.innerHeight - rect.top;
-        const progress = Math.max(0, Math.min(1, (scrolled / (rect.height + window.innerHeight)) * 1.15));
+        const progress = Math.max(0, Math.min(1, (scrolled / (rect.height + window.innerHeight)) * 1.25));
+        const drawn    = len * progress;
 
-        path.style.strokeDashoffset = String(len * (1 - progress));
+        path.style.strokeDashoffset = String(len - drawn);
 
         if (mobileFillRef.current) {
           mobileFillRef.current.style.transform = `scaleY(${progress})`;
         }
 
-        // Dots + steps — direct DOM, no re-render
-        DOT_CP.forEach((cp, i) => {
-          const on = progress >= cp;
+        // Use accurate dot lengths if ready, otherwise cy-based fallback
+        const ready = dotLengths.current.length === DOTS.length;
+
+        DOTS.forEach((dot, i) => {
+          const threshold = ready
+            ? dotLengths.current[i]
+            : (dot.cy / 2597) * len;
+          const on = drawn >= threshold;
+
           if (on === prevActive.current[i]) return;
           prevActive.current[i] = on;
 
           const el = dotEls.current[i];
           if (el) {
-            if (DOTS[i].type === "glow") {
+            if (dot.type === "glow") {
               const circles = el.querySelectorAll("circle");
               circles[0].setAttribute("fill", on ? "#111" : "none");
               circles[1].setAttribute("fill", on ? "#111" : "none");
               circles[1].setAttribute("stroke", on ? "#111" : "#ccc");
-            } else if (DOTS[i].type === "regular") {
+            } else if (dot.type === "regular") {
               el.setAttribute("fill",   on ? "#111" : "none");
               el.setAttribute("stroke", on ? "#111" : "#ccc");
             } else {
@@ -91,26 +121,20 @@ export function Process() {
             }
           }
 
-          const step = stepEls.current[STEPS.findIndex(st => st.dotIndex === i)];
-          if (step) step.classList.toggle(s["stepInner--visible"], on);
+          const stepIdx = STEPS.findIndex(st => st.dotIndex === i);
+          if (stepIdx !== -1) stepEls.current[stepIdx]?.classList.toggle(s["stepInner--visible"], on);
         });
 
-        if (finishEl.current) finishEl.current.classList.toggle(s["finish--visible"], progress >= DOT_CP[7]);
+        const lastThreshold = ready ? dotLengths.current[7] : (DOTS[7].cy / 2597) * len;
+        finishEl.current?.classList.toggle(s["finish--visible"], drawn >= lastThreshold);
 
         MOBILE_CP.forEach((cp, i) => {
           const on = progress >= cp;
           if (on === prevMob.current[i]) return;
           prevMob.current[i] = on;
-
-          const dot = mobileDotEls.current[i];
-          if (dot) dot.classList.toggle(s["mobileDot--on"], on);
-
-          if (i >= 1 && i <= 6) {
-            const st = mobileStepEls.current[i - 1];
-            if (st) st.classList.toggle(s["mobileStepInner--visible"], on);
-          }
-
-          if (mobileFinEl.current) mobileFinEl.current.classList.toggle(s["mobileFinishLabel--visible"], progress >= MOBILE_CP[7]);
+          mobileDotEls.current[i]?.classList.toggle(s["mobileDot--on"], on);
+          if (i >= 1 && i <= 6) mobileStepEls.current[i - 1]?.classList.toggle(s["mobileStepInner--visible"], on);
+          if (i === 7) mobileFinEl.current?.classList.toggle(s["mobileFinishLabel--visible"], on);
         });
       });
     };
