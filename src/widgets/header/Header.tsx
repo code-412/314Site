@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { NavLink } from "@/shared/ui/NavLink";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useContactDrawer } from "@/shared/lib/contact-drawer-context";
@@ -60,7 +61,7 @@ export function Header() {
           <ul className={s.list}>
             {NAV.slice(1).map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className={s.link}>{item.label}</Link>
+                <NavLink href={item.href} className={s.link}>{item.label}</NavLink>
               </li>
             ))}
             <li>
@@ -86,9 +87,9 @@ export function Header() {
           <ul className={s.mobileList}>
             {NAV.map((item) => (
               <li key={item.href} className={s.mobileItem}>
-                <Link href={item.href} className={s.mobileLink} onClick={close}>
+                <NavLink href={item.href} className={s.mobileLink} onClick={close}>
                   {item.label}
-                </Link>
+                </NavLink>
               </li>
             ))}
           </ul>
