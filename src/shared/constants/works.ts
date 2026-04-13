@@ -14,7 +14,7 @@ export const works: Work[] = [
     category: "Website",
     year: 2024,
     description: "Full-stack website for a padel sports club with booking system and brand identity.",
-    tags: ["Web Design", "Full Stack", "Brand Design"],
+    tags: ["Web Design", "FULL STACK DEVELOPMENT", "Brand Design"],
     image: "/backgrounImage.png",
     featured: true,
     client: "John Doe",

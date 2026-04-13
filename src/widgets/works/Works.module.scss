@@ -20,7 +20,7 @@
 
 .scene {
   margin-left: 16%;
-  height: 620px;
+  height: 713px;
   border-radius: 12px;
   overflow: hidden;
   position: relative;
@@ -28,12 +28,12 @@
 }
 
 .scenePulse {
-  animation: scenePulse 0.68s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: scenePulse 0.9s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 @keyframes scenePulse {
   0%   { transform: scale(1); }
-  30%  { transform: scale(1.018); }
+  30%  { transform: scale(1.028); }
   100% { transform: scale(1); }
 }
 
@@ -72,20 +72,41 @@
 @keyframes enterLeft { from { transform: translateX(100%);  } to { transform: translateX(0);     } }
 @keyframes enterRight{ from { transform: translateX(-100%); } to { transform: translateX(0);     } }
 
-.faceExitDown  { animation: exitDown  0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
-.faceExitUp    { animation: exitUp    0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
-.faceEnterDown { animation: enterDown 0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
-.faceEnterUp   { animation: enterUp   0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
-.faceExitLeft  { animation: exitLeft  0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
-.faceExitRight { animation: exitRight 0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
-.faceEnterLeft { animation: enterLeft 0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
-.faceEnterRight{ animation: enterRight 0.68s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
+.faceExitDown  { animation: exitDown  0.9s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
+.faceExitUp    { animation: exitUp    0.9s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
+.faceEnterDown { animation: enterDown 0.9s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
+.faceEnterUp   { animation: enterUp   0.9s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
+.faceExitLeft  { animation: exitLeft  0.9s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
+.faceExitRight { animation: exitRight 0.9s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
+.faceEnterLeft { animation: enterLeft 0.9s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
+.faceEnterRight{ animation: enterRight 0.9s cubic-bezier(0.76, 0, 0.24, 1) forwards; }
 
 .titleBlock {
   position: absolute;
   left: 0;
   top: 52px;
   pointer-events: none;
+  width: 100%;
+  display: grid;
+}
+
+.titleDark,
+.titleLight {
+  grid-area: 1 / 1;
+}
+
+.titleDark {
+  clip-path: inset(0 84% 0 0);
+
+  .cardTitle { color: var(--c-primary); }
+  .tag { color: var(--c-muted); }
+}
+
+.titleLight {
+  clip-path: inset(0 0 0 16%);
+
+  .cardTitle { color: #fff; }
+  .tag { color: rgba(255, 255, 255, 0.65); }
 }
 
 .cardTitle {
@@ -95,8 +116,6 @@
   text-transform: uppercase;
   letter-spacing: -0.02em;
   margin-bottom: 14px;
-  color: #fff;
-  mix-blend-mode: difference;
 }
 
 .tagsWrap {
@@ -104,16 +123,14 @@
   flex-direction: column;
   gap: 2px;
   margin-left: 2px;
-  isolation: isolate;
 }
 
 .tag {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--c-muted);
-  mix-blend-mode: normal;
+  white-space: nowrap;
 }
 
 @keyframes textExitDown {
@@ -135,12 +152,12 @@
 
 .textExitDown  { animation: textExitDown  0.28s ease forwards; }
 .textExitUp    { animation: textExitUp    0.28s ease forwards; }
-.textEnterDown { animation: textEnterDown 0.32s ease 0.36s both; }
-.textEnterUp   { animation: textEnterUp   0.32s ease 0.36s both; }
+.textEnterDown { animation: textEnterDown 0.4s ease 0.45s both; }
+.textEnterUp   { animation: textEnterUp   0.4s ease 0.45s both; }
 .textExitLeft  { animation: textExitDown  0.28s ease forwards; }
 .textExitRight { animation: textExitUp    0.28s ease forwards; }
-.textEnterLeft { animation: textEnterDown 0.32s ease 0.36s both; }
-.textEnterRight{ animation: textEnterUp   0.32s ease 0.36s both; }
+.textEnterLeft { animation: textEnterDown 0.4s ease 0.45s both; }
+.textEnterRight{ animation: textEnterUp   0.4s ease 0.45s both; }
 
 .progressBar {
   display: none;
@@ -202,9 +219,11 @@
   .works   { padding: 60px 0; }
   .heading { font-size: clamp(40px, 10vw, 72px); margin-bottom: 28px; }
 
-  .scene { margin-left: 0; height: 420px; border-radius: 8px; }
+  .scene { margin-left: 0; height: 483px; border-radius: 8px; }
   .titleBlock { top: 28px; }
   .cardTitle  { font-size: clamp(24px, 6vw, 40px); }
+  .titleDark  { clip-path: inset(0 100% 0 0); }
+  .titleLight { clip-path: inset(0 0 0 0); }
 
   .progressBar { display: block; }
 

@@ -44,7 +44,7 @@ export function Works() {
       setFlip(null);
       busyRef.current = false;
       accRef.current  = 0;
-    }, 680);
+    }, 900);
   };
 
   useEffect(() => {
@@ -99,6 +99,7 @@ export function Works() {
         <div
           className={s.cardWrap}
           ref={wrapRef}
+          data-lenis-prevent
           onMouseEnter={() => { hoverRef.current = true; }}
           onMouseLeave={() => { hoverRef.current = false; accRef.current = 0; }}
         >
@@ -124,21 +125,25 @@ export function Works() {
           </div>
 
           <div className={`${s.titleBlock} ${flip ? textExitClass(flip.dir) : ""}`}>
-            <h3 className={s.cardTitle}>
-              {shown.category} for<br />{shown.title}
-            </h3>
-            <div className={s.tagsWrap}>
-              {shown.tags.map((t) => <span key={t} className={s.tag}>{t}</span>)}
+            <div className={s.titleDark}>
+              <h3 className={s.cardTitle}>{shown.category} for<br />{shown.title}</h3>
+              <div className={s.tagsWrap}>{shown.tags.map((t) => <span key={t} className={s.tag}>{t}</span>)}</div>
+            </div>
+            <div className={s.titleLight}>
+              <h3 className={s.cardTitle}>{shown.category} for<br />{shown.title}</h3>
+              <div className={s.tagsWrap}>{shown.tags.map((t) => <span key={t} className={s.tag}>{t}</span>)}</div>
             </div>
           </div>
 
           {flip && next && (
             <div className={`${s.titleBlock} ${textEnterClass(flip.dir)}`}>
-              <h3 className={s.cardTitle}>
-                {next.category} for<br />{next.title}
-              </h3>
-              <div className={s.tagsWrap}>
-                {next.tags.map((t) => <span key={t} className={s.tag}>{t}</span>)}
+              <div className={s.titleDark}>
+                <h3 className={s.cardTitle}>{next.category} for<br />{next.title}</h3>
+                <div className={s.tagsWrap}>{next.tags.map((t) => <span key={t} className={s.tag}>{t}</span>)}</div>
+              </div>
+              <div className={s.titleLight}>
+                <h3 className={s.cardTitle}>{next.category} for<br />{next.title}</h3>
+                <div className={s.tagsWrap}>{next.tags.map((t) => <span key={t} className={s.tag}>{t}</span>)}</div>
               </div>
             </div>
           )}
