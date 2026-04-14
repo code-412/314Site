@@ -88,7 +88,7 @@
 .input,
 .textarea {
   width: 100%;
-  padding: 18px 0;
+  padding: 25px 10px;
   font-size: 15px;
   font-family: var(--font-main);
   color: var(--c-primary);
@@ -97,8 +97,9 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   outline: none;
   transition: border-color 0.25s ease;
+  resize: none;
 
-  &::placeholder { color: #bbb; }
+  &::placeholder { color: #bbb;}
   &:focus { border-bottom-color: var(--c-primary); }
 }
 
@@ -114,12 +115,6 @@
   color: var(--c-accent);
 }
 
-.textarea {
-  resize: none;
-  min-height: 0;
-  height: 44px;
-  overflow: hidden;
-}
 
 .checkLabel {
   display: flex;
