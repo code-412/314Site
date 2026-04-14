@@ -156,24 +156,24 @@
   // ─────────────────────────────────────────────
 
   // WORK/slug -> Hero -> Фон -> интенсивность blur
-  --work-slug-hero-blur: 72px;
+  --work-slug-hero-blur: 28px;
 
   // WORK/slug -> Hero -> Фон -> затемнение (scrim)
-  --work-slug-hero-scrim: rgba(0, 0, 0, 0.72);
+  --work-slug-hero-scrim: rgba(0, 0, 0, 0.42);
 
   // WORK/slug -> Hero -> Изображение проекта -> затемнение
   --work-slug-hero-img-overlay: rgba(0, 0, 0, 0.25);
 
   // WORK/slug -> Hero -> Заголовок -> размер (clamp)
-  --work-slug-hero-title-size-min: 22px;
-  --work-slug-hero-title-size-vw:  2.8vw;
-  --work-slug-hero-title-size-max: 40px;
+  --work-slug-hero-title-size-min: 28px;
+  --work-slug-hero-title-size-vw:  3.6vw;
+  --work-slug-hero-title-size-max: 56px;
 
   // WORK/slug -> Hero -> Метаданные -> лейбл (CLIENT / DATE / TYPE) -> размер
-  --work-slug-meta-label-size: 9px;
+  --work-slug-meta-label-size: 10px;
 
   // WORK/slug -> Hero -> Метаданные -> значение -> размер
-  --work-slug-meta-value-size: 12px;
+  --work-slug-meta-value-size: 13px;
 
   // WORK/slug -> Hero -> Метаданные -> зазор между колонками
   --work-slug-meta-col-gap: 40px;
