@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { LogoIcon } from "@/shared/icons/LogoIcon";
 import { NavLink } from "@/shared/ui/NavLink";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -44,7 +45,7 @@ export function Header() {
     <header className={`${s.header}${dark ? ` ${s.headerDark}` : ""}`}>
       <nav className={`${s.nav} container`}>
         <Link href="/" className={s.logo} onClick={close}>
-          &lt;/&gt; 412
+          <LogoIcon />
         </Link>
         <button
           className={`${s.burger}${open ? ` ${s["burger--active"]}` : ""}`}

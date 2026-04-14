@@ -1,5 +1,6 @@
 import s from "./Footer.module.scss";
 import { NavLink } from "@/shared/ui/NavLink";
+import { LogoIcon } from "@/shared/icons/LogoIcon";
 import { TelegramIcon, InstagramIcon, LinkedInIcon } from "@/shared/icons/SocialIcons";
 
 const legal = [
@@ -23,7 +24,7 @@ export function Footer() {
         <div className={s.inner}>
 
           <div className={s.left}>
-            <NavLink href="/" className={s.logo}>&lt;/&gt;&nbsp; code 412</NavLink>
+            <NavLink href="/" className={s.logo}><LogoIcon /></NavLink>
             <p className={s.desc}>
               Lorem ipsum dolor sit amet consectetur. Eu enim dignissim orci
               pellentesque in nascetur eu diam. Lorem nibh cursus eleifend sed
