@@ -87,8 +87,7 @@ export function AnimatedPassion() {
           className={`${s.passionRight} ${s.fadeUp} ${s.delay1}`}
         >
           <p className={s.passionLead}>
-            We are excellent at making projects of any type, but we are
-            especially good at product design.
+            We are excellent at making projects of any type, but we are especially good at product design.
           </p>
 
           <div className={s.listBlock}>
