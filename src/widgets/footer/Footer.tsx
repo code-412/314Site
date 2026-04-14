@@ -5,9 +5,8 @@ import { TelegramIcon, InstagramIcon, LinkedInIcon } from "@/shared/icons/Social
 
 const legal = [
   "Privacy Policy",
-  "Cookie Policy",
-  "Terms & Conditions",
-  "Copyright Notifications",
+  "Terms of Use ",
+  "Cookie Settings",
 ];
 
 const nav = [
@@ -26,9 +25,7 @@ export function Footer() {
           <div className={s.left}>
             <NavLink href="/" className={s.logo}><LogoIcon /></NavLink>
             <p className={s.desc}>
-              Lorem ipsum dolor sit amet consectetur. Eu enim dignissim orci
-              pellentesque in nascetur eu diam. Lorem nibh cursus eleifend sed
-              nunc cursus vivamus.
+              We don’t just write code – we craft digital products where design and engineering work together, turning vision into meaningful digital experiences.
             </p>
             <a href="mailto:info@code412.com" className={s.email}>
               info@code412.com

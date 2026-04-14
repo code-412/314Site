@@ -52,7 +52,7 @@ export function Hero() {
         </h1>
 
         <p className={s.description}>
-Lorem ipsum dolor sit amet consectetur. Neque ultrices praesent lobortis quis. In dignissim a mauris semper. Aliquet fermentum parturient faucibus feugiat. Pharetra vitae potenti justo porta vel est. Hendrerit non aliquam volutpat vestibulum vel et erat. Fames consequat proin diam enim facilisis condimentum mattis accumsan. Mi est elit sagittis congue ultrices id auctor. Integer volutpat at egestas tincidunt diam augue. Sed tincidunt faucibus commodo amet adipiscing. Lectus faucibus sem rutrum tellus hac ipsum viverra ornare. Amet ultricies cras in vulputate. Felis imperdiet maecenas tellus sit est         </p>
+We turn ideas into digital experiences that people remember. Our team blends strategy, design, and clean code to build websites, products, and brands that truly work. From the first concept to launch and long-term support, we focus on clarity, usability, and reliable development. Every detail matters: intuitive interfaces, strong performance, and code that scales with your business. Whether you need a modern website, a powerful mobile app, or a complete brand identity, we transform vision into something real, useful, and beautifully crafted for the future. We collaborate closely with clients, understand their goals, and turn complex ideas into simple, elegant solutions. The result is digital products that not only look impressive but also run smoothly thanks to thoughtful engineering and solid code behind every interaction.      </p>
       </div>
     </section>
   );

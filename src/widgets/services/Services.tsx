@@ -13,19 +13,19 @@ const columns: ServiceCol[] = [
   {
     title: "BRANDING",
     description:
-      "Lorem ipsum dolor sit amet consectetur. Habitant adipiscing cursus parturient dignissim ornare urna aliquam. Ac elementum risus sagittis.",
+      "We create brands that are clear, distinctive, and built to grow. From strategy and identity to copywriting and creative direction, every element works together as one system. We transform ideas into structured brand languages that speak consistently, connect with audiences, and shape how people see and remember a company.",
     items: ["IDENTITY", "STRATEGY", "COPYWRITING", "DIRECTION"],
   },
   {
     title: "DEVELOPMENT",
     description:
-      "Lorem ipsum dolor sit amet consectetur. Habitant adipiscing cursus parturient dignissim ornare urna aliquam. Ac elementum risus sagittis.",
+      "We build reliable digital products with clean architecture and scalable code. From front-end interfaces to powerful back-end systems, every solution is engineered for performance and stability. Our development approach combines modern technologies, thoughtful structure, and code that supports long-term growth.",
     items: ["AI", "FRONT-END", "BACK-END", "SOFTWARE", "WEB", "TELEGRAM"],
   },
   {
     title: "DIGITAL",
     description:
-      "Lorem ipsum dolor sit amet consectetur. Habitant adipiscing cursus parturient dignissim ornare urna aliquam. Ac elementum risus sagittis.",
+      "We design digital experiences that feel intuitive and visually strong. Through web design, UI/UX systems, and thoughtful user flows, we create products that are easy to navigate and enjoyable to use. The result is digital interfaces that look sharp, work smoothly, and guide users naturally.",
     items: ["WEB DESIGN", "UI/UX DESIGN", "BRAND DESIGN", "USER FLOW"],
   },
 ];

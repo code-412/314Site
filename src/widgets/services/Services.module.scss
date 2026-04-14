@@ -9,7 +9,7 @@
 }
 
 .col {
-  padding: 40px 40px 40px 24px;
+  padding: 40px 40px 0px 24px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -102,7 +102,7 @@
 
 .col--visible {
   .dot  { transform: scale(1); }
-  .line { transform: scaleY(0.90); }
+  .line { transform: scaleY(0.99); }
   .title { opacity: 1; transform: translateY(0); }
   .desc  { opacity: 1; transform: translateY(0); }
   .item  { opacity: 1; transform: translateY(0); }

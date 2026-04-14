@@ -32,18 +32,18 @@ function getErr(field: keyof Touched, f: FD): string | null {
 const ADVANTAGES = [
   {
     num: "01",
-    title: "Individual Approach",
-    text: "Lorem ipsum dolor sit amet consectetur. Aenean ut magna justo libero risus neque at felis donec. Sit pulvinar cursus tempus ullamcorper facilisis elementum id velit convallis. Ac nulla suspendisse velit sit mattis vulputate aenean. Nunc in pretium in velit enim ut pulvinar dis. Est viverra mattis id sed neque erat vulputate duis.",
+    title: "Design Meets Code",
+    text: "Our work is built on the balance between design thinking and strong engineering. We create digital products where clear interfaces meet reliable technology. Every interaction is designed to feel intuitive and easy to navigate, while every line of code is written with structure and performance in mind.",
   },
   {
     num: "02",
-    title: "Full Cycle Production",
-    text: "Lorem ipsum dolor sit amet consectetur. Aenean ut magna justo libero risus neque at felis donec. Sit pulvinar cursus tempus ullamcorper facilisis elementum id velit convallis. Ac nulla suspendisse velit sit mattis vulputate aenean. Nunc in pretium in velit enim ut pulvinar dis. Est viverra mattis id sed neque erat vulputate duis.",
+    title: "Structured Process",
+    text: "Behind every successful product stands a clear and structured workflow. From the first idea to the final launch, we follow a method that connects strategy, design, and development into one smooth process. This approach helps us reduce risks, maintain clarity, and deliver products efficiently and consistently.",
   },
   {
     num: "03",
-    title: "Measurable Results",
-    text: "Lorem ipsum dolor sit amet consectetur. Aenean ut magna justo libero risus neque at felis donec. Sit pulvinar cursus tempus ullamcorper facilisis elementum id velit convallis. Ac nulla suspendisse velit sit mattis vulputate aenean. Nunc in pretium in velit enim ut pulvinar dis. Est viverra mattis id sed neque erat vulputate duis.",
+    title: "Real Digital Impact",
+    text: "Technology should solve real problems and create measurable results. We focus on building digital products that help businesses grow, improve user experience, and strengthen their presence in the digital world. Our solutions are designed to be reliable, scalable, and ready for long-term success.",
   },
 ];
 

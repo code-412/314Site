@@ -27,9 +27,9 @@ export const works: Work[] = [
       "Full Stack Development",
       "Illustrations",
     ],
-    about: twoParas,
+    about: "MH Padel is one of the largest and most advanced padel clubs in Riga, featuring multiple courts, a sauna, and a full relaxation area. The goal was to create a digital platform that reflects the premium experience of the club and simplifies user interaction across all devices. \b \b  We designed and developed a complete digital platform, including UI/UX design and full-stack development. The project included a custom CRM system, an admin panel for operations, and a membership system with booking functionality. We also created copywriting and content structure, ensuring a clear experience across all devices.",
     gallery: gallery7("/backgrounImage.png", "/topimage.jpg", "/bottomimage.jpg"),
-    approach: twoParas,
+    approach: "The interface was built with a strong focus on usability, motion, and clear navigation. Smooth animations and structured user flows guide visitors naturally through the platform, making it easy to explore services, manage bookings, and interact with the system without friction.Through content, imagery, and structure, we built a digital experience that captures the energy of the club. From the first screen, users feel the atmosphere and are naturally guided to book a court, join as members, and become part of the club.",
     approachImage: "/backgrounImage.png",
   },
   {

@@ -4,11 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import s from "./Quote.module.scss";
 
 const LINES = [
-  "Lorem ipsum dolor sit amet consectetur. Facilisi fusce gravida",
-  "metus orci ac cursus varius. Eleifend aliquam commodo blandit",
-  "egestas rhoncus. Pulvinar volutpat tincidunt morbi malesuada",
-  "nisl. Integer tristique lorem quisque massa. Ac suspendisse",
-  "elementum laoreet risus a id magna sagittis cras.",
+  "The code412 approach connects vision, design ,  ",
+  "thinking and engineering into one structured workflow. ",
+  "Ideas evolve step by step into precise interfaces and reliable  ",
+  "digital products, where creativity and technology work together",
+  "to shape clear, scalable, and meaningful digital experiences.",
 ];
 
 const CHAR_DELAY  = 55;

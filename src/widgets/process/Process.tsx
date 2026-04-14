@@ -20,12 +20,12 @@ const DOTS = [
 const MOBILE_CP = [0, 0.12, 0.26, 0.40, 0.54, 0.68, 0.82, 0.96];
 
 const STEPS = [
-  { title: "Research",            description: "Lorem ipsum dolor sit amet consectetur. Accumsan cras fringilla aliquet dolor convallis. Sed pulvinar facilisis scelerisque auismod est etiam moda.", side: "right" as const, dotIndex: 1 },
-  { title: "UX / Prototype",      description: "Lorem ipsum dolor sit amet consectetur. Accumsan cras fringilla aliquet dolor convallis. Sed pulvinar facilisis scelerisque auismod est etiam moda.", side: "left"  as const, dotIndex: 2 },
-  { title: "UI Design",           description: "Lorem ipsum dolor sit amet consectetur. Accumsan cras fringilla aliquet dolor convallis. Sed pulvinar facilisis scelerisque auismod est etiam moda.", side: "right" as const, dotIndex: 3 },
-  { title: "Development",         description: "Lorem ipsum dolor sit amet consectetur. Accumsan cras fringilla aliquet dolor convallis. Sed pulvinar facilisis scelerisque auismod est etiam moda.", side: "right" as const, dotIndex: 4 },
-  { title: "Testing & Launching", description: "Lorem ipsum dolor sit amet consectetur. Accumsan cras fringilla aliquet dolor convallis. Sed pulvinar facilisis scelerisque auismod est etiam moda.", side: "left"  as const, dotIndex: 5 },
-  { title: "Maintenance",         description: "Lorem ipsum dolor sit amet consectetur. Accumsan cras fringilla aliquet dolor convallis. Sed pulvinar facilisis scelerisque auismod est etiam moda.", side: "right" as const, dotIndex: 6 },
+  { title: "Research",            description: "We begin by exploring the idea, market, and user needs behind the product. Through analysis and discovery, we define goals, understand the audience, and gather insights that guide every design and development decision that follows.", side: "right" as const, dotIndex: 1 },
+  { title: "UX / Prototype",      description: "At this stage we shape the structure and logic of the product. User flows, wireframes, and interactive prototypes help us test ideas early, refine usability, and ensure that the experience feels clear, intuitive, and meaningful.", side: "left"  as const, dotIndex: 2 },
+  { title: "UI Design",           description: "Here we transform structure into visual language. Typography, color, layout, and motion are carefully crafted to create a consistent interface that communicates the brand, supports usability, and makes every interaction clear and engaging.", side: "left" as const, dotIndex: 3 },
+  { title: "Development",         description: "Design becomes a functional product through clean, structured code. Front-end and back-end systems are built with performance and scalability in mind, ensuring that the product works smoothly across devices and platforms.", side: "right" as const, dotIndex: 4 },
+  { title: "Testing & Launching", description: "Before release we carefully test the product to ensure stability, performance, and usability. Once everything works as intended, we prepare the final deployment and launch the product into the real digital environment.", side: "left"  as const, dotIndex: 5 },
+  { title: "Maintenance",         description: "After launch we continue supporting and improving the product. Updates, performance monitoring, and new features keep the system stable, secure, and ready to grow together with the needs of users and the business.", side: "right" as const, dotIndex: 6 },
 ];
 
 const SVG_W = 420;

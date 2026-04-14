@@ -46,10 +46,7 @@ export function AnimatedHero() {
           data-anim
           className={`${s.heroSub} ${s.fadeUp} ${s.delay1}`}
         >
-          Lorem ipsum dolor sit amet consectetur. Nequa ut connectet laoreet
-          duis in dignissim in lacus semper. Aliquet velit vel enim consequat
-          amet. Tincidunt velit enim tincidunt nulla lobortis sed neque erat
-          vulputate duis.
+          We provide a full range of digital services built around the balance of design and code. Our team combines strategy, brand identity, UX thinking, and engineering precision to create products that are visually refined and technically powerful. From digital interfaces to complex platforms and long-term product support, every solution is built with clear design, clean code, and modern technologies, helping businesses grow and scale in a fast-changing digital landscape.
         </p>
       </div>
       <div
