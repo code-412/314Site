@@ -1,6 +1,7 @@
 .page {
   padding-top: var(--header-h);
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: flex-start;
   min-height: 100vh;
   background: var(--c-bg);
@@ -14,19 +15,17 @@
 .left {
   position: sticky;
   top: var(--header-h);
-  width: 50%;
   height: calc(100vh - var(--header-h));
-  overflow: hidden;
-  flex-shrink: 0;
   display: flex;
   align-items: center;
+  z-index: 1;
 }
 
 .title {
   display: flex;
   flex-direction: column;
-  padding: 0 clamp(32px, 5vw, 72px);
-  font-size: clamp(70px, 10vw, 120px);
+  padding: 0 16px 0 clamp(24px, 4vw, 56px);
+  font-size: clamp(40px, 8vw, 120px);
   font-weight: 400;
   line-height: 1.05;
   letter-spacing: -0.02em;
@@ -43,11 +42,18 @@
   display: block;
 }
 
+.titleLineRow {
+  display: flex;
+  align-items: flex-end;
+}
+
 .wordWrap {
-  display: block;
+  display: inline-block;
   position: relative;
   height: 1.05em;
+  vertical-align: bottom;
   overflow: hidden;
+  transition: width 0.65s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .wordDiscuss,
@@ -81,8 +87,6 @@
 }
 
 .right {
-  width: 50%;
-  flex-shrink: 0;
   height: calc(100vh - var(--header-h));
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
@@ -344,26 +348,24 @@
   }
 
   .page {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     min-height: auto;
   }
 
   .left {
     position: relative;
     top: 0;
-    width: 100%;
     height: auto;
     overflow: visible;
     padding: 48px 0 0;
   }
 
   .title {
-    font-size: clamp(40px, 11vw, 72px);
+    font-size: clamp(28px, 8vw, 48px);
     padding: 0 clamp(20px, 5vw, 40px);
   }
 
   .right {
-    width: 100%;
     height: auto;
     overflow-y: visible;
     scroll-snap-type: none;

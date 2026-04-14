@@ -39,6 +39,23 @@ export default function ContactPage() {
   const rightRef    = useRef<HTMLDivElement>(null);
   const leftRef     = useRef<HTMLDivElement>(null);
   const formSectRef = useRef<HTMLElement>(null);
+  const wordWrapRef = useRef<HTMLSpanElement>(null);
+  const discussRef  = useRef<HTMLSpanElement>(null);
+  const hearRef     = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const wrap = wordWrapRef.current;
+    const discuss = discussRef.current;
+    if (!wrap || !discuss) return;
+    wrap.style.width = `${discuss.offsetWidth}px`;
+  }, []);
+
+  useEffect(() => {
+    const wrap = wordWrapRef.current;
+    const active = dark ? hearRef.current : discussRef.current;
+    if (!wrap || !active) return;
+    wrap.style.width = `${active.offsetWidth}px`;
+  }, [dark]);
 
   useEffect(() => {
     const el = rightRef.current;
@@ -128,11 +145,13 @@ export default function ContactPage() {
         <h1 className={styles.title}>
           <span className={styles.titleLine}>We are</span>
           <span className={styles.titleLine}>ready to</span>
-          <span className={styles.wordWrap}>
-            <span className={styles.wordDiscuss}>discuss</span>
-            <span className={styles.wordHear}>hear</span>
+          <span className={styles.titleLineRow}>
+            <span className={styles.wordWrap} ref={wordWrapRef}>
+              <span className={styles.wordDiscuss} ref={discussRef}>discuss</span>
+              <span className={styles.wordHear} ref={hearRef}>hear</span>
+            </span>
+            <span>&nbsp;your</span>
           </span>
-          <span className={styles.titleLine}>your</span>
           <span className={styles.titleLine}>future</span>
           <span className={styles.titleLine}>project</span>
         </h1>
