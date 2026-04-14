@@ -6,9 +6,10 @@ import Image from "next/image";
 import { works, CATEGORIES, type Category } from "@/shared/constants/works";
 import styles from "./page.module.scss";
 
-const INITIAL_Y  = [0, 60, 120];
-const RESTAGGER  = [80, 0, -80];
-const EASE_PX    = 500;
+const INITIAL_Y   = [0, 60, 120];
+const RESTAGGER   = [80, 0, -80];
+const EASE_IN_PX  = 500;   // длина входа (лесенка при появлении)
+const EASE_OUT_PX = 1800;  // длина расхождения (пока скроллишь)
 
 function getNumCols() {
   if (typeof window === "undefined") return 3;
@@ -50,11 +51,11 @@ export default function WorkPage() {
           let y: number;
 
           if (gridTop > pivot) {
-            const t = Math.max(0, 1 - (gridTop - pivot) / EASE_PX);
+            const t = Math.max(0, 1 - (gridTop - pivot) / EASE_IN_PX);
             y = INITIAL_Y[i] * (1 - t);
           } else {
             const past = pivot - gridTop;
-            const t    = Math.min(1, past / EASE_PX);
+            const t    = Math.min(1, past / EASE_OUT_PX);
             y = RESTAGGER[i] * t;
           }
 
