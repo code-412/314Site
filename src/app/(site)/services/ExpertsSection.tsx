@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import s from "./page.module.scss";
+import { getLenis } from "@/shared/providers/SmoothScroll";
 
 const EXPERTS = [
   "Designers",
@@ -47,6 +48,7 @@ export function ExpertsSection() {
   const revealedRef   = useRef(1);
   const animatingRef  = useRef(false);
   const totalRowsRef  = useRef(1);
+  const lockedRef     = useRef(false);
 
   useEffect(() => {
     const update = () => setCols(window.innerWidth <= 900 ? 2 : 4);
@@ -56,10 +58,11 @@ export function ExpertsSection() {
   }, []);
 
   const rows = chunk(EXPERTS, cols);
-  totalRowsRef.current = rows.length;
+  useEffect(() => { totalRowsRef.current = rows.length; });
 
   useEffect(() => {
     revealedRef.current = 1;
+    lockedRef.current   = false;
 
     wrapRefs.current.forEach((wrap, i) => {
       if (!wrap) return;
@@ -91,10 +94,20 @@ export function ExpertsSection() {
     });
   }, [cols]);
 
+  const unlock = () => {
+    if (!lockedRef.current) return;
+    lockedRef.current = false;
+    getLenis()?.start();
+  };
+
   const revealNext = () => {
     if (animatingRef.current) return;
     const next = revealedRef.current;
-    if (next >= totalRowsRef.current) return;
+    if (next >= totalRowsRef.current) {
+      // все строки показаны — разблокируем скролл
+      unlock();
+      return;
+    }
 
     const wrap  = wrapRefs.current[next];
     const inner = innerRefs.current[next];
@@ -103,8 +116,8 @@ export function ExpertsSection() {
     animatingRef.current = true;
 
     const h = inner.offsetHeight;
-    wrap.style.height         = h + "px";
-    inner.style.transform     = "translateY(0)";
+    wrap.style.height     = h + "px";
+    inner.style.transform = "translateY(0)";
 
     const cells = Array.from(inner.children) as HTMLElement[];
     cells.forEach((cell, i) => {
@@ -114,28 +127,57 @@ export function ExpertsSection() {
 
     revealedRef.current = next + 1;
     const totalDuration = 80 + (cells.length - 1) * STAGGER + CELL_DUR + 60;
-    setTimeout(() => { animatingRef.current = false; }, totalDuration);
+    setTimeout(() => {
+      animatingRef.current = false;
+      // если все открыты — разблокируем
+      if (revealedRef.current >= totalRowsRef.current) {
+        unlock();
+      }
+    }, totalDuration);
   };
 
   useEffect(() => {
-    const shouldLock = () => {
+    // Следим за позицией секции: как только первая строка поднимается выше 60% вьюпорта — стопим Lenis
+    const onScroll = () => {
       const firstWrap = wrapRefs.current[0];
-      if (!firstWrap) return false;
+      if (!firstWrap) return;
       const rect = firstWrap.getBoundingClientRect();
-      return rect.top < window.innerHeight * 0.45 && revealedRef.current < totalRowsRef.current;
+      const inZone = rect.top < window.innerHeight * 0.6 && revealedRef.current < totalRowsRef.current;
+
+      if (inZone && !lockedRef.current) {
+        lockedRef.current = true;
+        getLenis()?.stop();
+      } else if (!inZone && lockedRef.current && revealedRef.current >= totalRowsRef.current) {
+        unlock();
+      }
     };
 
+    window.addEventListener("scroll", onScroll, { passive: true });
+    // Lenis сам двигает scroll, но emit-ит нативный scroll — это поймаем
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
     const onWheel = (e: WheelEvent) => {
       if (e.deltaY <= 0) return;
-      if (!shouldLock()) return;
+      if (!lockedRef.current) return;
       e.preventDefault();
+      e.stopPropagation();
       revealNext();
+    };
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (!lockedRef.current) return;
+      if (e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ") {
+        e.preventDefault();
+        revealNext();
+      }
     };
 
     let touchStartY = 0;
     const onTouchStart = (e: TouchEvent) => { touchStartY = e.touches[0].clientY; };
     const onTouchMove  = (e: TouchEvent) => {
-      if (!shouldLock()) return;
+      if (!lockedRef.current) return;
       const delta = touchStartY - e.touches[0].clientY;
       if (delta < 25) return;
       e.preventDefault();
@@ -144,10 +186,12 @@ export function ExpertsSection() {
     };
 
     window.addEventListener("wheel",      onWheel,      { passive: false });
+    window.addEventListener("keydown",    onKeyDown);
     window.addEventListener("touchstart", onTouchStart, { passive: true  });
     window.addEventListener("touchmove",  onTouchMove,  { passive: false });
     return () => {
       window.removeEventListener("wheel",      onWheel);
+      window.removeEventListener("keydown",    onKeyDown);
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchmove",  onTouchMove);
     };
