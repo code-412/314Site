@@ -165,9 +165,9 @@ export function AdvantagesSection() {
         setDot1(p >= T_DOT1);
         setVis1(p >= T_BLOCK1);
         setDot2(lineProgress >= dot2FracRef.current);
-        setVis2(lineProgress >= dot2FracRef.current + 0.04);
+        setVis2(lineProgress >= dot2FracRef.current);
         setDot3(lineProgress >= dot3FracRef.current);
-        setVis3(lineProgress >= dot3FracRef.current + 0.04);
+        setVis3(lineProgress >= dot3FracRef.current);
         setVisForm(p >= T_CONTENT);
       });
     };
