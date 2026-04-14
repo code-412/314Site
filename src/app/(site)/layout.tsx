@@ -7,7 +7,7 @@ import { NotificationContainer } from "@/shared/ui/Notification";
 import { CookieBanner } from "@/shared/ui/CookieBanner";
 import { DebugNotifications } from "@/shared/ui/DebugNotifications";
 
-const debug = process.env.NEXT_PUBLIC_DEBUG === "true";
+const debug = process.env.NEXT_PUBLIC_DEBUG === "false";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
