@@ -110,9 +110,9 @@
   transition: border-color 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:first-child {
-    border-top: 1px solid rgba(0, 0, 0, 0.12);
     transition: border-color 0.7s cubic-bezier(0.4, 0, 0.2, 1);
   }
+  &:last-child { border: none; }
 }
 
 .pageDark .contactGroup {
