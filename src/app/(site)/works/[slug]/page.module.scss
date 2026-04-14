@@ -190,7 +190,7 @@
     var(--work-slug-section-title-size-vw),
     var(--work-slug-section-title-size-max)
   );
-  font-weight: 900;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: -0.01em;
   line-height: 1;
@@ -207,7 +207,7 @@
 .paragraph {
   font-size: var(--work-slug-paragraph-size);
   line-height: var(--work-slug-paragraph-lh);
-  color: var(--c-muted);
+  color: black;
 }
 
 .gallery {
