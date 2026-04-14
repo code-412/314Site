@@ -1,0 +1,68 @@
+.banner {
+  position: fixed;
+  bottom: 32px;
+  left: 32px;
+  z-index: 999;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 24px;
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  @media (max-width: 480px) {
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    width: auto;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--c-primary);
+  text-transform: uppercase;
+}
+
+.text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--c-muted);
+}
+
+.textNote {
+  margin-top: 16px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  background: none;
+  border: 1.5px solid rgba(0, 0, 0, 0.2);
+  border-radius: 100px;
+  padding: 9px 20px;
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--c-primary);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+
+  &:hover {
+    border-color: var(--c-primary);
+    background: rgba(0, 0, 0, 0.04);
+  }
+}
