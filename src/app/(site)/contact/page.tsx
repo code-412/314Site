@@ -83,33 +83,41 @@ export default function ContactPage() {
   }, []);
 
   useEffect(() => {
-    const left  = leftRef.current;
     const right = rightRef.current;
-    if (!left || !right) return;
+    if (!right) return;
 
-    let locked = false;
+    let section = 0;
+    let locked  = false;
 
-    const onWheel = (e: WheelEvent) => {
-      const sectionH = right.clientHeight;
-      const current  = Math.round(right.scrollTop / sectionH);
-
-      if (current >= 1 && e.deltaY > 0) return;
-
-      e.preventDefault();
-      if (locked) return;
-      locked = true;
-
-      const next = e.deltaY > 0
-        ? Math.min(current + 1, 1)
-        : Math.max(current - 1, 0);
-
-      right.scrollTo({ top: next * sectionH, behavior: "smooth" });
-
-      setTimeout(() => { locked = false; }, 900);
+    const goTo = (index: number) => {
+      section = index;
+      right.scrollTo({ top: index * right.clientHeight, behavior: "smooth" });
     };
 
-    left.addEventListener("wheel", onWheel, { passive: false });
-    return () => left.removeEventListener("wheel", onWheel);
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      if (locked) return;
+
+      if (e.deltaY > 0 && section === 0) {
+        locked = true;
+        goTo(1);
+        setTimeout(() => { locked = false; }, 1000);
+      } else if (e.deltaY < 0 && section === 1) {
+        locked = true;
+        goTo(0);
+        setTimeout(() => { locked = false; }, 1000);
+      }
+    };
+
+    // блокируем скролл страницы полностью
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    return () => {
+      window.removeEventListener("wheel", onWheel);
+      document.body.style.overflow = prev;
+    };
   }, []);
 
   const onBlur = (field: keyof Touched) =>

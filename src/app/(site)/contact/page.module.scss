@@ -88,15 +88,13 @@
 
 .right {
   height: calc(100vh - var(--header-h));
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
+  overflow-y: hidden;
 }
 
 .contactsSection {
   min-height: calc(100vh - var(--header-h));
   display: flex;
   align-items: center;
-  scroll-snap-align: start;
 }
 
 .contactsInner {
@@ -177,7 +175,6 @@
   min-height: calc(100vh - var(--header-h));
   display: flex;
   align-items: center;
-  scroll-snap-align: start;
 }
 
 .formInner {
