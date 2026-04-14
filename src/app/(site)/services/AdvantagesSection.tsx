@@ -103,13 +103,24 @@ export function AdvantagesSection() {
 
   useEffect(() => {
     const measure = () => {
-      const svg = svgRef.current;
-      const el  = borderRef.current;
-      const el2 = borderRef2.current;
+      const svg   = svgRef.current;
+      const el    = borderRef.current;
+      const el2   = borderRef2.current;
+      const track = lineTrackRef.current;
       if (!svg || !el || !el2) return;
+
       const W = svg.clientWidth;
       const H = svg.clientHeight;
-      const hw = W / 2;
+
+      // Align border start with the actual line position
+      let hw = W / 2;
+      if (track) {
+        const svgRect   = svg.getBoundingClientRect();
+        const trackRect = track.getBoundingClientRect();
+        hw = trackRect.left + trackRect.width / 2 - svgRect.left;
+        hw = Math.max(1, Math.min(W - 1, hw));
+      }
+
       el.setAttribute("d",  `M ${hw} 0 H ${W} V ${H} H 0 V 0 H ${hw}`);
       el2.setAttribute("d", `M ${hw} 0 H 0 V ${H} H ${W} V 0 H ${hw}`);
       const len = el.getTotalLength();
@@ -119,10 +130,12 @@ export function AdvantagesSection() {
       el2.style.strokeDasharray  = String(len);
       el2.style.strokeDashoffset = String(len);
     };
-    measure();
-    const ro = new ResizeObserver(measure);
+    // Delay to ensure full layout is settled
+    requestAnimationFrame(() => requestAnimationFrame(measure));
+    const ro = new ResizeObserver(() => requestAnimationFrame(measure));
     if (svgRef.current) ro.observe(svgRef.current);
-    return () => ro.disconnect();
+    window.addEventListener("resize", measure);
+    return () => { ro.disconnect(); window.removeEventListener("resize", measure); };
   }, []);
 
   useEffect(() => {

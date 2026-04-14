@@ -14,19 +14,19 @@
 
 .layout {
   display: grid;
-  grid-template-columns: 1fr 1.5fr;
+  grid-template-columns: 1fr 1fr;
   align-items: start;
   gap: 0;
 }
 
 .timeline {
   position: relative;
-  padding-left: 80px;
+  padding-left: 60px;
 }
 
 .lineTrack {
   position: absolute;
-  left: 10px;
+  left: 0;
   top: 20px;
   bottom: -80px;
   width: 1px;
@@ -50,7 +50,7 @@
 
 .dot {
   position: absolute;
-  left: -80px;
+  left: -70px;
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -101,10 +101,6 @@
 .formRect {
   position: relative;
   margin-top: 80px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 48px 56px;
-  max-width: 1100px;
 }
 
 .formBorderSvg {
@@ -117,19 +113,22 @@
 }
 
 .formContent {
+  padding: 48px 56px;
   opacity: 0;
-  transition: opacity 0.55s ease;
+  transform: translateY(24px);
+  transition: opacity 1.4s ease, transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .formContentVisible {
   opacity: 1;
+  transform: translateY(0);
 }
 
 .formLayout {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 56px;
-  align-items: start;
+  align-items: center;
 }
 
 .formHeading {
@@ -253,7 +252,6 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding-top: 120px;
 }
 
 .contactPhone {
