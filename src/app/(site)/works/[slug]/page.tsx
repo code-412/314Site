@@ -72,16 +72,18 @@ export default async function WorkDetailPage({ params }: Props) {
               </div>
 
               <div className={styles.metaCol}>
-                <span className={styles.metaLabel}>Type of works</span>
-                <ul className={styles.servicesList}>
-                  {(work.services ?? work.tags).map((item) => (
-                    <li key={item} className={styles.servicesItem}>{item}</li>
-                  ))}
-                </ul>
+                <div className={styles.metaGroup}>
+                  <span className={styles.metaLabel}>Type of works</span>
+                  <ul className={styles.servicesList}>
+                    {(work.services ?? work.tags).map((item) => (
+                      <li key={item} className={styles.servicesItem}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
 
-            {work.projectUrl ? (
+            {work.projectUrl && (
               <a
                 href={work.projectUrl}
                 target="_blank"
@@ -90,8 +92,6 @@ export default async function WorkDetailPage({ params }: Props) {
               >
                 See project →
               </a>
-            ) : (
-              <span className={styles.cta}>See project →</span>
             )}
           </div>
         </div>

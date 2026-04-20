@@ -55,7 +55,7 @@
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 2fr 3fr;
+  grid-template-columns: 4fr 9fr;
   grid-template-rows: auto 1fr;
   width: 100%;
   padding-top: var(--header-h);
@@ -64,7 +64,7 @@
 }
 
 .heroTitle {
-  grid-column: 1;
+  grid-column: 1 / -1;
   grid-row: 1;
   font-size: clamp(
     var(--work-slug-hero-title-size-min),
@@ -75,7 +75,7 @@
   letter-spacing: 0.03em;
   text-transform: uppercase;
   line-height: 1.05;
-  padding: 56px 56px 20px 0;
+  padding: 48px 0 28px;
   color: #fff;
 }
 
@@ -84,11 +84,10 @@
   grid-row: 2 / 3;
   position: relative;
   overflow: hidden;
-  margin: 48px 0 48px 32px;
+  aspect-ratio: 16 / 9;
+  align-self: start;
+  margin: 0 0 60px 48px;
   border-radius: 12px;
-  aspect-ratio: 12 / 7;
-  height: 60%;
-
 }
 
 .heroImage {
@@ -133,15 +132,17 @@
 
 .metaLabel {
   font-size: var(--work-slug-meta-label-size);
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+  padding: 0;
 }
 
 .metaValue {
   font-size: var(--work-slug-meta-value-size);
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #fff;
@@ -154,16 +155,16 @@
 
 .servicesItem {
   font-size: var(--work-slug-meta-value-size);
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #fff;
-  line-height: 1.85;
+  line-height: 1.55;
 }
 
 .cta {
   display: inline-block;
-  width: 60%;
+  width: 72%;
   text-align: center;
   margin-top: 40px;
   padding: var(--work-slug-cta-py) var(--work-slug-cta-px);
@@ -171,7 +172,7 @@
   border-radius: 999px;
   color: #fff;
   font-size: var(--work-slug-cta-size);
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
