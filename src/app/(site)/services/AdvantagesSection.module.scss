@@ -51,6 +51,7 @@
 .dot {
   position: absolute;
   left: -70px;
+  top: calc(clamp(28px, 3vw, 42px) / 2 - 10px);
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -79,6 +80,7 @@
   display: block;
   font-size: clamp(28px, 3vw, 42px);
   font-weight: 500;
+  line-height: 1;
   color: var(--c-primary);
   margin-bottom: 14px;
   letter-spacing: -0.02em;
