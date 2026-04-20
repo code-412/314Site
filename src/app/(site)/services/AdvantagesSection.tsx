@@ -47,11 +47,7 @@ const ADVANTAGES = [
   },
 ];
 
-const T_DOT1         = 0.02;
-const T_BLOCK1       = 0.06;
-const T_BORDER_START = 0.62;
-const T_BORDER_END   = 0.68;
-const T_CONTENT      = 0.71;
+const T_DOT1 = 0.04;
 
 function clamp(v: number, lo: number, hi: number) {
   return v < lo ? lo : v > hi ? hi : v;
@@ -65,11 +61,13 @@ export function AdvantagesSection() {
   const dot3ElRef     = useRef<HTMLDivElement>(null);
   const dot2FracRef   = useRef(0.33);
   const dot3FracRef   = useRef(0.67);
-  const borderRef      = useRef<SVGPathElement>(null);
-  const borderRef2     = useRef<SVGPathElement>(null);
-  const svgRef         = useRef<SVGSVGElement>(null);
-  const lenRef         = useRef(0);
-  const rafRef        = useRef<number>(0);
+  const borderRef   = useRef<SVGPathElement>(null);
+  const borderRef2  = useRef<SVGPathElement>(null);
+  const svgRef      = useRef<SVGSVGElement>(null);
+  const formRectRef = useRef<HTMLDivElement>(null);
+  const lenRef            = useRef(0);
+  const rafRef            = useRef<number>(0);
+  const borderFiredRef    = useRef(false);
 
   const [dot1, setDot1]       = useState(false);
   const [dot2, setDot2]       = useState(false);
@@ -150,25 +148,24 @@ export function AdvantagesSection() {
         const scrolled = vh * 0.5 - rect.top;
         const p        = Math.max(0, Math.min(1, scrolled / rect.height));
 
-        const lineProgress = clamp(p / T_BORDER_START, 0, 1);
+        const lineProgress = clamp((p - T_DOT1) / (0.62 - T_DOT1), 0, 1);
         if (lineRef.current) {
           lineRef.current.style.transform = `scaleY(${lineProgress})`;
         }
 
-        if (lenRef.current > 0) {
-          const borderProgress = clamp((p - T_BORDER_START) / (T_BORDER_END - T_BORDER_START), 0, 1);
-          const offset = lenRef.current * (1 - borderProgress);
-          if (borderRef.current)  borderRef.current.style.strokeDashoffset  = String(offset);
-          if (borderRef2.current) borderRef2.current.style.strokeDashoffset = String(offset);
-        }
-
         setDot1(p >= T_DOT1);
-        setVis1(p >= T_BLOCK1);
+        setVis1(p >= T_DOT1);
         setDot2(lineProgress >= dot2FracRef.current);
         setVis2(lineProgress >= dot2FracRef.current);
         setDot3(lineProgress >= dot3FracRef.current);
         setVis3(lineProgress >= dot3FracRef.current);
-        setVisForm(p >= T_CONTENT);
+
+        if (lineProgress >= 1 && !borderFiredRef.current) {
+          borderFiredRef.current = true;
+          if (borderRef.current)  borderRef.current.style.strokeDashoffset  = "0";
+          if (borderRef2.current) borderRef2.current.style.strokeDashoffset = "0";
+          setTimeout(() => setVisForm(true), 1200);
+        }
       });
     };
 
@@ -254,7 +251,7 @@ export function AdvantagesSection() {
           </div>
         </div>
 
-        <div className={s.formRect}>
+        <div className={s.formRect} ref={formRectRef}>
           <svg
             ref={svgRef}
             className={s.formBorderSvg}
@@ -262,15 +259,17 @@ export function AdvantagesSection() {
           >
             <path
               ref={borderRef}
+              className={s.formBorderPath}
               fill="none"
-              stroke="rgba(0,0,0,0.15)"
+              stroke="#111"
               strokeWidth="1"
               vectorEffect="non-scaling-stroke"
             />
             <path
               ref={borderRef2}
+              className={s.formBorderPath}
               fill="none"
-              stroke="rgba(0,0,0,0.15)"
+              stroke="#111"
               strokeWidth="1"
               vectorEffect="non-scaling-stroke"
             />

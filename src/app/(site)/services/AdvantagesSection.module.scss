@@ -112,6 +112,10 @@
   overflow: visible;
 }
 
+.formBorderPath {
+  transition: stroke-dashoffset 2s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
 .formContent {
   padding: 48px 56px;
   opacity: 0;
