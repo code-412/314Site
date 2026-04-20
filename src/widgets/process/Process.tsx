@@ -17,7 +17,6 @@ const DOTS = [
   { cx: 418, cy: 2585, r: 12, type: "cap"     },
 ] as const;
 
-const MOBILE_CP = [0, 0.12, 0.26, 0.40, 0.54, 0.68, 0.82, 0.96];
 
 const STEPS = [
   { title: "Research",            description: "We begin by exploring the idea, market, and user needs behind the product. Through analysis and discovery, we define goals, understand the audience, and gather insights that guide every design and development decision that follows.", side: "right" as const, dotIndex: 1 },
@@ -50,7 +49,9 @@ function computeDotLengths(path: SVGPathElement): number[] {
 export function Process() {
   const sectionRef    = useRef<HTMLElement>(null);
   const pathRef       = useRef<SVGPathElement>(null);
-  const mobileFillRef = useRef<HTMLDivElement>(null);
+  const mobileFillRef      = useRef<HTMLDivElement>(null);
+  const mobileRailRef      = useRef<HTMLDivElement>(null);
+  const mobileThresholds   = useRef<number[]>([]);
   const dotEls        = useRef<(SVGElement | null)[]>([]);
   const stepEls       = useRef<(HTMLDivElement | null)[]>([]);
   const mobileDotEls  = useRef<(HTMLDivElement | null)[]>([]);
@@ -90,8 +91,11 @@ export function Process() {
 
         path.style.strokeDashoffset = String(len - drawn);
 
+        const mobileScrolled = window.innerHeight * 0.8 - rect.top;
+        const mobileProgress = Math.max(0, Math.min(1, mobileScrolled / (rect.height + window.innerHeight / 2)));
+
         if (mobileFillRef.current) {
-          mobileFillRef.current.style.transform = `scaleY(${progress})`;
+          mobileFillRef.current.style.transform = `scaleY(${mobileProgress})`;
         }
 
         // Use accurate dot lengths if ready, otherwise cy-based fallback
@@ -128,8 +132,21 @@ export function Process() {
         const lastThreshold = ready ? dotLengths.current[7] : (DOTS[7].cy / 2597) * len;
         finishEl.current?.classList.toggle(s["finish--visible"], drawn >= lastThreshold);
 
-        MOBILE_CP.forEach((cp, i) => {
-          const on = progress >= cp;
+        if (mobileThresholds.current.length !== DOTS.length) {
+          const rail = mobileRailRef.current;
+          if (rail && rail.offsetHeight > 0) {
+            const railTop = rail.getBoundingClientRect().top;
+            const railH   = rail.offsetHeight;
+            mobileThresholds.current = mobileDotEls.current.map((el) => {
+              if (!el) return 0;
+              const center = el.getBoundingClientRect().top + el.offsetHeight / 2 - railTop;
+              return Math.max(0, Math.min(1, center / railH));
+            });
+          }
+        }
+
+        mobileThresholds.current.forEach((cp, i) => {
+          const on = mobileProgress >= cp;
           if (on === prevMob.current[i]) return;
           prevMob.current[i] = on;
           mobileDotEls.current[i]?.classList.toggle(s["mobileDot--on"], on);
@@ -200,7 +217,7 @@ export function Process() {
         </div>
 
         <div className={s.mobileWrap}>
-          <div className={s.mobileRail}>
+          <div className={s.mobileRail} ref={mobileRailRef}>
             <div className={s.mobileRailBg} />
             <div className={s.mobileRailFill} ref={mobileFillRef} />
           </div>
