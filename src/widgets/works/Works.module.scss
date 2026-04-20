@@ -19,8 +19,8 @@
 }
 
 .scene {
-  margin-left: 16%;
-  height: 713px;
+  margin: 0 15%;
+  height: 720px;
   border-radius: 12px;
   overflow: hidden;
   position: relative;
@@ -96,14 +96,14 @@
 }
 
 .titleDark {
-  clip-path: inset(0 84% 0 0);
+  clip-path: inset(0 85% 0 0);
 
   .cardTitle { color: var(--c-primary); }
   .tag { color: var(--c-muted); }
 }
 
 .titleLight {
-  clip-path: inset(0 0 0 16%);
+  clip-path: inset(0 0 0 15%);
 
   .cardTitle { color: #fff; }
   .tag { color: rgba(255, 255, 255, 0.65); }
@@ -161,7 +161,7 @@
 
 .progressBar {
   display: none;
-  height: 1px;
+  height: 3px;
   background: rgba(0, 0, 0, 0.12);
   margin-top: 20px;
   border-radius: 999px;
@@ -179,7 +179,6 @@
   display: flex;
   justify-content: center;
   margin-top: 48px;
-  padding-left: 16%;
 }
 
 .exploreBtn {
@@ -220,20 +219,43 @@
   .works   { padding: 60px 0; }
   .heading { font-size: clamp(40px, 10vw, 72px); margin-bottom: 28px; }
 
-  .scene { margin-left: 0; height: 483px; border-radius: 8px; }
-  .titleBlock { top: 28px; }
-  .cardTitle  { font-size: clamp(24px, 6vw, 40px); }
-  .titleDark  { clip-path: inset(0 100% 0 0); }
-  .titleLight { clip-path: inset(0 0 0 0); }
+  .cardWrap {
+    position: relative;
+    padding-top: clamp(180px, 25vw, 220px);
+  }
 
-  .progressBar { display: block; }
+  .scene {
+    margin: 0;
+    height: 483px;
+    border-radius: 8px;
+  }
+
+  .titleBlock {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .titleDark {
+    clip-path: none;
+    display: block;
+    .cardTitle { color: var(--c-primary); }
+    .tag       { color: var(--c-muted); }
+  }
+
+  .titleLight { display: none; }
+
+  .cardTitle  { font-size: clamp(24px, 6vw, 40px); }
+
+  .progressBar { display: block; order: 2; }
 
   .exploreWrap { margin-top: 20px; }
   .exploreBtn  { font-size: 14px; padding: 12px 28px; }
 }
 
 @media (max-width: 480px) {
-  .works  { padding: 48px 0; }
+  .works   { padding: 48px 0; }
   .heading { font-size: clamp(36px, 12vw, 56px); margin-bottom: 20px; }
-  .scene  { height: 300px; }
+  .scene   { height: 240px; }
 }
