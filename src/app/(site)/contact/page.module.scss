@@ -1,5 +1,7 @@
 .page {
   padding-top: var(--header-h);
+  padding-left: 5%;
+  padding-right: 5%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: flex-start;
@@ -100,6 +102,9 @@
 .contactsInner {
   width: 100%;
   padding: 0 clamp(32px, 5vw, 72px);
+  display: grid;
+  grid-template-columns: max-content;
+  justify-content: end;
 }
 
 .contactGroup {
@@ -111,9 +116,6 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   transition: border-color 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 
-  &:first-child {
-    transition: border-color 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-  }
   &:last-child { border: none; }
 }
 
@@ -137,7 +139,7 @@
 }
 
 .contactValue {
-  font-size: clamp(20px, 2.2vw, 32px);
+  font-size: clamp(20px, 3vw, 50px);
   font-weight: 500;
   color: var(--c-primary);
   transition: color 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
@@ -345,50 +347,115 @@
   }
 
   .page {
-    grid-template-columns: 1fr;
-    min-height: auto;
+    display: block;
+    min-height: unset;
+    height: 100svh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: var(--header-h) 0 0;
+    scroll-padding-top: var(--header-h);
+  }
+
+  .title {
+    font-size: clamp(44px, 13vw, 72px);
+    padding: 0 clamp(20px, 5vw, 40px);
+  }
+
+  .titleLineRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .yourWord {
+    margin-left: -0.28em;
+  }
+
+  .wordWrap {
+    overflow: visible;
+    width: auto !important;
+    height: auto;
+    transition: none;
+  }
+
+  .wordDiscuss {
+    position: static;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .wordHear {
+    display: none;
   }
 
   .left {
     position: relative;
     top: 0;
-    height: auto;
-    overflow: visible;
-    padding: 48px 0 0;
-  }
-
-  .title {
-    font-size: clamp(28px, 8vw, 48px);
-    padding: 0 clamp(20px, 5vw, 40px);
+    height: calc((100svh - var(--header-h)) / 2);
+    overflow: hidden;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    scroll-snap-align: start;
   }
 
   .right {
-    height: auto;
-    overflow-y: visible;
-    scroll-snap-type: none;
+    display: contents;
   }
 
   .contactsSection {
-    min-height: auto;
-    scroll-snap-align: unset;
-    padding: 40px 0;
+    height: calc((100svh - var(--header-h)) / 2);
+    min-height: unset;
+    scroll-snap-align: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 0 clamp(16px, 4svh, 36px);
   }
 
   .contactsInner {
     padding: 0 clamp(20px, 5vw, 40px);
+    grid-template-columns: 1fr;
+    justify-content: start;
   }
 
   .contactGroup {
     align-items: flex-start;
   }
 
+  .contactValue {
+    font-size: clamp(24px, 7vw, 40px);
+  }
+
   .formSection {
-    min-height: auto;
-    scroll-snap-align: unset;
+    height: calc(100svh - var(--header-h));
+    min-height: unset;
+    scroll-snap-align: start;
     background: var(--c-primary);
+    align-items: stretch;
   }
 
   .formInner {
     padding: 48px clamp(20px, 5vw, 40px) 60px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .field:has(.textarea) {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .textarea {
+    flex: 1;
+    min-height: 0;
   }
 }

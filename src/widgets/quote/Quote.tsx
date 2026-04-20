@@ -11,7 +11,7 @@ const LINES = [
   "to shape clear, scalable, and meaningful digital experiences.",
 ];
 
-const CHAR_DELAY  = 55;
+const CHAR_DELAY  = 15;
 const WORDS_AHEAD = 4;
 
 export function Quote() {

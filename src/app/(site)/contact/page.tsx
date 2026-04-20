@@ -86,6 +86,8 @@ export default function ContactPage() {
     const right = rightRef.current;
     if (!right) return;
 
+    if (window.innerWidth <= 900) return;
+
     let section = 0;
     let locked  = false;
 
@@ -109,7 +111,6 @@ export default function ContactPage() {
       }
     };
 
-    // блокируем скролл страницы полностью
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
@@ -158,7 +159,7 @@ export default function ContactPage() {
               <span className={styles.wordDiscuss} ref={discussRef}>discuss</span>
               <span className={styles.wordHear} ref={hearRef}>hear</span>
             </span>
-            <span>&nbsp;your</span>
+            <span className={styles.yourWord}>&nbsp;your</span>
           </span>
           <span className={styles.titleLine}>future</span>
           <span className={styles.titleLine}>project</span>
