@@ -50,8 +50,12 @@
   color: var(--c-muted);
   line-height: 1.65;
   max-width: 50%;
-}
 
+}
+@media (max-width: 900px) {
+  .heroSub {
+    max-width: 100%;
+  }}
 .heroImgWrap {
   position: relative;
   width: 90%;
@@ -82,7 +86,7 @@
 
 .passionTitle {
   font-size: clamp(70px, 3.2vw, 120px);
-  font-weight: 499;
+  font-weight: 400;
   color: var(--c-primary);
   letter-spacing: -0.02em;
   line-height: 1.05;
@@ -115,7 +119,7 @@
 }
 
 .listLabel {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 400;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -130,8 +134,8 @@
   gap: 8px;
 
   li {
-    font-size: clamp(16px, 3vw, 34px);
-    font-weight: 600;
+    font-size: clamp(26px, 3vw, 34px);
+    font-weight: 500;
     color: var(--c-primary);
     line-height: 1.2;
   }
