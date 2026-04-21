@@ -35,12 +35,14 @@ export function ProjectAnimations() {
           heroText.style.transform = `translateY(${sy * 0.12}px)`;
         }
 
-        parallaxEls.forEach((el) => {
-          const factor = Number(el.dataset.parallax ?? 0.08);
-          const rect   = el.getBoundingClientRect();
-          const offset = (rect.top + rect.height / 2 - vh / 2) * factor;
-          el.style.transform = `translateY(${offset}px)`;
-        });
+        if (window.innerWidth > 900) {
+          parallaxEls.forEach((el) => {
+            const factor = Number(el.dataset.parallax ?? 0.08);
+            const rect   = el.getBoundingClientRect();
+            const offset = (rect.top + rect.height / 2 - vh / 2) * factor;
+            el.style.transform = `translateY(${offset}px)`;
+          });
+        }
       });
     };
 
