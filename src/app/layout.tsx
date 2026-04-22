@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   description:
     "Freelance design studio focused on brand identity, web design, and print.",
   metadataBase: new URL("https://412.studio"),
+  creator: "Egor Mazov"
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
