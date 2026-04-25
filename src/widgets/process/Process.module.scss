@@ -71,11 +71,10 @@
   left: calc(50% + 50px);
   transform: translateY(-50%);
   opacity: 0;
-  font-size: 12px;
+  font-size: clamp(18px, 1.6vw, 24px);
   font-weight: 700;
-  letter-spacing: 0.12em;
   color: var(--c-primary);
-  text-transform: uppercase;
+  line-height: 1;
   transition: opacity 0.55s ease;
   white-space: nowrap;
 
@@ -174,10 +173,8 @@
 }
 
 .mobileFinishLabel {
-  font-size: 12px;
+  font-size: clamp(15px, 1.4vw, 20px);
   font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
   color: var(--c-primary);
   opacity: 0;
   transition: opacity 0.55s ease;

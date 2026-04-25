@@ -20,6 +20,7 @@ export function Works() {
   const hoverRef = useRef(false);
   const accRef   = useRef(0);
   const wrapRef  = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<HTMLDivElement>(null);
   const touchX   = useRef(0);
 
   useEffect(() => {
@@ -31,11 +32,15 @@ export function Works() {
 
   const go = (dir: Dir) => {
     if (busyRef.current) return;
-    busyRef.current = true;
-    const to = (dir === "down" || dir === "left")
-      ? (curRef.current + 1) % slides.length
-      : (curRef.current - 1 + slides.length) % slides.length;
 
+    const goingForward = dir === "down" || dir === "left";
+    const to = goingForward
+      ? Math.min(curRef.current + 1, slides.length - 1)
+      : Math.max(curRef.current - 1, 0);
+
+    if (to === curRef.current) return;
+
+    busyRef.current = true;
     setFlip({ from: curRef.current, to, dir });
 
     setTimeout(() => {
@@ -53,6 +58,13 @@ export function Works() {
 
     const onWheel = (e: WheelEvent) => {
       if (!hoverRef.current) return;
+
+      const goingDown = e.deltaY > 0;
+      const atEnd   = curRef.current === slides.length - 1;
+      const atStart = curRef.current === 0;
+
+      if ((goingDown && atEnd) || (!goingDown && atStart)) return;
+
       e.preventDefault();
       accRef.current += e.deltaY;
       if (Math.abs(accRef.current) >= 60) {
@@ -100,10 +112,13 @@ export function Works() {
           className={s.cardWrap}
           ref={wrapRef}
           data-lenis-prevent
-          onMouseEnter={() => { hoverRef.current = true; }}
-          onMouseLeave={() => { hoverRef.current = false; accRef.current = 0; }}
         >
-          <div className={`${s.scene}${flip ? ` ${s.scenePulse}` : ""}`}>
+          <div
+            className={`${s.scene}${flip ? ` ${s.scenePulse}` : ""}`}
+            ref={sceneRef}
+            onMouseEnter={() => { hoverRef.current = true; }}
+            onMouseLeave={() => { hoverRef.current = false; accRef.current = 0; }}
+          >
             {!flip && (
               <div className={s.face}>
                 <img src={slides[cur].image} alt={slides[cur].title} className={s.cardBg} />
