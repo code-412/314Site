@@ -43,6 +43,16 @@
   margin-top: 16px;
 }
 
+.link {
+  color: var(--c-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+
+  &:hover { opacity: 0.6; }
+}
+
 .actions {
   display: flex;
   gap: 8px;

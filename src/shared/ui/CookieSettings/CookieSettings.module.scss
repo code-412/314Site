@@ -56,6 +56,16 @@
   margin-bottom: 36px;
 }
 
+.descLink {
+  color: var(--c-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+
+  &:hover { opacity: 0.6; }
+}
+
 .sectionTitle {
   font-size: 14px;
   font-weight: 700;

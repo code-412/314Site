@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { CookieSettings } from "@/shared/ui/CookieSettings";
 import s from "./CookieBanner.module.scss";
 
@@ -46,7 +47,8 @@ export function CookieBanner() {
             non-essential cookies and manage your preferences at any time.
           </p>
           <p className={`${s.text} ${s.textNote}`}>
-            For more information, please see our Privacy Policy.
+            For more information, please see our{" "}
+            <Link href="/privacy-policy" className={s.link}>Privacy Policy</Link>.
           </p>
         </div>
         <div className={s.actions}>

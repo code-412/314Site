@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import s from "./CookieSettings.module.scss";
 
 type Category = {
@@ -47,7 +48,7 @@ export function CookieSettings({ onConfirm, onClose }: Props) {
           we can improve our services. Some cookies are strictly necessary, while others
           help us understand how visitors use the site. You can accept or reject
           non-essential cookies and manage your preferences at any time. For more
-          information, please see our Privacy Policy.
+          information, please see our <Link href="/privacy-policy" className={s.descLink}>Privacy Policy</Link>.
         </p>
 
         <p className={s.sectionTitle}>MANAGE CONSENT PREFERENCES</p>

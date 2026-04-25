@@ -4,9 +4,9 @@ import { LogoIcon } from "@/shared/icons/LogoIcon";
 import { TelegramIcon, InstagramIcon, LinkedInIcon } from "@/shared/icons/SocialIcons";
 
 const legal = [
-  "Privacy Policy",
-  "Terms of Use ",
-  "Cookie Settings",
+  { label: "Privacy Policy",  href: "/privacy-policy"  },
+  { label: "Terms of Use",    href: "/terms-of-use"    },
+  { label: "Cookie Settings", href: "/cookie-settings" },
 ];
 
 const nav = [
@@ -46,8 +46,8 @@ export function Footer() {
           <div className={s.right}>
             <ul className={s.col}>
               {legal.map((item) => (
-                <li key={item}>
-                  <a href="#" className={s.link}>{item}</a>
+                <li key={item.href}>
+                  <NavLink href={item.href} className={s.link}>{item.label}</NavLink>
                 </li>
               ))}
             </ul>
