@@ -1,4 +1,5 @@
 import { LegalPage } from "@/shared/ui/LegalPage";
+import { LEGAL_LAST_UPDATED } from "@/shared/constants/legal";
 
 export const metadata = {
   title: "Terms of Use — code 412",
@@ -9,95 +10,151 @@ const sections = [
     blocks: [
       {
         type: "p" as const,
-        content:
-          "By accessing and using this website, you accept and agree to be bound by the following terms and conditions. If you do not agree to these terms, please do not use this website.",
+        content: "By using the Code412 website, you agree to these Terms of Use.",
       },
     ],
   },
   {
-    title: "1. Use of the Website",
+    title: "1. No Offer or Contract",
+    blocks: [
+      {
+        type: "p" as const,
+        content: "Submitting a request through this website:",
+      },
+      {
+        type: "ul" as const,
+        items: [
+          "does not create a contractual relationship",
+          "does not guarantee a response",
+          "does not guarantee that any services will be provided",
+        ],
+      },
+      {
+        type: "p" as const,
+        content:
+          "Any services will be subject to a separate written agreement.",
+      },
+    ],
+  },
+  {
+    title: "2. No Obligation to Respond",
     blocks: [
       {
         type: "p" as const,
         content:
-          "This website is provided for informational purposes. You agree to use it only for lawful purposes and in a way that does not infringe the rights of others or restrict their use and enjoyment of the site.",
-      },
-      {
-        type: "p" as const,
-        content:
-          "Unauthorized use of this website may give rise to a claim for damages and/or be a criminal offense.",
+          "We reserve the right to respond to or ignore any request at our sole discretion, without explanation.",
       },
     ],
   },
   {
-    title: "2. Intellectual Property",
+    title: "3. User Responsibilities",
+    blocks: [
+      {
+        type: "p" as const,
+        content: "By using this website, you agree:",
+      },
+      {
+        type: "ul" as const,
+        items: [
+          "to provide accurate and truthful information",
+          "not to submit unlawful, harmful, or misleading content",
+          "not to attempt to interfere with the operation of the website",
+        ],
+      },
+    ],
+  },
+  {
+    title: "4. Use of Submitted Information",
     blocks: [
       {
         type: "p" as const,
         content:
-          "All content on this website, including but not limited to text, graphics, logos, and images, is the property of code 412 and is protected by applicable intellectual property laws.",
+          "By submitting a request, you grant us permission to review and use the information provided solely for the purpose of evaluating your request.",
       },
       {
         type: "p" as const,
         content:
-          "You may not reproduce, distribute, or create derivative works without our prior written consent.",
+          "Submission of information does not create any obligation of confidentiality or constitute a non-disclosure agreement (NDA).",
       },
     ],
   },
   {
-    title: "3. Disclaimers",
+    title: "5. Intellectual Property",
     blocks: [
       {
         type: "p" as const,
         content:
-          'The content on this website is provided on an "as is" basis. code 412 makes no warranties, express or implied, regarding the accuracy, completeness, or fitness for a particular purpose of the content.',
-      },
-      {
-        type: "p" as const,
-        content:
-          "We reserve the right to modify or discontinue the website at any time without notice.",
+          "All content on this website, including text, design, branding, and materials, is owned by Code412 and may not be copied, reproduced, or used without prior permission.",
       },
     ],
   },
   {
-    title: "4. Limitation of Liability",
+    title: "6. Limitation of Liability",
     blocks: [
       {
         type: "p" as const,
         content:
-          "code 412 shall not be liable for any indirect, incidental, or consequential damages arising from your use of this website or reliance on any information provided herein.",
+          "To the maximum extent permitted by law, Code412 shall not be liable for:",
+      },
+      {
+        type: "ul" as const,
+        items: [
+          "any indirect, incidental, or consequential damages",
+          "loss of business, revenue, or data",
+          "any decisions made based on the information provided on this website",
+        ],
       },
     ],
   },
   {
-    title: "5. External Links",
+    title: "7. Website Availability",
     blocks: [
       {
         type: "p" as const,
         content:
-          "This website may contain links to third-party websites. These links are provided for your convenience only. We have no control over the content of those sites and accept no responsibility for them.",
+          "We do not guarantee that the website will be available at all times or free from errors.",
       },
     ],
   },
   {
-    title: "6. Changes to These Terms",
+    title: "8. Third-Party Services",
     blocks: [
       {
         type: "p" as const,
         content:
-          "We may revise these terms at any time. By continuing to use this website after any changes, you agree to be bound by the revised terms.",
+          "We may use third-party tools or services on this website. We are not responsible for their functionality or behavior.",
       },
     ],
   },
   {
-    title: "7. Contact",
+    title: "9. Governing Law",
+    blocks: [
+      {
+        type: "p" as const,
+        content:
+          "These Terms of Use are governed by the laws of Estonia.",
+      },
+    ],
+  },
+  {
+    title: "10. Changes",
+    blocks: [
+      {
+        type: "p" as const,
+        content:
+          "We may update these Terms at any time. Continued use of the website constitutes acceptance of the updated Terms.",
+      },
+    ],
+  },
+  {
+    title: "11. Contact",
     blocks: [
       {
         type: "p" as const,
         content: (
           <>
-            For any questions regarding these Terms of Use, please contact us at{" "}
-            <a href="mailto:info@code412.com">info@code412.com</a>.
+            If you have any questions about these Terms, you can contact us at:{" "}
+            <a href="mailto:info@code412.com">info@code412.com</a>
           </>
         ),
       },
@@ -106,5 +163,11 @@ const sections = [
 ];
 
 export default function TermsOfUsePage() {
-  return <LegalPage title="Terms of Use" sections={sections} />;
+  return (
+    <LegalPage
+      title="Terms of Use"
+      lastUpdated={LEGAL_LAST_UPDATED}
+      sections={sections}
+    />
+  );
 }

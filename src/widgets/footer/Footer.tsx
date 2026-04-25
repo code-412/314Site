@@ -1,12 +1,14 @@
+"use client";
+
 import s from "./Footer.module.scss";
 import { NavLink } from "@/shared/ui/NavLink";
 import { LogoIcon } from "@/shared/icons/LogoIcon";
 import { TelegramIcon, InstagramIcon, LinkedInIcon } from "@/shared/icons/SocialIcons";
+import { useCookieSettings } from "@/shared/lib/cookie-settings-context";
 
 const legal = [
-  { label: "Privacy Policy",  href: "/privacy-policy"  },
-  { label: "Terms of Use",    href: "/terms-of-use"    },
-  { label: "Cookie Settings", href: "/cookie-settings" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Terms of Use",   href: "/terms-of-use"   },
 ];
 
 const nav = [
@@ -17,6 +19,8 @@ const nav = [
 ];
 
 export function Footer() {
+  const { openSettings } = useCookieSettings();
+
   return (
     <footer className={s.footer}>
       <div className="container">
@@ -25,7 +29,7 @@ export function Footer() {
           <div className={s.left}>
             <NavLink href="/" className={s.logo}><LogoIcon /></NavLink>
             <p className={s.desc}>
-              We don’t just write code – we craft digital products where design and engineering work together, turning vision into meaningful digital experiences.
+              We don't just write code – we craft digital products where design and engineering work together, turning vision into meaningful digital experiences.
             </p>
             <a href="mailto:info@code412.com" className={s.email}>
               info@code412.com
@@ -50,6 +54,9 @@ export function Footer() {
                   <NavLink href={item.href} className={s.link}>{item.label}</NavLink>
                 </li>
               ))}
+              <li>
+                <button className={s.link} onClick={openSettings}>Cookie Settings</button>
+              </li>
             </ul>
 
             <ul className={s.col}>

@@ -2,6 +2,7 @@ import { Header } from "@/widgets/header";
 import { Footer } from "@/widgets/footer";
 import { ContactDrawer } from "@/widgets/contact-drawer";
 import { ContactDrawerProvider } from "@/shared/lib/contact-drawer-context";
+import { CookieSettingsProvider } from "@/shared/lib/cookie-settings-context";
 import { NotificationProvider } from "@/shared/lib/notification-context";
 import { NotificationContainer } from "@/shared/ui/Notification";
 import { CookieBanner } from "@/shared/ui/CookieBanner";
@@ -13,13 +14,15 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
   return (
     <NotificationProvider>
       <ContactDrawerProvider>
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <ContactDrawer />
-        <NotificationContainer />
-        <CookieBanner />
-        {debug && <DebugNotifications />}
+        <CookieSettingsProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+          <ContactDrawer />
+          <NotificationContainer />
+          <CookieBanner />
+          {debug && <DebugNotifications />}
+        </CookieSettingsProvider>
       </ContactDrawerProvider>
     </NotificationProvider>
   );
