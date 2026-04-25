@@ -61,20 +61,20 @@ export function AdvantagesSection() {
   const dot3ElRef     = useRef<HTMLDivElement>(null);
   const dot2FracRef   = useRef(0.33);
   const dot3FracRef   = useRef(0.67);
-  const borderRef   = useRef<SVGPathElement>(null);
-  const borderRef2  = useRef<SVGPathElement>(null);
-  const svgRef      = useRef<SVGSVGElement>(null);
-  const formRectRef = useRef<HTMLDivElement>(null);
-  const lenRef            = useRef(0);
-  const rafRef            = useRef<number>(0);
-  const borderFiredRef    = useRef(false);
+  const borderRef      = useRef<SVGPathElement>(null);
+  const borderRef2     = useRef<SVGPathElement>(null);
+  const svgRef         = useRef<SVGSVGElement>(null);
+  const formRectRef    = useRef<HTMLDivElement>(null);
+  const lenRef              = useRef(0);
+  const rafRef              = useRef<number>(0);
+  const borderCompleteRef   = useRef(false);
 
-  const [dot1, setDot1]       = useState(false);
-  const [dot2, setDot2]       = useState(false);
-  const [dot3, setDot3]       = useState(false);
-  const [vis1, setVis1]       = useState(false);
-  const [vis2, setVis2]       = useState(false);
-  const [vis3, setVis3]       = useState(false);
+  const [dot1, setDot1]     = useState(false);
+  const [dot2, setDot2]     = useState(false);
+  const [dot3, setDot3]     = useState(false);
+  const [vis1, setVis1]     = useState(false);
+  const [vis2, setVis2]     = useState(false);
+  const [vis3, setVis3]     = useState(false);
   const [visForm, setVisForm] = useState(false);
 
   const [form, setForm]           = useState<FD>(emptyFD);
@@ -127,6 +127,8 @@ export function AdvantagesSection() {
       el.style.strokeDashoffset = String(len);
       el2.style.strokeDasharray  = String(len);
       el2.style.strokeDashoffset = String(len);
+      if (svg) svg.style.opacity = "1";
+      window.dispatchEvent(new Event("scroll"));
     };
     // Delay to ensure full layout is settled
     requestAnimationFrame(() => requestAnimationFrame(measure));
@@ -160,11 +162,19 @@ export function AdvantagesSection() {
         setDot3(lineProgress >= dot3FracRef.current);
         setVis3(lineProgress >= dot3FracRef.current);
 
-        if (lineProgress >= 1 && !borderFiredRef.current) {
-          borderFiredRef.current = true;
-          if (borderRef.current)  borderRef.current.style.strokeDashoffset  = "0";
-          if (borderRef2.current) borderRef2.current.style.strokeDashoffset = "0";
-          setTimeout(() => setVisForm(true), 1200);
+        const borderProgress = clamp((p - 0.62) / 0.11, 0, 1);
+
+        const len = lenRef.current;
+        if (len > 0) {
+          const offset = String(len * (1 - borderProgress));
+          if (borderRef.current)  borderRef.current.style.strokeDashoffset  = offset;
+          if (borderRef2.current) borderRef2.current.style.strokeDashoffset = offset;
+        }
+
+        const isComplete = borderProgress >= 1;
+        if (isComplete !== borderCompleteRef.current) {
+          borderCompleteRef.current = isComplete;
+          setVisForm(isComplete);
         }
       });
     };
