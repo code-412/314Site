@@ -118,7 +118,7 @@
 
 .checkLabel {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
   font-size: 13px;
   color: var(--c-muted);
@@ -133,7 +133,6 @@
 
 .checkBox {
   flex-shrink: 0;
-  margin-top: 2px;
   width: 18px;
   height: 18px;
   border: 1.5px solid rgba(0, 0, 0, 0.25);
