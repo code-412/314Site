@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import styles from "./page.module.scss";
 import { TelegramIcon, InstagramIcon, LinkedInIcon } from "@/shared/icons/SocialIcons";
+import { getLenis } from "@/shared/providers/SmoothScroll";
 
 type FormData = {
   name: string;
@@ -42,6 +43,14 @@ export default function ContactPage() {
   const wordWrapRef = useRef<HTMLSpanElement>(null);
   const discussRef  = useRef<HTMLSpanElement>(null);
   const hearRef     = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => getLenis()?.stop(), 0);
+    return () => {
+      clearTimeout(timer);
+      getLenis()?.start();
+    };
+  }, []);
 
   useEffect(() => {
     const wrap = wordWrapRef.current;
@@ -97,6 +106,18 @@ export default function ContactPage() {
     };
 
     const onWheel = (e: WheelEvent) => {
+      if (section === 2) {
+        if (e.deltaY < 0 && !locked) {
+          e.preventDefault();
+          locked = true;
+          section = 1;
+          getLenis()?.stop();
+          window.scrollTo(0, 0);
+          setTimeout(() => { locked = false; }, 1000);
+        }
+        return;
+      }
+
       e.preventDefault();
       if (locked) return;
 
@@ -104,6 +125,14 @@ export default function ContactPage() {
         locked = true;
         goTo(1);
         setTimeout(() => { locked = false; }, 1000);
+      } else if (e.deltaY > 0 && section === 1) {
+        locked = true;
+        section = 2;
+        const lenis = getLenis();
+        lenis?.start();
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        lenis?.scrollTo(maxScroll, { duration: 1.0 });
+        setTimeout(() => { locked = false; }, 1200);
       } else if (e.deltaY < 0 && section === 1) {
         locked = true;
         goTo(0);
@@ -111,14 +140,8 @@ export default function ContactPage() {
       }
     };
 
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
     window.addEventListener("wheel", onWheel, { passive: false });
-    return () => {
-      window.removeEventListener("wheel", onWheel);
-      document.body.style.overflow = prev;
-    };
+    return () => window.removeEventListener("wheel", onWheel);
   }, []);
 
   const onBlur = (field: keyof Touched) =>
