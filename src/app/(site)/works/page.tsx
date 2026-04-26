@@ -3,6 +3,6 @@ import { WorksListClient } from "./WorksListClient";
 
 export const dynamic = "force-dynamic";
 
-export default function WorkPage() {
-  return <WorksListClient works={listPublishedWorks()} />;
+export default async function WorkPage() {
+  return <WorksListClient works={await listPublishedWorks()} />;
 }

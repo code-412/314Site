@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const contactRequest = createRequest(body);
+    const contactRequest = await createRequest(body);
     revalidatePath("/admin");
     revalidatePath("/admin/requests");
     return NextResponse.json({ request: contactRequest }, { status: 201 });

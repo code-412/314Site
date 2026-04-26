@@ -4,8 +4,8 @@ import { RequestsBoard } from "./RequestsBoard";
 
 export const dynamic = "force-dynamic";
 
-export default function AdminRequestsPage() {
-  const requests = listRequests();
+export default async function AdminRequestsPage() {
+  const requests = await listRequests();
 
   return (
     <div className={s.page}>
@@ -15,7 +15,7 @@ export default function AdminRequestsPage() {
           <h1 className={s.title}>Requests</h1>
           <p className={s.subtitle}>
             Inbox for messages from the contact page and drawer. Requests are stored in
-            SQLite and can be moved through simple statuses.
+            the configured database and can be moved through simple statuses.
           </p>
         </div>
         <div className={s.buttonRow}>

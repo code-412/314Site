@@ -4,9 +4,9 @@ import s from "./AdminPages.module.scss";
 
 export const dynamic = "force-dynamic";
 
-export default function AdminOverviewPage() {
-  const projects = listProjects();
-  const requests = listRequests();
+export default async function AdminOverviewPage() {
+  const projects = await listProjects();
+  const requests = await listRequests();
   const published = projects.filter((project) => project.status === "published").length;
   const drafts = projects.filter((project) => project.status === "draft").length;
   const newRequests = requests.filter((request) => request.status === "new").length;
@@ -20,7 +20,7 @@ export default function AdminOverviewPage() {
         </div>
         <p className={s.heroText}>
           Projects, page-builder blocks, contact requests, uploads, and auth are now
-          backed by the local SQLite data layer.
+          backed by the configured database and upload storage.
         </p>
       </section>
 

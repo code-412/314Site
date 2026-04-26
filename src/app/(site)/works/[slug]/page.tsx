@@ -10,13 +10,13 @@ type Props = { params: Promise<{ slug: string }> };
 
 export const dynamic = "force-dynamic";
 
-export function generateStaticParams() {
-  return listPublishedWorks().map((w) => ({ slug: w.slug }));
+export async function generateStaticParams() {
+  return (await listPublishedWorks()).map((w) => ({ slug: w.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const work = getPublishedWorkBySlug(slug);
+  const work = await getPublishedWorkBySlug(slug);
   if (!work) return {};
   return { title: work.title, description: work.description };
 }
@@ -160,7 +160,7 @@ function renderBlock(block: ContentBlock, index: number, workTitle: string) {
 
 export default async function WorkDetailPage({ params }: Props) {
   const { slug } = await params;
-  const work = getPublishedWorkBySlug(slug);
+  const work = await getPublishedWorkBySlug(slug);
   if (!work) notFound();
 
   const aboutParagraphs    = work.about?.split("\n\n")    ?? [];

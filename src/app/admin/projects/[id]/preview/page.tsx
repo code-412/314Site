@@ -89,7 +89,7 @@ function renderBlock(block: AdminProjectBlock) {
 
 export default async function ProjectPreviewPage({ params }: Props) {
   const { id } = await params;
-  const project = getProject(id);
+  const project = await getProject(id);
 
   if (!project) notFound();
 

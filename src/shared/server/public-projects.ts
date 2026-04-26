@@ -80,18 +80,18 @@ export function mapAdminProjectToWork(project: AdminProject): Work {
   };
 }
 
-export function listPublishedWorks() {
-  return listProjects()
+export async function listPublishedWorks() {
+  return (await listProjects())
     .filter(isPublicProject)
     .map(mapAdminProjectToWork);
 }
 
-export function listFeaturedPublishedWorks() {
-  return listPublishedWorks().filter((project) => project.featured);
+export async function listFeaturedPublishedWorks() {
+  return (await listPublishedWorks()).filter((project) => project.featured);
 }
 
-export function getPublishedWorkBySlug(slug: string) {
-  const project = getProject(slug);
+export async function getPublishedWorkBySlug(slug: string) {
+  const project = await getProject(slug);
   if (!project || !isPublicProject(project)) return null;
   return mapAdminProjectToWork(project);
 }

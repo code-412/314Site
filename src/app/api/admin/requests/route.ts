@@ -15,7 +15,7 @@ function errorResponse(error: unknown) {
 
 export async function GET() {
   try {
-    return NextResponse.json({ requests: listRequests() });
+    return NextResponse.json({ requests: await listRequests() });
   } catch (error) {
     return errorResponse(error);
   }
@@ -24,7 +24,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const contactRequest = createRequest(body);
+    const contactRequest = await createRequest(body);
     return NextResponse.json({ request: contactRequest }, { status: 201 });
   } catch (error) {
     return errorResponse(error);

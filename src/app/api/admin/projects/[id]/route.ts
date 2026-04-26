@@ -18,7 +18,7 @@ function errorResponse(error: unknown) {
   if (
     error instanceof Error &&
     "code" in error &&
-    error.code === "SQLITE_CONSTRAINT_UNIQUE"
+    (error.code === "SQLITE_CONSTRAINT_UNIQUE" || error.code === "23505")
   ) {
     return NextResponse.json({ error: "Project slug already exists" }, { status: 409 });
   }
@@ -40,7 +40,7 @@ function revalidateProjectPaths(slug?: string) {
 export async function GET(_request: Request, context: Context) {
   try {
     const { id } = await context.params;
-    const project = getProject(id);
+    const project = await getProject(id);
 
     if (!project) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
@@ -56,8 +56,8 @@ export async function PUT(request: Request, context: Context) {
   try {
     const { id } = await context.params;
     const body = await request.json();
-    const previous = getProject(id);
-    const project = updateProject(id, body);
+    const previous = await getProject(id);
+    const project = await updateProject(id, body);
 
     if (!project) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
@@ -75,8 +75,8 @@ export async function PUT(request: Request, context: Context) {
 export async function DELETE(_request: Request, context: Context) {
   try {
     const { id } = await context.params;
-    const previous = getProject(id);
-    const deleted = deleteProject(id);
+    const previous = await getProject(id);
+    const deleted = await deleteProject(id);
 
     if (!deleted) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });

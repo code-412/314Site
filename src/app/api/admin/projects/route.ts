@@ -14,7 +14,7 @@ function errorResponse(error: unknown) {
   if (
     error instanceof Error &&
     "code" in error &&
-    error.code === "SQLITE_CONSTRAINT_UNIQUE"
+    (error.code === "SQLITE_CONSTRAINT_UNIQUE" || error.code === "23505")
   ) {
     return NextResponse.json({ error: "Project slug already exists" }, { status: 409 });
   }
@@ -24,7 +24,7 @@ function errorResponse(error: unknown) {
 
 export async function GET() {
   try {
-    return NextResponse.json({ projects: listProjects() });
+    return NextResponse.json({ projects: await listProjects() });
   } catch (error) {
     return errorResponse(error);
   }
@@ -33,7 +33,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const project = createProject(body);
+    const project = await createProject(body);
     revalidatePath("/admin");
     revalidatePath("/admin/projects");
     revalidatePath("/");

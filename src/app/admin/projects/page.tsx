@@ -5,8 +5,8 @@ import s from "../AdminPages.module.scss";
 
 export const dynamic = "force-dynamic";
 
-export default function AdminProjectsPage() {
-  const projects = listProjects();
+export default async function AdminProjectsPage() {
+  const projects = await listProjects();
 
   return (
     <div className={s.page}>
@@ -16,7 +16,7 @@ export default function AdminProjectsPage() {
           <h1 className={s.title}>Projects</h1>
           <p className={s.subtitle}>
             Manage case studies, featured cards, SEO data, and the page builder block
-            order. Data is stored in SQLite.
+            order. Data is stored in the configured database.
           </p>
         </div>
         <div className={s.buttonRow}>

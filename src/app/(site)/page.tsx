@@ -8,8 +8,8 @@ import { listFeaturedPublishedWorks } from "@/shared/server/public-projects";
 
 export const dynamic = "force-dynamic";
 
-export default function HomePage() {
-  const works = listFeaturedPublishedWorks();
+export default async function HomePage() {
+  const works = await listFeaturedPublishedWorks();
 
   return (
     <>

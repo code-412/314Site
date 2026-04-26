@@ -9,7 +9,7 @@ type Props = {
 
 export default async function EditProjectPage({ params }: Props) {
   const { id } = await params;
-  const project = getProject(id);
+  const project = await getProject(id);
 
   if (!project) notFound();
 
@@ -21,7 +21,7 @@ export default async function EditProjectPage({ params }: Props) {
           <h1 className={pageStyles.title}>Edit project</h1>
           <p className={pageStyles.subtitle}>
             Update project metadata and arrange the page blocks. Saving and publishing
-            are mocked until the API layer is connected.
+            are persisted through the admin API.
           </p>
         </div>
       </div>

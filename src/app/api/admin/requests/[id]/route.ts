@@ -22,7 +22,7 @@ export async function PATCH(request: Request, context: Context) {
   try {
     const { id } = await context.params;
     const body = await request.json();
-    const contactRequest = updateRequestStatus(id, body);
+    const contactRequest = await updateRequestStatus(id, body);
 
     if (!contactRequest) {
       return NextResponse.json({ error: "Request not found" }, { status: 404 });
@@ -39,7 +39,7 @@ export async function PATCH(request: Request, context: Context) {
 export async function DELETE(_request: Request, context: Context) {
   try {
     const { id } = await context.params;
-    const deleted = deleteRequest(id);
+    const deleted = await deleteRequest(id);
 
     if (!deleted) {
       return NextResponse.json({ error: "Request not found" }, { status: 404 });
