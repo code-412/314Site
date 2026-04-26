@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { CookieSettings } from "@/shared/ui/CookieSettings";
 import { useCookieSettings } from "@/shared/lib/cookie-settings-context";
@@ -9,14 +9,10 @@ import s from "./CookieBanner.module.scss";
 const STORAGE_KEY = "cookie-consent";
 
 export function CookieBanner() {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(() =>
+    typeof window !== "undefined" && !localStorage.getItem(STORAGE_KEY)
+  );
   const { open, openSettings, closeSettings } = useCookieSettings();
-
-  useEffect(() => {
-    if (!localStorage.getItem(STORAGE_KEY)) {
-      setVisible(true);
-    }
-  }, []);
 
   const accept = () => {
     localStorage.setItem(STORAGE_KEY, "accepted");

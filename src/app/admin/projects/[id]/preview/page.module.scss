@@ -1,0 +1,151 @@
+.preview {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.hero {
+  min-height: 620px;
+  display: grid;
+  grid-template-columns: 4fr 8fr;
+  grid-template-rows: auto 1fr;
+  gap: 0 44px;
+  padding: 38px;
+  background: #050505;
+  color: #fff;
+}
+
+.heroTitle {
+  grid-column: 1 / -1;
+  font-size: clamp(58px, 7vw, 118px);
+  line-height: 1;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-self: start;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.value {
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.heroImage {
+  min-height: 360px;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+}
+
+.section,
+.splitSection,
+.wideSection,
+.gallerySection,
+.darkSection {
+  padding: 82px 38px;
+}
+
+.splitLayout {
+  display: grid;
+  grid-template-columns: 1fr 2.5fr;
+  gap: 60px;
+}
+
+.heading {
+  font-size: clamp(28px, 4vw, 58px);
+  line-height: 1;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.splitHeading {
+  font-size: 28px;
+  line-height: 1.1;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.textStack {
+  display: grid;
+  gap: 18px;
+  max-width: 920px;
+}
+
+.paragraph {
+  color: var(--c-muted);
+  font-size: 15px;
+  line-height: 1.72;
+}
+
+.wideImage {
+  min-height: 470px;
+  border-radius: 8px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.fullWidth {
+  margin-left: -38px;
+  margin-right: -38px;
+  border-radius: 0;
+}
+
+.gallery {
+  display: grid;
+  gap: 12px;
+}
+
+.gallery[data-cols="2"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.gallery[data-cols="3"] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.galleryItem {
+  aspect-ratio: 4 / 3;
+  background-size: cover;
+  background-position: center;
+}
+
+.darkSection {
+  background: #050505;
+  color: #fff;
+
+  .paragraph {
+    color: rgba(255, 255, 255, 0.62);
+  }
+}
+
+.darkGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.darkImage {
+  aspect-ratio: 16 / 10;
+  background-size: cover;
+  background-position: center;
+}

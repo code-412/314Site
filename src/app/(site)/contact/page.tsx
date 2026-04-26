@@ -27,7 +27,7 @@ function getError(field: keyof Omit<FormData, "consent">, form: FormData): strin
     case "name":    return form.name.trim().length < 2 ? "Enter your name" : null;
     case "phone":   return null;
     case "email":   return !isValidEmail(form.email) ? "Invalid email address" : null;
-    case "message": return null;
+    case "message": return form.message.trim().length < 2 ? "Enter your message" : null;
   }
 }
 
@@ -36,6 +36,8 @@ export default function ContactPage() {
   const [touched, setTouched]     = useState<Touched>(emptyTouched);
   const [submitted, setSubmitted] = useState(false);
   const [sent, setSent]           = useState(false);
+  const [sending, setSending]     = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [dark, setDark]           = useState(false);
   const rightRef    = useRef<HTMLDivElement>(null);
   const leftRef     = useRef<HTMLDivElement>(null);
@@ -153,16 +155,32 @@ export default function ContactPage() {
   const onCheck = () =>
     setForm((prev) => ({ ...prev, consent: !prev.consent }));
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
+    setSubmitError("");
     setTouched({ name: true, phone: true, email: true, message: true });
     const hasError = (["name", "phone", "email", "message"] as (keyof Touched)[]).some(
       (f) => getError(f, form)
     );
     if (hasError || !form.consent) return;
-    console.log("Contact form:", form);
-    setSent(true);
+    setSending(true);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, source: "/contact" }),
+      });
+
+      if (!response.ok) {
+        setSubmitError("Could not send the request. Please try again.");
+        return;
+      }
+
+      setSent(true);
+    } finally {
+      setSending(false);
+    }
   };
 
   const fieldError = (field: keyof Touched) =>
@@ -226,7 +244,7 @@ export default function ContactPage() {
             {sent ? (
               <div className={styles.thanks}>
                 <p className={styles.thanksTitle}>Got it.</p>
-                <p className={styles.thanksText}>We'll get back to you within a day or two.</p>
+                <p className={styles.thanksText}>We&apos;ll get back to you within a day or two.</p>
               </div>
             ) : (
               <form onSubmit={onSubmit} className={styles.form} noValidate suppressHydrationWarning>
@@ -260,6 +278,7 @@ export default function ContactPage() {
                 <div className={styles.field}>
                   <textarea name="message" className={styles.textarea} placeholder="Commentary"
                     value={form.message} onChange={onChange} onBlur={() => onBlur("message")} />
+                  {fieldError("message") && <span className={styles.errorMsg}>{fieldError("message")}</span>}
                 </div>
 
                 <div
@@ -278,7 +297,11 @@ export default function ContactPage() {
                   <span>I give my consent to the processing of personal data</span>
                 </div>
 
-                <button type="submit" className={styles.submit}>Send Request</button>
+                {submitError && <span className={styles.errorMsg}>{submitError}</span>}
+
+                <button type="submit" className={styles.submit} disabled={sending}>
+                  {sending ? "Sending..." : "Send Request"}
+                </button>
               </form>
             )}
           </div>

@@ -2,15 +2,14 @@
 
 import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
-import { works } from "@/shared/constants/works";
+import { type Work } from "@/shared/types";
 import s from "./Works.module.scss";
-
-const slides = works.filter((w) => w.featured);
 
 type Dir = "down" | "up" | "left" | "right";
 type FlipState = { from: number; to: number; dir: Dir } | null;
 
-export function Works() {
+export function Works({ works }: { works: Work[] }) {
+  const slides = works.filter((w) => w.featured);
   const [cur, setCur]   = useState(0);
   const [flip, setFlip] = useState<FlipState>(null);
   const [mobile, setMobile] = useState(false);
@@ -94,6 +93,8 @@ export function Works() {
       el.removeEventListener("touchend",   onTouchEnd);
     };
   }, [mobile]);
+
+  if (slides.length === 0) return null;
 
   const shown = flip ? slides[flip.from] : slides[cur];
   const next  = flip ? slides[flip.to]   : null;

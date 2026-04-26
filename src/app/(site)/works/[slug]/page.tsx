@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getWorkBySlug, works } from "@/shared/constants/works";
+import { getPublishedWorkBySlug, listPublishedWorks } from "@/shared/server/public-projects";
 import type { ContentBlock } from "@/shared/types";
 import { ProjectAnimations } from "./ProjectAnimations";
 import styles from "./page.module.scss";
 
 type Props = { params: Promise<{ slug: string }> };
 
+export const dynamic = "force-dynamic";
+
 export function generateStaticParams() {
-  return works.map((w) => ({ slug: w.slug }));
+  return listPublishedWorks().map((w) => ({ slug: w.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const work = getWorkBySlug(slug);
+  const work = getPublishedWorkBySlug(slug);
   if (!work) return {};
   return { title: work.title, description: work.description };
 }
@@ -158,7 +160,7 @@ function renderBlock(block: ContentBlock, index: number, workTitle: string) {
 
 export default async function WorkDetailPage({ params }: Props) {
   const { slug } = await params;
-  const work = getWorkBySlug(slug);
+  const work = getPublishedWorkBySlug(slug);
   if (!work) notFound();
 
   const aboutParagraphs    = work.about?.split("\n\n")    ?? [];

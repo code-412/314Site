@@ -29,7 +29,7 @@ export function Footer() {
           <div className={s.left}>
             <NavLink href="/" className={s.logo}><LogoIcon /></NavLink>
             <p className={s.desc}>
-              We don't just write code – we craft digital products where design and engineering work together, turning vision into meaningful digital experiences.
+              We don&apos;t just write code – we craft digital products where design and engineering work together, turning vision into meaningful digital experiences.
             </p>
             <a href="mailto:info@code412.com" className={s.email}>
               info@code412.com

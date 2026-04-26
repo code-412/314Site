@@ -22,6 +22,7 @@ function isValidEmail(v: string) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v
 function getError(field: keyof Touched, form: FormData): string | null {
   if (field === "name")  return form.name.trim().length < 2 ? "Enter your name" : null;
   if (field === "email") return !isValidEmail(form.email) ? "Invalid email address" : null;
+  if (field === "message") return form.message.trim().length < 2 ? "Enter your message" : null;
   return null;
 }
 
@@ -31,6 +32,8 @@ export function ContactDrawer() {
   const [touched, setTouched] = useState<Touched>(emptyTouched);
   const [submitted, setSubmitted] = useState(false);
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -44,6 +47,8 @@ export function ContactDrawer() {
         setTouched(emptyTouched);
         setSubmitted(false);
         setSent(false);
+        setSending(false);
+        setSubmitError("");
       }, 400);
     }
   }, [open]);
@@ -57,16 +62,32 @@ export function ContactDrawer() {
   const onCheck = () =>
     setForm((prev) => ({ ...prev, consent: !prev.consent }));
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
+    setSubmitError("");
     setTouched({ name: true, phone: true, email: true, message: true });
     const hasError = (["name", "phone", "email", "message"] as (keyof Touched)[]).some(
       (f) => getError(f, form)
     );
     if (hasError || !form.consent) return;
-    console.log("Contact form:", form);
-    setSent(true);
+    setSending(true);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, source: "Contact drawer" }),
+      });
+
+      if (!response.ok) {
+        setSubmitError("Could not send the request. Please try again.");
+        return;
+      }
+
+      setSent(true);
+    } finally {
+      setSending(false);
+    }
   };
 
   const fieldError = (field: keyof Touched) =>
@@ -103,7 +124,7 @@ export function ContactDrawer() {
           {sent ? (
             <div className={s.thanks}>
               <p className={s.thanksTitle}>Got it.</p>
-              <p className={s.thanksText}>We'll get back to you within a day or two.</p>
+              <p className={s.thanksText}>We&apos;ll get back to you within a day or two.</p>
             </div>
           ) : (
             <form onSubmit={onSubmit} className={s.form} noValidate suppressHydrationWarning>
@@ -138,6 +159,7 @@ export function ContactDrawer() {
                 <textarea name="message" className={s.textarea} placeholder="Commentary"
                   value={form.message} onChange={(e) => { onChange(e); e.target.style.height = "auto"; e.target.style.height = e.target.scrollHeight + "px"; }}
                   onBlur={() => onBlur("message")} rows={1} />
+                {fieldError("message") && <span className={s.errorMsg}>{fieldError("message")}</span>}
               </div>
 
               <div
@@ -165,7 +187,11 @@ export function ContactDrawer() {
                 </defs>
               </svg>
 
-              <button type="submit" className={s.submit}><span>Send Request</span></button>
+              {submitError && <span className={s.errorMsg}>{submitError}</span>}
+
+              <button type="submit" className={s.submit} disabled={sending}>
+                <span>{sending ? "Sending..." : "Send Request"}</span>
+              </button>
             </form>
           )}
         </div>
