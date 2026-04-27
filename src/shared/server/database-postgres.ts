@@ -12,8 +12,6 @@ import {
   type AdminRequestStatus,
   type AdminTextBlock,
   type AdminWideImageBlock,
-  adminProjects,
-  adminRequests,
 } from "@/shared/admin/mock-data";
 import {
   projectInputSchema,
@@ -186,52 +184,7 @@ async function ensureDatabase() {
     );
   `);
 
-  await seed(database);
   migrated = true;
-}
-
-async function seed(database: Queryable) {
-  const projects = await database.query<{ count: string }>("SELECT COUNT(*) as count FROM projects");
-  if (Number(projects.rows[0]?.count ?? 0) === 0) {
-    const client = await getPool().connect();
-    try {
-      await client.query("BEGIN");
-      for (const project of adminProjects) {
-        await upsertProject(project, client);
-      }
-      await client.query("COMMIT");
-    } catch (error) {
-      await client.query("ROLLBACK");
-      throw error;
-    } finally {
-      client.release();
-    }
-  }
-
-  const requests = await database.query<{ count: string }>("SELECT COUNT(*) as count FROM contact_requests");
-  if (Number(requests.rows[0]?.count ?? 0) === 0) {
-    for (const request of adminRequests) {
-      await database.query(
-        `
-          INSERT INTO contact_requests (
-            id, name, phone, email, message, consent, source, status, created_at, updated_at
-          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $9)
-          ON CONFLICT (id) DO NOTHING
-        `,
-        [
-          request.id,
-          request.name,
-          request.phone,
-          request.email,
-          request.message,
-          request.consent,
-          request.source,
-          request.status,
-          request.createdAt,
-        ]
-      );
-    }
-  }
 }
 
 function blockPayload(block: AdminProjectBlock) {

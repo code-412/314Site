@@ -75,7 +75,8 @@
 
 .button,
 .buttonDark,
-.buttonMuted {
+.buttonMuted,
+.buttonDanger {
   min-height: 44px;
   display: inline-flex;
   align-items: center;
@@ -110,6 +111,25 @@
 .buttonMuted:hover {
   border-color: var(--c-primary);
   color: var(--c-primary);
+}
+
+.buttonDanger {
+  border-color: rgba(148, 16, 16, 0.2);
+  color: #941010;
+}
+
+.buttonDanger:hover {
+  background: #941010;
+  border-color: #941010;
+  color: #fff;
+}
+
+.button:disabled,
+.buttonDark:disabled,
+.buttonMuted:disabled,
+.buttonDanger:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .statsGrid {
@@ -193,6 +213,39 @@
 
 .strong {
   font-weight: 700;
+}
+
+.errorText {
+  color: #941010;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.emptyState {
+  min-height: 320px;
+  padding: 34px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+
+  h2 {
+    font-size: clamp(32px, 4vw, 62px);
+    line-height: 1;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  p {
+    max-width: 480px;
+    color: var(--c-muted);
+    font-size: 14px;
+    line-height: 1.65;
+  }
 }
 
 .tableWrap {

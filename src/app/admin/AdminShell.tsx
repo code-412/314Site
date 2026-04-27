@@ -52,8 +52,8 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         </nav>
 
         <div className={s.sidebarFoot}>
-          <span className={s.eyebrow}>Mock mode</span>
-          <p>Front-end prototype. Data is local and will be replaced by SQLite API.</p>
+          <span className={s.eyebrow}>Live CMS</span>
+          <p>Data is persisted through the configured database and media storage.</p>
         </div>
       </aside>
 

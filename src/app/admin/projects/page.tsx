@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { listProjects } from "@/shared/server/database";
+import { ProjectsTable } from "./ProjectsTable";
 import s from "../AdminPages.module.scss";
 
 export const dynamic = "force-dynamic";
@@ -34,63 +34,7 @@ export default async function AdminProjectsPage() {
         <button className={s.filter}>Featured</button>
       </div>
 
-      <div className={s.tableWrap}>
-        <table className={s.table}>
-          <thead>
-            <tr>
-              <th>Project</th>
-              <th>Status</th>
-              <th>Category</th>
-              <th>Blocks</th>
-              <th>Updated</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {projects.map((project) => (
-              <tr key={project.id}>
-                <td>
-                  <div className={s.projectCell}>
-                    {project.coverImage ? (
-                      <Image
-                        src={project.coverImage}
-                        alt=""
-                        width={74}
-                        height={54}
-                        className={s.thumb}
-                      />
-                    ) : (
-                      <span className={s.thumb} aria-hidden="true" />
-                    )}
-                    <div>
-                      <p className={s.strong}>{project.title}</p>
-                      <p className={s.muted}>/{project.slug}</p>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <span className={project.status === "published" ? s.status : project.status === "draft" ? s.statusDraft : s.statusReview}>
-                    {project.status}
-                  </span>
-                </td>
-                <td>{project.category}</td>
-                <td>{project.blocks.length}</td>
-                <td className={s.muted}>{project.updatedAt}</td>
-                <td>
-                  <div className={s.buttonRow}>
-                    <Link href={`/admin/projects/${project.id}/edit`} className={s.button}>
-                      Edit
-                    </Link>
-                    <Link href={`/admin/projects/${project.id}/preview`} className={s.buttonMuted}>
-                      Preview
-                    </Link>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <ProjectsTable initialProjects={projects} />
     </div>
   );
 }

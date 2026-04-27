@@ -15,7 +15,7 @@ export default async function AdminOverviewPage() {
     <div className={s.page}>
       <section className={s.hero}>
         <div>
-          <span className={s.eyebrow}>Admin prototype</span>
+          <span className={s.eyebrow}>Live admin</span>
           <h1 className={s.heroTitle}>Build cases without touching code.</h1>
         </div>
         <p className={s.heroText}>

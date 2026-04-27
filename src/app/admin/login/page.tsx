@@ -42,10 +42,6 @@ export default function AdminLoginPage() {
       <section className={s.loginCard}>
         <LogoIcon />
         <h1 className={s.loginTitle}>Admin access</h1>
-        <p className={s.heroText}>
-          В dev-режиме по умолчанию: admin@code412.local / admin. На VPS задай
-          ADMIN_EMAIL, ADMIN_PASSWORD и ADMIN_SESSION_SECRET.
-        </p>
         <form className={s.form} onSubmit={onSubmit}>
           <input
             className={s.input}

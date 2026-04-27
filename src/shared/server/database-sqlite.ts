@@ -14,8 +14,6 @@ import {
   type AdminRequestStatus,
   type AdminTextBlock,
   type AdminWideImageBlock,
-  adminProjects,
-  adminRequests,
 } from "@/shared/admin/mock-data";
 import {
   projectInputSchema,
@@ -100,7 +98,6 @@ export function getDb() {
   db.pragma("journal_mode = WAL");
   db.pragma("foreign_keys = ON");
   migrate(db);
-  seed(db);
 
   return db;
 }
@@ -153,46 +150,6 @@ function migrate(database: Database.Database) {
       updated_at TEXT NOT NULL
     );
   `);
-}
-
-function seed(database: Database.Database) {
-  const projectCount = database.prepare("SELECT COUNT(*) as count FROM projects").get() as { count: number };
-  if (projectCount.count === 0) {
-    const insertMany = database.transaction((projects: AdminProject[]) => {
-      projects.forEach((project) => upsertProject(project, database));
-    });
-    insertMany(adminProjects);
-  }
-
-  const requestCount = database.prepare("SELECT COUNT(*) as count FROM contact_requests").get() as { count: number };
-  if (requestCount.count === 0) {
-    const insert = database.prepare(`
-      INSERT INTO contact_requests (
-        id, name, phone, email, message, consent, source, status, created_at, updated_at
-      ) VALUES (
-        @id, @name, @phone, @email, @message, @consent, @source, @status, @created_at, @updated_at
-      )
-    `);
-
-    const insertMany = database.transaction((requests: AdminRequest[]) => {
-      requests.forEach((request) => {
-        insert.run({
-          id: request.id,
-          name: request.name,
-          phone: request.phone,
-          email: request.email,
-          message: request.message,
-          consent: request.consent ? 1 : 0,
-          source: request.source,
-          status: request.status,
-          created_at: request.createdAt,
-          updated_at: request.createdAt,
-        });
-      });
-    });
-
-    insertMany(adminRequests);
-  }
 }
 
 function blockPayload(block: AdminProjectBlock) {
